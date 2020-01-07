@@ -1,19 +1,70 @@
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+#include "PXGWindow.h"
 #include <iostream>
+
 #include "Mathf.h"
+#include "Vector3.h"
+#include "Quaternion.h"
+#include "Debug.h"
+#include "Input.h"
+
+
+constexpr int width = 800;
+constexpr int height = 600;
 
 int main()
 {
-	std::cout << "PXG3D is running" << std::endl;
+	Debug::Log(Verbosity::Info, "PXG is running");
 
-	//initialize world
+	Input::AddKeysToTrack(
+		KeyCode::A,KeyCode::W,KeyCode::S,KeyCode::D,
+		KeyCode::LeftMouse,KeyCode::RightMouse,KeyCode::MiddleMouse);
 
-	std::cout << Mathf::LookRot(Vector3(-0.8194589, 0.2674348, 0.5069179), Vector3(-0.5534723, -0.1395520, -0.8210930)).ToString() << std::endl;
+	Debug::Log(Verbosity::Info, "KeyCount {0}", Input::GetTrackedKeyCount());
 
-	while (true)
+	//initialize glfw
+
+	//TODO refactor glfw stuff
+	
+	PXG::PXGWindow::Init();
+
+	GLFWwindow* window = glfwCreateWindow(width, height, "PXG3D", NULL, NULL);
+	
+	if (window == nullptr)
+	{
+		Debug::Log(Verbosity::Error, "Failed to create window");
+		glfwTerminate();
+		return -1;
+	}
+
+	glfwMakeContextCurrent(window);
+
+	//GLAD manages function pointers for OPENGL, we must initialize GLAD before we call any OPENGL function
+	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+	{
+		Debug::Log(Verbosity::Error, "Failed to initialize glad");
+		return -1;
+	}
+	//tell OpenGL the size of the rendering window
+
+	glViewport(0, 0, width, height);
+
+	glfwSetKeyCallback(window, PXG::PXGWindow::key_callback);
+	glfwSetMouseButtonCallback(window, PXG::PXGWindow::mouse_button_callback);
+		
+	while (!glfwWindowShouldClose(window))
 	{
 		//track current time
 
-		//Input sub-system update
+
+		Input::PollEvents();
+
+
+		if (Input::GetKey(KeyCode::LeftMouse))
+		{
+			Debug::Log(Verbosity::Debug, "left mouse");
+		}
 
 		//while physics tick not over
 
@@ -33,7 +84,9 @@ int main()
 		//rendering sub-system update
 
 
+		glfwSwapBuffers(window);
 
+		Input::LateUpdateTrackedKeyStates();
 		
 	}
 }

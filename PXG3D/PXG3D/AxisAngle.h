@@ -1,6 +1,6 @@
 #pragma once
 #include "GLMHeaders.h"
-
+#include <string>
 struct AxisAngle
 {
 	float angle;
@@ -24,11 +24,10 @@ struct AxisAngle
 		z = az;
 	}
 
-	/*AxisAngle(glm::angleAxis axisAngle)
+	std::string ToString()
 	{
-		
-	}*/
-
+		return "AxisAngle(Angle: " + std::to_string(angle) + " ,X: " + std::to_string(x) + " ,Y: " + std::to_string(y) + " ,Z: " + std::to_string(z);
+ 	}
 	
 
 };

@@ -2,90 +2,101 @@
 #include "GLMHeaders.h"
 #include "AxisAngle.h"
 
-struct  Quaternion
+namespace PXG
 {
-	float x;
-	float y;
-	float z;
-	float w;
-
-	Quaternion(float qw,float qx,float qy,float qz)
+	
+	struct  Quaternion
 	{
-		w = qw;
-		x = qx;
-		y = qy;
-		z = qz;
-	}
+		float x;
+		float y;
+		float z;
+		float w;
 
-	Quaternion()
-	{
-		w = 0;
-		x = 0;
-		y = 0;
-		z = 0;
-	}
+		Quaternion(float qw, float qx, float qy, float qz)
+		{
+			w = qw;
+			x = qx;
+			y = qy;
+			z = qz;
+		}
 
-	Quaternion(glm::quat Quat)
-	{
-		x = Quat.x;
-		y = Quat.y;
-		z = Quat.z;
-		w = Quat.w;
-	}
+		Quaternion()
+		{
+			w = 0;
+			x = 0;
+			y = 0;
+			z = 0;
+		}
 
-	Quaternion operator/(const float scalar)
-	{
-		Quaternion result;
+		Quaternion(glm::quat Quat)
+		{
+			x = Quat.x;
+			y = Quat.y;
+			z = Quat.z;
+			w = Quat.w;
+		}
 
-		result.w = w /scalar;
-		result.x = x / scalar;
-		result.y = y / scalar;
-		result.z = z / scalar;
+		Quaternion operator/(const float scalar)
+		{
+			Quaternion result;
 
-		return result;
-	}
+			result.w = w / scalar;
+			result.x = x / scalar;
+			result.y = y / scalar;
+			result.z = z / scalar;
 
-	Quaternion operator*(const float& scalar)
-	{
-		Quaternion result;
+			return result;
+		}
 
-		result.w = w * scalar;
-		result.x = x * scalar;
-		result.y = y * scalar;
-		result.z = z * scalar;
+		Quaternion operator*(const float& scalar)
+		{
+			Quaternion result;
 
-		return result;
-	}
+			result.w = w * scalar;
+			result.x = x * scalar;
+			result.y = y * scalar;
+			result.z = z * scalar;
 
-	Quaternion operator=(const glm::quat& quat)
-	{
-		Quaternion result;
+			return result;
+		}
 
-		result.w = quat.w;
-		result.x = quat.x;
-		result.y = quat.y;
-		result.z = quat.z;
+		Quaternion operator=(const glm::quat& quat)
+		{
+			Quaternion result;
 
-		return result;
-	}
+			result.w = quat.w;
+			result.x = quat.x;
+			result.y = quat.y;
+			result.z = quat.z;
 
-	float Length()
-	{
-		return glm::length(glm::quat(w, x, y, z));
-	}
+			return result;
+		}
 
-	Quaternion Normalized()
-	{
-		return glm::normalize(glm::quat(w, x, y, z));
-	}
+		float Length()
+		{
+			return glm::length(glm::quat(w, x, y, z));
+		}
 
-	AxisAngle ToAxisAngle()
-	{
-		return AxisAngle();
-	}
+		Quaternion Normalized()
+		{
+			return glm::normalize(glm::quat(w, x, y, z));
+		}
 
-	std::string ToString()
-	{
-		return glm::to_string(glm::quat(w, x, y, z));
-	}
-};
+		AxisAngle ToAxisAngle()
+		{
+
+			AxisAngle Result;
+			Result.angle = 2 * Mathf::ACos(w);
+			Result.x = x / Mathf::Sqrt(1 - w * w);
+			Result.y = y / Mathf::Sqrt(1 - w * w);
+			Result.z = z / Mathf::Sqrt(1 - w * w);
+
+			return Result;
+		}
+
+		std::string ToString()
+		{
+			return glm::to_string(glm::quat(w, x, y, z));
+		}
+	};
+}
