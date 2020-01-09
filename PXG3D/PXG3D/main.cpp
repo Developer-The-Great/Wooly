@@ -15,6 +15,7 @@ constexpr int height = 600;
 
 int main()
 {
+	
 	Debug::Log(Verbosity::Info, "PXG is running");
 
 	Input::AddKeysToTrack(
@@ -37,6 +38,8 @@ int main()
 		glfwTerminate();
 		return -1;
 	}
+
+
 
 	glfwMakeContextCurrent(window);
 
@@ -65,7 +68,10 @@ int main()
 		{
 			Debug::Log(Verbosity::Debug, "left mouse");
 		}
-
+		if (Input::GetKeyDown(KeyCode::A))
+		{
+			Debug::Log(Verbosity::Debug, "a");
+		}
 		//while physics tick not over
 
 			//fixed update on all game objects in currently loaded world
