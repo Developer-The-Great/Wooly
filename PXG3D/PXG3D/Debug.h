@@ -14,17 +14,18 @@ enum class Verbosity
 	Error
 };
 
-static class Debug
+class Debug
 {
 public:
-	//static Verbosity DefaultVerbosity;
-
+	
 	template<typename ...Args>
 	static void Log(Verbosity verbosity, std::string str, const Args & ...args)
 	{
+		if (!debugOn) { return; }
+
 		Verbosity verbosityUsed = verbosity;
 
-		switch (verbosityUsed)
+		switch (verbosity)
 		{
 		case Verbosity::Info:
 			spdlog::set_level(spdlog::level::info);
@@ -48,17 +49,25 @@ public:
 		}
 
 	};
-	
 
+	template<typename ...Args>
+	static void Log(std::string str, const Args & ...args)
+	{
+		Log(DefaultVerbosity, str, args...);
+
+	};
+	
 	static void SetPattern(std::string pattern);
 
 	static void SetDebugState(bool newState);
+	
+	static void SetDefaultVerbosity(Verbosity defaultVerbosity);
 
 private:
 
 	static bool debugOn;
 	
-
+	static Verbosity DefaultVerbosity;
 };
 
 

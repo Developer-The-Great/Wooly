@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x64">
@@ -56,7 +56,7 @@
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>opengl32.lib;assimp-vc140-mt.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;assimp-vc141-mtd.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -75,8 +75,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\deps\include\src\glad.c" />
+    <ClCompile Include="AbstractMaterial.cpp" />
+    <ClCompile Include="CameraComponent.cpp" />
+    <ClCompile Include="ColorMaterial.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Debug.cpp" />
+    <ClCompile Include="FreeMovementComponent.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
@@ -85,34 +89,50 @@
     <ClCompile Include="MeshComponent.cpp" />
     <ClCompile Include="PhysicsComponent.cpp" />
     <ClCompile Include="PhysicsEngine.cpp" />
+    <ClCompile Include="PXGGame.cpp" />
     <ClCompile Include="PXGWindow.cpp" />
     <ClCompile Include="RenderingEngine.cpp" />
+    <ClCompile Include="RotatorComponent.cpp" />
+    <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AbstractMaterial.h" />
     <ClInclude Include="AxisAngle.h" />
+    <ClInclude Include="CameraComponent.h" />
+    <ClInclude Include="ColorMaterial.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="FileConfig.h" />
+    <ClInclude Include="core\PhysicsEngine.h" />
+    <ClInclude Include="core\RenderingEngine.h" />
     <ClInclude Include="Debug.h" />
+    <ClInclude Include="FreeMovementComponent.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GLMHeaders.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="KeyCode.h" />
+    <ClInclude Include="Mat4.h" />
     <ClInclude Include="Mathf.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshComponent.h" />
     <ClInclude Include="PhysicsComponent.h" />
-    <ClInclude Include="PhysicsEngine.h" />
+    <ClInclude Include="PXGGame.h" />
     <ClInclude Include="PXGWindow.h" />
     <ClInclude Include="Quaternion.h" />
-    <ClInclude Include="RenderingEngine.h" />
+    <ClInclude Include="RotatorComponent.h" />
+    <ClInclude Include="Shader.h" />
+    <ClInclude Include="Texture.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="World.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

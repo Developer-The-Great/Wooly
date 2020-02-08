@@ -1,6 +1,7 @@
 #pragma once
 #include "GLMHeaders.h"
 #include "AxisAngle.h"
+#include "Mathf.h"
 
 namespace PXG
 {
@@ -22,7 +23,7 @@ namespace PXG
 
 		Quaternion()
 		{
-			w = 0;
+			w = 1;
 			x = 0;
 			y = 0;
 			z = 0;
@@ -38,38 +39,36 @@ namespace PXG
 
 		Quaternion operator/(const float scalar)
 		{
-			Quaternion result;
+			float newW = w / scalar;
+			float newX = x / scalar;
+			float newY = y / scalar;
+			float newZ = z / scalar;
 
-			result.w = w / scalar;
-			result.x = x / scalar;
-			result.y = y / scalar;
-			result.z = z / scalar;
-
-			return result;
+			return Quaternion(newW,newX,newY,newZ);
 		}
 
 		Quaternion operator*(const float& scalar)
 		{
-			Quaternion result;
-
-			result.w = w * scalar;
-			result.x = x * scalar;
-			result.y = y * scalar;
-			result.z = z * scalar;
-
-			return result;
+			float newW = w * scalar;
+			float newX = x * scalar;
+			float newY = y * scalar;
+			float newZ = z * scalar;
+			return Quaternion(newW, newX, newY, newZ);
 		}
 
-		Quaternion operator=(const glm::quat& quat)
+		Quaternion operator*(const Quaternion& otherQuat)
 		{
-			Quaternion result;
+			return Quaternion(glm::quat(w, x, y, z) * glm::quat(otherQuat.w, otherQuat.x, otherQuat.y, otherQuat.z));
+		}
 
-			result.w = quat.w;
-			result.x = quat.x;
-			result.y = quat.y;
-			result.z = quat.z;
+		Quaternion& operator=(const glm::quat& quat)
+		{
+			w = quat.w;
+			x = quat.x;
+			y = quat.y;
+			z = quat.z;
 
-			return result;
+			return *this;
 		}
 
 		float Length()
@@ -82,7 +81,7 @@ namespace PXG
 			return glm::normalize(glm::quat(w, x, y, z));
 		}
 
-		AxisAngle ToAxisAngle()
+		AxisAngle ToAxisAngle() const
 		{
 
 			AxisAngle Result;
@@ -98,5 +97,17 @@ namespace PXG
 		{
 			return glm::to_string(glm::quat(w, x, y, z));
 		}
+
+		glm::quat ToGLMQuat()
+		{
+			return glm::quat(w, x, y, z);
+		}
+
+		static Quaternion GetIdentity()
+		{
+			return Quaternion();
+		}
+
+		
 	};
 }

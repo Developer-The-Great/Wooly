@@ -1,4 +1,4 @@
-
+#include <GLFW/glfw3.h>
 #include "Input.h"
 #include "PXGWindow.h"
 #include "Debug.h"
@@ -15,6 +15,10 @@ namespace PXG
 		void key_callback(GLFWwindow * window, int key, int scancode, int action, int mods)
 		{
 			Input::key_callback(window, key, scancode, action, mods);
+		}
+		GLFWwindow* MakeGLFWWindow(int width, int height, const char * title, GLFWmonitor * monitor, GLFWwindow * share)
+		{
+			return glfwCreateWindow(width, height, "PXG3D", NULL, NULL);
 		}
 		void Init()
 		{

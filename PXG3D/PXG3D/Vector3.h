@@ -1,5 +1,6 @@
 #pragma once
 #include "GLMHeaders.h"
+#include "Debug.h"
 #include <string>
 
 namespace PXG
@@ -40,68 +41,57 @@ namespace PXG
 
 		Vector3 operator+ (const Vector3 &vec3)
 		{
-			Vector3 result;
+			float newX = x + vec3.x;
+			float newY = y + vec3.y;
+			float newZ = z + vec3.z;
 
-			result.x = x + vec3.x;
-			result.y = y + vec3.y;
-			result.z = z + vec3.z;
-
-			return result;
+			return Vector3(newX, newY, newZ);
 		}
 
 		Vector3 operator- (const Vector3 &vec3)
 		{
-			Vector3 result;
+			float newX = x - vec3.x;
+			float newY = y - vec3.y;
+			float newZ = z - vec3.z;
 
-			result.x = x - vec3.x;
-			result.y = y - vec3.y;
-			result.z = z - vec3.z;
-
-			return result;
+			return Vector3(newX, newY, newZ);
 		}
 
 		Vector3 operator* (const float &scalar)
 		{
-			Vector3 result;
+			float newX = x * scalar;
+			float newY = y * scalar;
+			float newZ = z * scalar;
 
-			result.x = x * scalar;
-			result.y = y * scalar;
-			result.z = z * scalar;
-
-			return result;
+			return Vector3(newX, newY, newZ);
 		}
 
-		Vector3 operator/ (const float &scalar)
+		Vector3 operator/ (const float &scalar) 
 		{
-			Vector3 result;
+			float newX = x / scalar;
+			float newY = y / scalar;
+			float newZ = z / scalar;
 
-			result.x = x / scalar;
-			result.y = y / scalar;
-			result.z = z / scalar;
-
-			return result;
+			return Vector3(newX,newY,newZ);
 		}
 
-		Vector3 operator= (const Vector3 &vec3)
+		Vector3& operator= (const Vector3 &vec3) 
 		{
-			Vector3 result;
 
-			result.x = vec3.x;
-			result.y = vec3.y;
-			result.z = vec3.z;
-
-			return result;
+			x = vec3.x;
+			y = vec3.y;
+			z = vec3.z;
+			
+			return *this;
 		}
 
-		Vector3 operator= (const glm::vec3& vec3)
+		Vector3& operator= (const glm::vec3& vec3) 
 		{
-			Vector3 result;
+			x = vec3.x;
+			y = vec3.y;
+			z = vec3.z;
 
-			result.x = vec3.x;
-			result.y = vec3.y;
-			result.z = vec3.z;
-
-			return result;
+			return *this;
 		}
 
 		float Length()

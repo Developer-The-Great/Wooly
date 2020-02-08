@@ -3,9 +3,28 @@
 
 namespace PXG
 {
-	Component::Component(GameObject * owner)
+	Component::Component()
+	{
+		
+	}
+
+
+	Component::~Component()
+	{
+	}
+
+	void Component::SetOwner(std::shared_ptr<GameObject> owner)
 	{
 		this->owner = owner;
 	}
+
+	std::shared_ptr<GameObject> Component::GetOwner()
+	{
+
+		if (owner.expired()) { return nullptr; }
+		return owner.lock();
+	}
+
+
 
 }

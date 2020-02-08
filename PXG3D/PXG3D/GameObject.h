@@ -3,8 +3,9 @@
 #include "Vector3.h"
 #include <memory>
 #include <vector>
-#include "PhysicsEngine.h"
-#include "RenderingEngine.h"
+#include "core/PhysicsEngine.h"
+#include "core/RenderingEngine.h"
+#include "Component.h"
 
 class MeshComponent;
 class PhysicsComponent;
@@ -12,9 +13,6 @@ class PhysicsComponent;
 
 namespace PXG
 {
-
-	
-
 
 	class GameObject
 	{
@@ -33,26 +31,46 @@ namespace PXG
 
 		virtual void FixedUpdate(float tick);
 
-		void AddToChildren(GOSharedPtr gameObj);
+		virtual void AddToChildren(GOSharedPtr gameObj);
 
-		void SetParent(GOWeakPtr gameObj);
+		void AddComponent(std::shared_ptr<Component> component);
 
-		void SetPosition(Vector3 newPosition);
+		void SetParent(GOSharedPtr gameObj);
 
-		void AddToPhysicsEngine(std::shared_ptr<PhysicsEngine> physicsEngine);
+		void SetLocalPosition(Vector3 newPosition);
 
-		void AddToRenderingEngine(std::shared_ptr<RenderingEngine> renderingEngine);
+		int GetImmediateChildrenCount();
 
-	private:
+		std::shared_ptr<MeshComponent> GetMeshComponent();
+		std::shared_ptr<PhysicsComponent> GetPhysicsComponent();
 
+		//void SetWorld
+
+		//void GetWorld();
+		std::vector<std::shared_ptr<GameObject>> GetChildren();
+
+		std::weak_ptr<World> GetWorld();
+		void SetWorld(std::shared_ptr<World> world);
+
+		Transform* GetTransform() ;
+
+		//TODO make this private
+		std::string name = "";
+
+	protected:
+
+		std::vector< std::shared_ptr<Component>> components;
+		
 		std::vector<std::shared_ptr<GameObject>> children;
+
 		std::weak_ptr<GameObject> parent;
 
 		Transform transform;
 
+
 		std::shared_ptr<MeshComponent> meshComponent = nullptr;
 		std::shared_ptr<PhysicsComponent> physicsComponent = nullptr;
-
+		std::weak_ptr<World> world;
 
 	};
 }

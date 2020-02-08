@@ -8,16 +8,25 @@ namespace PXG
 {
 	GameObject::GameObject()
 	{
+		Debug::Log("init {0}", name);
 		physicsComponent = std::make_shared<PhysicsComponent>();
 		meshComponent = std::make_shared<MeshComponent>();
+
+
+
 	}
+
 	GameObject::~GameObject()
 	{
 		Debug::Log(Verbosity::Info, "GameObject Destroyed");
 	}
+
 	void GameObject::Start()
 	{
-
+		for (auto const& child : children)
+		{
+			child->Start();
+		}
 	}
 	void GameObject::Update()
 	{
@@ -26,7 +35,17 @@ namespace PXG
 
 	void GameObject::FixedUpdate(float tick)
 	{
+		Debug::Log("FixedUpdate on {0} ", name);
 
+		for (auto const& child : children)
+		{
+			child->FixedUpdate(tick);
+		}
+
+		for (auto const& component : components)
+		{
+			component->FixedUpdate(tick);
+		}
 	}
 
 	void GameObject::AddToChildren(GOSharedPtr gameObj)
@@ -34,23 +53,58 @@ namespace PXG
 		children.push_back(gameObj);
 	}
 
-	void GameObject::SetParent(GOWeakPtr gameObj)
+	void GameObject::AddComponent(std::shared_ptr<Component> component)
+	{
+		components.push_back(component);
+	}
+
+	void GameObject::SetParent(GOSharedPtr gameObj)
 	{
 		parent = gameObj;
+		transform.SetParent(gameObj->GetTransform());
 	}
 
-	void GameObject::SetPosition(Vector3 newPosition)
+	//TODO implement SetPosition
+	void GameObject::SetLocalPosition(Vector3 newPosition)
 	{
+		transform.SetLocalPosition(newPosition);
 	}
 
-	void GameObject::AddToPhysicsEngine(std::shared_ptr<PhysicsEngine> physicsEngine)
+	int GameObject::GetImmediateChildrenCount()
 	{
-		physicsEngine->AddPhysicsComponent(physicsComponent);
+		return children.size();
 	}
 
-	void GameObject::AddToRenderingEngine(std::shared_ptr<RenderingEngine> renderingEngine)
+	std::shared_ptr<MeshComponent> GameObject::GetMeshComponent()
 	{
-		renderingEngine->AddRenderingComponent(meshComponent);
+		return meshComponent;
 	}
+
+	std::shared_ptr<PhysicsComponent> GameObject::GetPhysicsComponent()
+	{
+		return physicsComponent;
+	}
+
+	std::vector<std::shared_ptr<GameObject>> GameObject::GetChildren()
+	{
+		return children;
+	}
+
+	std::weak_ptr<World> GameObject::GetWorld()
+	{
+		return world;
+	}
+
+	void GameObject::SetWorld(std::shared_ptr<World> world)
+	{
+		this->world = world;
+	}
+
+	Transform* GameObject::GetTransform()
+	{
+		return &transform;
+	}
+
+	
 
 }

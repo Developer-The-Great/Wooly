@@ -6,11 +6,11 @@
 
 namespace PXG
 {
-	class Quaternion;
-	class Vector3;
+	struct Quaternion;
+	struct Vector3;
 
 	//Contains commonly used mathematical functions. Also contains 3D math related functions
-	static class Mathf
+	class Mathf
 	{
 	public:
 
