@@ -139,7 +139,21 @@ namespace PXG
 
 	void LightComponent::SendDirectionalUniform(Shader * shaderProgram, std::vector<int>& lightTypeCount)
 	{
+		int lightCount = lightTypeCount.at((int)LightType::DIRECTIONAL_LIGHT);
+		std::string index = std::to_string(lightCount);
 
+		shaderProgram->SetVec3("dirLights[" + index + "].direction", direction);
+
+		shaderProgram->SetVec3("dirLights[" + index + "].ambient", ambient);
+
+		shaderProgram->SetVec3("dirLights[" + index + "].diffuse", diffuse);
+	
+		shaderProgram->SetVec3("dirLights[" + index + "].specular", specular);
+
+		shaderProgram->SetInt("dirLights[" + index + "].isLightUsed", true);
+
+
+		lightTypeCount.at((int)LightType::DIRECTIONAL_LIGHT)++;
 
 	}
 }

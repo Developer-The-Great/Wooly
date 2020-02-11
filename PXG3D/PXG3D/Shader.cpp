@@ -70,8 +70,8 @@ namespace PXG
 		if (!success)
 		{
 			glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-			std::cerr << "ERROR::VERTEX_SHADER[" << vertexPath << "]::SHADER_COMPILATION_FAILED:: \n";
-			std::cerr << infoLog << "\n";
+			Debug::Log("ERROR::VERTEX_SHADER[{0}]::SHADER_COMPILATION_FAILED::{1}", vertexPath, infoLog);
+
 		}
 
 		fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
@@ -85,8 +85,8 @@ namespace PXG
 		if (!success)
 		{
 			glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-			std::cerr << "ERROR::FRAGMENT_SHADER[" << fragmentPath << "]::COMPILATION_FAILED:: \n";
-			std::cerr << infoLog << "\n";
+			Debug::Log("ERROR::VERTEX_SHADER[{0}]::SHADER_COMPILATION_FAILED::{1}", fragmentPath, infoLog);
+
 		}
 
 		shaderID = glCreateProgram();

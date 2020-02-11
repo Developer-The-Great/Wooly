@@ -35,8 +35,6 @@ namespace PXG
 		//---------------------------Initialize Textures---------------------------------------//
 		Texture diffuse1(config::PXG_INDEPENDENT_TEXTURES_PATH + "diffuse1.jpg",TextureType::DIFFUSE);
 
-		
-
 
 		//------------------------- Initialize Materials ---------------------------//
 		std::shared_ptr<StandardLitMaterial> litMaterial = std::make_shared<StandardLitMaterial>();
@@ -72,7 +70,7 @@ namespace PXG
 		cameraObj->name = "cameraObj";
 		cameraObj->AddComponent(camera);
 		cameraObj->AddComponent(movementComponent);
-		cameraObj->AddComponent(camRotator);
+		//cameraObj->AddComponent(camRotator);
 		world->AddToChildren(cameraObj);
 		
 		cameraObj->GetTransform()->SetLocalPosition(Vector3(0, 1.8, 5.3));
@@ -111,11 +109,6 @@ namespace PXG
 		world->AddToChildren(secondLightObj);
 
 		Debug::Log("light count {0}", world->GetLightCount());
-
-
-
-
-
 
 		/*GameObj orthoObject = Instantiate();
 		orthoObject->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + "chopper/chopper.obj");

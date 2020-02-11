@@ -6,9 +6,7 @@
 
 #include "stb_image.h"
 #include <memory.h>
-//TODO PRIORITY should be able to add textures to mesh
-//TODO PRIORITY should be able to get mouse location
-//TODO OPTIONAL 
+
 namespace PXG
 {
 	enum class TextureType

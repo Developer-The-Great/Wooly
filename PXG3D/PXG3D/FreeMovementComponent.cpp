@@ -15,13 +15,12 @@ namespace PXG
 	void FreeMovementComponent::FixedUpdate(float tick)
 	{
 
-		Debug::Log("update");
 
 		if (!owner.expired())
 		{
 			auto ownerPtr = owner.lock();
 			auto transform = ownerPtr->GetTransform();
-			Debug::Log("position {0}", transform->GetPosition().ToString());
+
 			float speed = 0.1f;
 
 			if (Input::GetKey(KeyCode::W))

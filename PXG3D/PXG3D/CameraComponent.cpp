@@ -26,18 +26,14 @@ namespace PXG
 	}
 	Mat4 CameraComponent::GetView()
 	{
-
-
 		bool hasOwner = !(owner.expired());
 		if (hasOwner)
 		{
-
 			auto ownerPtr = owner.lock();
 			
-			//if(auto)
-			auto x = ownerPtr->GetTransform();
-			assert(x);
-			return glm::inverse(x->GetWorldTransform().ToGLM());
+			auto transform = ownerPtr->GetTransform();
+	
+			return glm::inverse(transform->GetWorldTransform().ToGLM());
 		}
 		
 		return Mat4();

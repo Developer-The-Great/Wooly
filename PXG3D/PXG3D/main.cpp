@@ -57,7 +57,7 @@ int main()
 	
 	//tell OpenGL the size of the rendering window
 	glViewport(0, 0, width, height);
-
+	//TODO LOW PRIORITY : refactor callbacks
 	glfwSetKeyCallback(window, PXG::PXGWindow::key_callback);
 	glfwSetMouseButtonCallback(window, PXG::PXGWindow::mouse_button_callback);
 	glfwSetCursorPosCallback(window, PXG::PXGWindow::mouse_position_callback);
@@ -78,7 +78,7 @@ int main()
 
 	//------------------- Initialize World -----------------------------------//
 	//this is very weird. Will fix it later
-	gamePtr->GetWorld()->GetMeshComponent()->SetOwner(gamePtr->GetWorld());
+	//gamePtr->GetWorld()->GetMeshComponent()->SetOwner(gamePtr->GetWorld());
 	
 
 	int frameTickStored = 6;
@@ -86,9 +86,6 @@ int main()
 
 	std::shared_ptr<PXG::Time> time = std::make_shared<PXG::Time>(frameTickStored, estimatedInitialFPS);
 
-
-
-	
 	gamePtr->Initialize();
 	gamePtr->Start();
 
@@ -118,10 +115,7 @@ int main()
 			gamePtr->FixedUpdate(tick);
 
 		}
-			
-		Debug::Log("mouseX {0}", Input::GetMouseX());
-		Debug::Log("mouseY {0}", Input::GetMouseY());
-
+	
 		renderingEngine->RenderCurrentlySetWorld();
 
 		glfwSwapBuffers(window);
