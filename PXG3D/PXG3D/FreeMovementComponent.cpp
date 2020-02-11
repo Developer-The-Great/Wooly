@@ -21,7 +21,7 @@ namespace PXG
 			auto ownerPtr = owner.lock();
 			auto transform = ownerPtr->GetTransform();
 
-			float speed = 0.1f;
+			float speed = 1.1f;
 
 			if (Input::GetKey(KeyCode::W))
 			{
@@ -53,7 +53,10 @@ namespace PXG
 				transform->translate(Vector3(0, -speed, 0));
 			}
 			
-			
+			if (Input::GetKey(KeyCode::Enter))
+			{
+				Debug::Log("position {0} ", transform->GetLocalPosition().ToString());
+			}
 				
 		}
 

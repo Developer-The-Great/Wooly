@@ -28,13 +28,13 @@ namespace PXG
 	{
 		Input::AddKeysToTrack(
 			KeyCode::A, KeyCode::W, KeyCode::S, KeyCode::D, KeyCode::Q, KeyCode::E,
-			KeyCode::LeftMouse, KeyCode::RightMouse, KeyCode::MiddleMouse);
+			KeyCode::LeftMouse, KeyCode::RightMouse, KeyCode::MiddleMouse,KeyCode::Enter);
 
 		GetWorld()->name = "World";
 
 		//---------------------------Initialize Textures---------------------------------------//
 		Texture diffuse1(config::PXG_INDEPENDENT_TEXTURES_PATH + "diffuse1.jpg",TextureType::DIFFUSE);
-
+		Texture raphsTexture(config::PXG_INDEPENDENT_TEXTURES_PATH + "texture.png", TextureType::DIFFUSE);
 
 		//------------------------- Initialize Materials ---------------------------//
 		std::shared_ptr<StandardLitMaterial> litMaterial = std::make_shared<StandardLitMaterial>();
@@ -73,10 +73,11 @@ namespace PXG
 		//cameraObj->AddComponent(camRotator);
 		world->AddToChildren(cameraObj);
 		
-		cameraObj->GetTransform()->SetLocalPosition(Vector3(0, 1.8, 5.3));
+		cameraObj->GetTransform()->SetLocalPosition(Vector3(600, 600, 600));
+	
+		cameraObj->GetTransform()->rotate(Vector3(1, 0, 0), -20.0f);
+		cameraObj->GetTransform()->rotate(Vector3(0, 1, 0), 45);
 
-
-		
 
 
 
@@ -110,13 +111,47 @@ namespace PXG
 
 		Debug::Log("light count {0}", world->GetLightCount());
 
-		/*GameObj orthoObject = Instantiate();
-		orthoObject->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + "chopper/chopper.obj");
-		orthoObject->GetMeshComponent()->SetMaterial(litMaterial);
-		orthoObject->GetTransform()->Scale(Vector3(200.2f, 200.2f, 200.2f));
-		orthoObject->AddComponent(rotator);
-		orthoObject->GetTransform()->SetLocalPosition(Vector3(1.5f, 2.0f, 0));
-		world->AddToChildren(orthoObject);*/
+		std::shared_ptr<RotatorComponent> orthoRotator = std::make_shared<RotatorComponent>(Vector3(0, 1.0, 0.0), 1.0f);
+
+
+		float offset = 100.0f;
+	
+		int xCount = 5;
+		int yCount = 5;
+
+		for (int x = 0; x < xCount; x++)
+		{
+			for (int y = 0; y < yCount; y++)
+			{
+				GameObj orthoObject = Instantiate();
+				orthoObject->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + "cube.obj");
+				orthoObject->GetMeshComponent()->SetMaterial(textureMaterial);
+				orthoObject->GetTransform()->Scale(glm::vec3(50));
+				//orthoObject->AddComponent(orthoRotator);
+				orthoObject->GetTransform()->SetLocalPosition(Vector3(x*offset-400, 0, y*offset-400));
+				orthoObject->GetMeshComponent()->AddTextureToMeshAt(raphsTexture, 0);
+				world->AddToChildren(orthoObject);
+			}
+		}
+
+		//GameObj orthoObject = Instantiate();
+		//orthoObject->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + "cube.obj");
+		//orthoObject->GetMeshComponent()->SetMaterial(textureMaterial);
+		//orthoObject->GetTransform()->Scale(glm::vec3(50));
+		////orthoObject->AddComponent(orthoRotator);
+		//orthoObject->GetTransform()->SetLocalPosition(Vector3(200.0f,0,0 ));
+		//orthoObject->GetMeshComponent()->AddTextureToMeshAt(raphsTexture,0);
+		//world->AddToChildren(orthoObject);
+
+
+		//GameObj orthoObject2 = Instantiate();
+		//orthoObject2->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + "cube.obj");
+		//orthoObject2->GetMeshComponent()->SetMaterial(textureMaterial);
+		//orthoObject2->GetTransform()->Scale(glm::vec3(50));
+		////orthoObject->AddComponent(orthoRotator);
+		//orthoObject2->GetTransform()->SetLocalPosition(Vector3(300.0f, 0, 0));
+		//orthoObject2->GetMeshComponent()->AddTextureToMeshAt(raphsTexture, 0);
+		//world->AddToChildren(orthoObject2);
 
 
 	}
