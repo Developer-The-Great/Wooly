@@ -6,7 +6,7 @@ namespace PXG
 	namespace config
 	{
 		//
-		const char* PXG_SHADER_PATH("assets/shaders/");
+		const char* const PXG_SHADER_PATH("assets/shaders/");
 		//
 		const std::string PXG_MODEL_PATH("assets/models/");
 
@@ -16,6 +16,8 @@ namespace PXG
 
 		const std::string PXG_INDEPENDENT_TEXTURES_PATH("assets/textures/");
 
+		const std::string PXG_CONFIGS_PATH("assets/config/");
+		
 	}
 }
 
