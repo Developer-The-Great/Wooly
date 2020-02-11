@@ -1,0 +1,8 @@
+- All member variables use CamelCase
+- private member variables and functions start with a lowercase
+- public member variables and functions start with a uppercase
+- protected member variables and functions start with a lowercase
+- Classes shoud use CamelCase
+- indent namespaces
+- enums are uppercase
+- everything must be in the PXG namespace
