@@ -27,7 +27,7 @@ namespace PXG
 	void MeshComponent::Load3DModel(std::string name)
 	{
 		directory = name.substr(0, name.find_last_of('/'));;
-
+		
 		//use assimp importer to import scene
 		Debug::Log("Load 3D Model Called");
 		

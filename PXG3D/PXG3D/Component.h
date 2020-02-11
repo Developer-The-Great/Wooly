@@ -4,6 +4,7 @@
 
 namespace PXG
 {
+
 	class GameObject;
 	class Transform;
 
