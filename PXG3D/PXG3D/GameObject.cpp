@@ -12,7 +12,7 @@ namespace PXG
 		physicsComponent = std::make_shared<PhysicsComponent>();
 		meshComponent = std::make_shared<MeshComponent>();
 
-
+		
 
 	}
 
@@ -23,6 +23,9 @@ namespace PXG
 
 	void GameObject::Start()
 	{
+		physicsComponent->SetOwner(shared_from_this());
+		meshComponent->SetOwner(shared_from_this());
+
 		for (auto const& child : children)
 		{
 			child->Start();
@@ -35,7 +38,6 @@ namespace PXG
 
 	void GameObject::FixedUpdate(float tick)
 	{
-		Debug::Log("FixedUpdate on {0} ", name);
 
 		for (auto const& child : children)
 		{
@@ -51,11 +53,14 @@ namespace PXG
 	void GameObject::AddToChildren(GOSharedPtr gameObj)
 	{
 		children.push_back(gameObj);
+		gameObj->SetParent(shared_from_this());
 	}
 
 	void GameObject::AddComponent(std::shared_ptr<Component> component)
 	{
 		components.push_back(component);
+		component->SetOwner(shared_from_this());
+
 	}
 
 	void GameObject::SetParent(GOSharedPtr gameObj)
@@ -65,6 +70,8 @@ namespace PXG
 	}
 
 	//TODO implement SetPosition
+
+
 	void GameObject::SetLocalPosition(Vector3 newPosition)
 	{
 		transform.SetLocalPosition(newPosition);

@@ -5,6 +5,8 @@
 
 namespace PXG
 {
+	class Shader;
+
 	struct Vertex
 	{
 		Vector3 position;
@@ -20,17 +22,18 @@ namespace PXG
 		std::vector<Vertex> Vertices;
 		std::vector<Texture> Textures;
 
-		void Draw();
+		void Draw(Shader* shader);
 
 		Mesh(std::vector<unsigned int> indices, std::vector<Vertex> vertices, std::vector<Texture> textures);
 
+		 
 
 	private:
 
 		unsigned int VAO, VBO, EBO;
 
-		static std::string textureDiffuseStr;
-		static std::string textureSpecularStr;
+
+		
 
 
 		void setupMesh();

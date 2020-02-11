@@ -24,6 +24,10 @@ namespace PXG
 
 		void translate(Vector3 translation);
 
+		void rotate(Vector3 axis, float angle);
+
+		void Scale(Vector3 newScale);
+
 		Quaternion GetRotation();
 
 		Mat4 GetLocalTransform();

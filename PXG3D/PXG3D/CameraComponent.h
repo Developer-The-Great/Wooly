@@ -6,7 +6,7 @@ namespace PXG
 {
 
 
-	class CameraComponent : public Component
+	class CameraComponent : public Component, public std::enable_shared_from_this<CameraComponent>
 	{
 	public:
 

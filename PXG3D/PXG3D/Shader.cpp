@@ -10,9 +10,9 @@
 
 namespace PXG
 {
-	Shader::Shader(const char * vertexPath, const char * fragmentPath)
+	Shader::Shader(const char * vertexPath, const char * fragmentPath, std::string name)
 	{
-		
+		shaderName = name;
 		//initialize ifstream
 		std::string vertexCode;
 		std::string fragmentCode;
@@ -114,6 +114,8 @@ namespace PXG
 
 	}
 
+
+
 	Shader::~Shader()
 	{
 	}
@@ -140,7 +142,7 @@ namespace PXG
 
 	void Shader::SetInt(const std::string & name, int value) const
 	{
-		glUniform1f(glGetUniformLocation(shaderID, name.c_str()), value);
+		glUniform1i(glGetUniformLocation(shaderID, name.c_str()), value);
 
 	}
 

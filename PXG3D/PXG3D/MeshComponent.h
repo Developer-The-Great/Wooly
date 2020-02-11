@@ -33,6 +33,8 @@ namespace PXG
 
 		void Draw(Mat4 parentTransform, Mat4 view, Mat4 projection);
 
+		void AddTextureToMeshAt(Texture texture, int i);
+
 	protected:
 		//TODO decrease coupling with assimp 
 
@@ -46,6 +48,7 @@ namespace PXG
 			std::string typeName);
 
 		std::vector<std::shared_ptr<Mesh>> meshes;
+
 		std::vector<Texture> texturesLoaded;
 
 		std::shared_ptr<AbstractMaterial> material;

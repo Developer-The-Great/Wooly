@@ -3,6 +3,7 @@
 #include "Quaternion.h"
 #include <iostream>
 
+
 namespace PXG
 {
 	const float Mathf::Deg2Rad = 0.0174532f;
@@ -77,6 +78,23 @@ namespace PXG
 		return glm::sqrt(x);
 	}
 
+	Quaternion Mathf::ToQuaternion(AxisAngle axisAngle)
+	{
+			Vector3 axis(axisAngle.x, axisAngle.y, axisAngle.z);
+			float angle = axisAngle.angle;
+			axis.Normalize();
+
+			float qx = axis.x * Mathf::Sin(glm::radians(angle / 2.0f));
+			float qy = axis.y * Mathf::Sin(glm::radians(angle / 2.0f));
+			float qz = axis.z * Mathf::Sin(glm::radians(angle / 2.0f));
+			float qw = Mathf::Cos(glm::radians(angle / 2.0f));
+
+			Quaternion result = Quaternion(qw, qx, qy, qz).Normalized();
+
+			return result;
+
+	}
+
 	//TODO implement quat angle difference
 	float Mathf::GetQuaternionAngleDifference(Quaternion a, Quaternion b)
 	{
@@ -88,7 +106,7 @@ namespace PXG
 		//where c is forward and b is up
 
 		//return the angle difference between A' and B'
-		return 0;
+		return -1.0f;
 	}
 
 	Quaternion Mathf::LookRot(Vector3 Forward, Vector3 Up)

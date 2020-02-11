@@ -93,6 +93,12 @@ namespace PXG
 			return Result;
 		}
 
+		/*static Quaternion axisAngle(Vector3 axis, float angle)
+		{
+
+			return Quaternion();
+		}*/
+
 		std::string ToString()
 		{
 			return glm::to_string(glm::quat(w, x, y, z));

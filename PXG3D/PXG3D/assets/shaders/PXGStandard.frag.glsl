@@ -1,9 +1,6 @@
 //DIFFUSE TEXTURE FRAGMENT SHADER
 #version 330 // for glsl version (12 is for older versions , say opengl 2.1
 
-//uniform sampler2D diffuseTexture;
-
-
 
 uniform vec3 eyePos;
 
@@ -15,7 +12,8 @@ out vec4 fragment_color;
 
 struct Material
 {
-	sampler2D diffuse;
+	sampler2D texture_diffuse1;
+
 	sampler2D specular;
 	vec3 ambient;
 	float shininess;
@@ -78,6 +76,8 @@ void main( void ) {
 	
 	vec3 result = vec3(0,0,0);
 
+
+	
 
 	for(int i = 0; i < POINT_LIGHT_COUNT; i++)
 	{
@@ -172,11 +172,11 @@ vec3 calculatePointLight(vec3 lightPosition,vec3 lightAmbient,vec3 lightDiffuse,
 vec3 calculateLighting(vec3 eyeDirection,vec3 lightDirection,vec3 lightAmbient,vec3 lightDiffuse,vec3 lightSpecular,float attenuation)
 {
 	//calculate ambient
-	vec3 ambient = lightAmbient * vec3(texture(diffuseTexture,texCoord));
+	vec3 ambient = lightAmbient * vec3(texture(material.texture_diffuse1,texCoord));
 
 	//calculate diffuse
 	float diff = max(dot(transformedNormal,lightDirection),0);
-	vec3 diffuse = diff * lightDiffuse * vec3(texture(diffuseTexture,texCoord));
+	vec3 diffuse = diff * lightDiffuse * vec3(texture(material.texture_diffuse1,texCoord));
 	
 	//calculate specular
 	vec3 halfAngle = normalize(eyeDirection + lightDirection);

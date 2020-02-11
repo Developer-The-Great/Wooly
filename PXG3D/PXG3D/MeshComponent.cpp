@@ -4,7 +4,7 @@
 #include  <memory>
 #include "Mesh.h"
 #include "AbstractMaterial.h"
-
+#include "Shader.h"
 namespace PXG
 {
 	
@@ -190,12 +190,18 @@ namespace PXG
 
 	void MeshComponent::Draw(Mat4 parentTransform,Mat4 view,Mat4 projection)
 	{
+		Debug::SetDebugState(false);
 
-		auto ownerPointer = owner.lock();
+		auto ownerPointer = GetOwner();
 
-		if (ownerPointer) { Debug::Log("drawing On {0}", ownerPointer->name); }
+		std::string name = ownerPointer->name;
+		Debug::Log("drawing On {0}", ownerPointer->name);
 
-		Mat4 currentTransform = parentTransform * ownerPointer->GetTransform()->GetLocalTransform() ;
+		Mat4 currentTransform = ownerPointer->GetTransform()->GetLocalTransform() * parentTransform  ;
+
+		Debug::Log("parentTransform {0}", parentTransform.ToString());
+		Debug::Log("GetLocalTransform() matrix {0}", ownerPointer->GetTransform()->GetLocalTransform().ToString());
+		Debug::Log("sent matrix {0}", currentTransform.ToString());
 
 		//material send uniforms
 		if (material)
@@ -203,13 +209,18 @@ namespace PXG
 			std::weak_ptr<World> worldPtr = ownerPointer->GetWorld();
 			material->SendUniforms(worldPtr, currentTransform, view, projection);
 			Debug::Log("Material Set");
+
+			Debug::Log("drawing with {0}", material->GetShader()->shaderName);
+
+			for (auto const& mesh : meshes)
+			{
+				mesh->Draw(material->GetShader());
+			}
+
 		}
 
 
-		for (auto const& mesh : meshes)
-		{
-			mesh->Draw();
-		}
+		
 
 
 		if (ownerPointer)
@@ -220,8 +231,13 @@ namespace PXG
 			}
 		}
 
+		Debug::SetDebugState(true);
 
+	}
 
+	void MeshComponent::AddTextureToMeshAt(Texture texture, int i)
+	{
+		meshes.at(i)->Textures.push_back(texture);
 	}
 
 }

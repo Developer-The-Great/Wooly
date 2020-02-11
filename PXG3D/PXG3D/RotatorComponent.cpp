@@ -1,5 +1,5 @@
 #include "RotatorComponent.h"
-
+#include "Transform.h"
 namespace PXG
 {
 
@@ -15,7 +15,13 @@ namespace PXG
 	}
 	void RotatorComponent::FixedUpdate(float tick)
 	{
+		auto transform = GetOwnerTransform();
 
+		if (transform)
+		{
+			transform->rotate(RotationAxis, speed);
+
+		}
 
 	}
 }

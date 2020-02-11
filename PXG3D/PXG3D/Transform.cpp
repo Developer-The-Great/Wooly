@@ -31,7 +31,7 @@ namespace PXG
 	{
 		if (parentTransform)
 		{
-			Vector3 result(parentTransform->GetWorldTransform().Matrix * glm::vec4(position.ToGLMVec3(), 1));
+			Vector3 result(glm::vec4(position.ToGLMVec3(), 1) * parentTransform->GetWorldTransform().Matrix );
 
 			return result;
 		}
@@ -43,11 +43,21 @@ namespace PXG
 		position = position + translation;
 	}
 
+	void Transform::rotate(Vector3 axis, float angle)
+	{
+		rotation = Mathf::ToQuaternion(AxisAngle(angle, axis.x, axis.y, axis.z)) * rotation;
+	}
+
+	void Transform::Scale(Vector3 newScale)
+	{
+		scale = newScale;
+	}
+
 	Quaternion Transform::GetRotation()
 	{
 		if (parentTransform)
 		{
-			return parentTransform->GetRotation() * GetLocalRotation();
+			return  GetLocalRotation() * parentTransform->GetRotation();
 		}
 		return GetLocalRotation();
 	}
@@ -65,15 +75,17 @@ namespace PXG
 
 		glm::mat4 mat4Rotation = glm::toMat4(Quaternion);
 
+
 		glm::mat4 mat4Position(
-			glm::vec4(1, 0, 0, 0),
-			glm::vec4(0, 1, 0, 0),
-			glm::vec4(0, 0, 1, 0),
-			glm::vec4(position.ToGLMVec3(), 1)
+			glm::vec4(1.0f, 0, 0, 0),
+			glm::vec4(0, 1.0f, 0, 0),
+			glm::vec4(0, 0, 1.0f, 0),
+			glm::vec4(position.ToGLMVec3(), 1.0f)
 		);
 		
+		
 
-		return Mat4(mat4Scale * mat4Rotation * mat4Position);
+		return Mat4(mat4Position * mat4Rotation * mat4Scale );
 	}
 
 	Mat4 Transform::GetWorldTransform()

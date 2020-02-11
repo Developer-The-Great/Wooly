@@ -1,12 +1,22 @@
 #pragma once
 
 #include <string>
-
-namespace config
+namespace PXG
 {
-	//
-	const char* PXG_SHADER_PATH("assets/shaders/");
-	//
-	const std::string PXG_MODEL_PATH("assets/models/");
+	namespace config
+	{
+		//
+		const char* PXG_SHADER_PATH("assets/shaders/");
+		//
+		const std::string PXG_MODEL_PATH("assets/models/");
+
+		const std::string textureDiffuseStr("texture_diffuse");
+
+		const std::string textureSpecularStr("texture_specular");
+
+		const std::string PXG_INDEPENDENT_TEXTURES_PATH("assets/textures/");
+
+	}
 }
+
 	

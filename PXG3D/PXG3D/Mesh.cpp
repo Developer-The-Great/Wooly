@@ -1,16 +1,47 @@
 #include "Mesh.h"
 #include <glad/glad.h>
-
+#include "Shader.h"
 
 namespace PXG
 {
-	std::string Mesh::textureDiffuseStr = "texture_diffuse";
-	std::string Mesh::textureSpecularStr = "texture_specular";
+	//std::string Mesh::textureDiffuseStr = "texture_diffuse";
+	//std::string Mesh::textureSpecularStr = "texture_specular";
 
-	void Mesh::Draw()
+	void Mesh::Draw(Shader* shader)
 	{
+		unsigned int diffuseCount = 1;
+		unsigned int specularCount = 1;
 		//assume shader.Use() was already called before calling mesh.Draw()
+		for (unsigned int i = 0; i < Textures.size(); i++)
+		{
+			glActiveTexture(GL_TEXTURE0 + i);
 
+
+			std::string number;
+			std::string name = Textures[i].type;
+
+
+			if (name == "texture_diffuse")
+			{
+				number = std::to_string(diffuseCount);
+				diffuseCount++;
+
+			}
+			else if (name == "texture_specular")
+			{
+				number = std::to_string(specularCount);
+				specularCount++;
+			}
+			//std::cerr << "LOG::Mesh::Draw::using texture " << ("material." + name + number).c_str() << std::endl;
+
+			//int test = glGetUniformLocation(shader.shaderID, ("material." + name + number).c_str());
+			//std::cerr << "DEBUG::Mesh::Draw::uniform found? " << test << std::endl;
+
+
+
+			shader->SetInt(("material." + name + number).c_str(), i);
+			glBindTexture(GL_TEXTURE_2D, Textures[i].id);
+		}
 
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, Indices.size(), GL_UNSIGNED_INT, 0);

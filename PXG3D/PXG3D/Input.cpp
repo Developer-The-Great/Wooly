@@ -50,6 +50,14 @@ void Input::mouse_button_callback(GLFWwindow * window, int button, int action, i
 	UpdateKey(button, action);
 }
 
+void Input::mouse_position_callback(GLFWwindow * window, double xpos, double ypos)
+{
+	GetInstance().x = xpos;
+	GetInstance().y = ypos;
+}
+
+
+
 bool Input::GetKey(KeyCode keyCode)
 {
 	Input* input = &GetInstance();
@@ -111,6 +119,16 @@ void Input::LateUpdateTrackedKeyStates()
 	{
 		iter->second.PreviousButtonPressState = iter->second.CurrentButtonPressState;
 	}
+}
+
+int Input::GetMouseX()
+{
+	return GetInstance().x;
+}
+
+int Input::GetMouseY()
+{
+	return GetInstance().y;
 }
 
 Input::Input()

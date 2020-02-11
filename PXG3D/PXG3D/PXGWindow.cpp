@@ -16,6 +16,10 @@ namespace PXG
 		{
 			Input::key_callback(window, key, scancode, action, mods);
 		}
+		void mouse_position_callback(GLFWwindow * window, double xpos, double ypos)
+		{
+			Input::mouse_position_callback(window, xpos, ypos);
+		}
 		GLFWwindow* MakeGLFWWindow(int width, int height, const char * title, GLFWmonitor * monitor, GLFWwindow * share)
 		{
 			return glfwCreateWindow(width, height, "PXG3D", NULL, NULL);

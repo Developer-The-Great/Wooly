@@ -83,6 +83,7 @@
     <ClCompile Include="FreeMovementComponent.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="LightComponent.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mathf.cpp" />
     <ClCompile Include="Mesh.cpp" />
@@ -94,6 +95,8 @@
     <ClCompile Include="RenderingEngine.cpp" />
     <ClCompile Include="RotatorComponent.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="StandardLitMaterial.cpp" />
+    <ClCompile Include="TextureMaterial.cpp" />
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Utils.cpp" />
@@ -116,6 +119,7 @@
     <ClInclude Include="GLMHeaders.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="KeyCode.h" />
+    <ClInclude Include="LightComponent.h" />
     <ClInclude Include="Mat4.h" />
     <ClInclude Include="Mathf.h" />
     <ClInclude Include="Mesh.h" />
@@ -126,7 +130,9 @@
     <ClInclude Include="Quaternion.h" />
     <ClInclude Include="RotatorComponent.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="StandardLitMaterial.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="TextureMaterial.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Utils.h" />

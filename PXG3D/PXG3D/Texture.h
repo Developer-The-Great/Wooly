@@ -5,23 +5,55 @@
 #include "Debug.h"
 
 #include "stb_image.h"
-
+#include <memory.h>
+//TODO PRIORITY should be able to add textures to mesh
+//TODO PRIORITY should be able to get mouse location
+//TODO OPTIONAL 
 namespace PXG
 {
+	enum class TextureType
+	{
+		DIFFUSE,
+		SPECULAR
+	};
+	
 	struct Texture
 	{
+		Texture(std::string path, TextureType type)
+		{
+			id = GenerateTexture(path);
+
+			switch (type)
+			{
+			case PXG::TextureType::DIFFUSE:
+				this->type = "texture_diffuse";
+				break;
+			case PXG::TextureType::SPECULAR:
+				this->type = "texture_specular";
+				break;
+			default:
+				break;
+			}
+
+		}
+
+		Texture(){}
+
 		unsigned int id;
 		std::string type;
 		std::string path;
 
+		//path 
 		static int GenerateTextureID(std::string path,std::string directory)
 		{
-			//get filename
-			std::string filename = std::string(path);
+			return GenerateTexture(directory + '/' + path);
+		}
 
-			filename = directory + '/' + filename;
+		static int GenerateTexture(std::string path)
+		{
+			//filename = directory + '/' + filename;
 
-			Debug::Log(Verbosity::Info, "TextureID Filename {0} ", filename);
+			Debug::Log(Verbosity::Info, "TextureID Filename {0} ", path);
 
 			unsigned int TextureID;
 
@@ -29,7 +61,7 @@ namespace PXG
 
 			int width, height, nrComponents;
 			//get image data
-			unsigned char * data = stbi_load(filename.c_str(), &width, &height, &nrComponents, 0);
+			unsigned char * data = stbi_load(path.c_str(), &width, &height, &nrComponents, 0);
 
 			if (data)
 			{
@@ -63,11 +95,13 @@ namespace PXG
 			}
 			else
 			{
-				std::cerr << "ERROR::Model::Cannot generate image data" << std::endl;
+				Debug::Log("ERROR::TEXTURE::Cannot generate image data");
+
 				stbi_image_free(data);
 			}
 
 			return TextureID;
 		}
+
 	};
 }

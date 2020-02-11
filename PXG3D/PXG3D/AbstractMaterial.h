@@ -5,6 +5,7 @@ namespace PXG
 {
 	class World;
 	struct Mat4;
+	class Shader;
 
 	class AbstractMaterial
 	{
@@ -12,6 +13,8 @@ namespace PXG
 	public:
 		AbstractMaterial();
 		virtual ~AbstractMaterial();
+
+		virtual Shader* GetShader() = 0;
 
 		virtual void SendUniforms(std::weak_ptr<World> _world,Mat4 model,Mat4 view,Mat4 projection) = 0;
 

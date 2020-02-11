@@ -39,6 +39,13 @@ namespace PXG
 			return normVector / Length();
 		}
 
+		Vector3& Normalize()
+		{
+			*this = Normalized();
+
+			return *this;
+		}
+
 		Vector3 operator+ (const Vector3 &vec3)
 		{
 			float newX = x + vec3.x;

@@ -18,6 +18,8 @@ namespace PXG
 		this->owner = owner;
 	}
 
+
+
 	std::shared_ptr<GameObject> Component::GetOwner()
 	{
 
@@ -25,6 +27,15 @@ namespace PXG
 		return owner.lock();
 	}
 
+	Transform * Component::GetOwnerTransform()
+	{
+		auto ownerPtr = GetOwner();
 
+		if (ownerPtr)
+		{
+			return ownerPtr->GetTransform();
+		}
+		return nullptr;
+	}
 
 }

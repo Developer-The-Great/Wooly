@@ -5,8 +5,9 @@
 namespace PXG
 {
 	class GameObject;
+	class Transform;
 
-	class Component
+	class Component 
 	{
 	public:
 
@@ -19,6 +20,8 @@ namespace PXG
 		virtual ~Component();
 
 		virtual void SetOwner(std::shared_ptr<GameObject> owner);
+
+		Transform* GetOwnerTransform();
 
 		std::shared_ptr<GameObject> GetOwner();
 

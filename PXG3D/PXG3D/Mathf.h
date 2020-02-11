@@ -8,6 +8,7 @@ namespace PXG
 {
 	struct Quaternion;
 	struct Vector3;
+	struct AxisAngle;
 
 	//Contains commonly used mathematical functions. Also contains 3D math related functions
 	class Mathf
@@ -55,7 +56,8 @@ namespace PXG
 
 		static float Sqrt(float x);
 
-
+		static Quaternion ToQuaternion(AxisAngle axisAngle);
+		
 
 
 	};

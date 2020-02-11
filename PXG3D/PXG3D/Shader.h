@@ -12,7 +12,7 @@ namespace PXG
 	class Shader
 	{
 	public:
-		Shader(const char* vertexPath, const char* fragmentPath);
+		Shader(const char* vertexPath, const char* fragmentPath,std::string name = "shader");
 		~Shader();
 
 		unsigned int GetShaderProgram();
@@ -34,6 +34,8 @@ namespace PXG
 		void SetMat4( const std::string &name, Mat4 matrixValue);
 
 		unsigned int shaderID;
+
+		std::string shaderName = "";
 	private:
 
 

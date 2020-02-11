@@ -16,6 +16,10 @@ namespace PXG
 
 
 	}
+	Shader * ColorMaterial::GetShader()
+	{
+		return shader;
+	}
 	void ColorMaterial::SendUniforms(std::weak_ptr<World> _world, Mat4 model, Mat4 view, Mat4 projection)
 	{
 		shader->Use();
@@ -41,7 +45,7 @@ namespace PXG
 			strncpy_s(fragmentFilename, "assets/shaders/", sizeof(fragmentFilename));
 			strncat_s(fragmentFilename, "PXGColor.frag.glsl", sizeof(fragmentFilename));
 
-			shader = new Shader(vertexFilename, fragmentFilename);
+			shader = new Shader(vertexFilename, fragmentFilename,"color");
 
 		}
 

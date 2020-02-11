@@ -14,7 +14,7 @@ class PhysicsComponent;
 namespace PXG
 {
 
-	class GameObject
+	class GameObject : public std::enable_shared_from_this< GameObject>
 	{
 		typedef std::shared_ptr<GameObject> GOSharedPtr;
 		typedef std::weak_ptr<GameObject> GOWeakPtr;
@@ -46,7 +46,6 @@ namespace PXG
 
 		//void SetWorld
 
-		//void GetWorld();
 		std::vector<std::shared_ptr<GameObject>> GetChildren();
 
 		std::weak_ptr<World> GetWorld();
@@ -54,7 +53,7 @@ namespace PXG
 
 		Transform* GetTransform() ;
 
-		//TODO make this private
+		//TODO make this private, and make a setter for it
 		std::string name = "";
 
 	protected:

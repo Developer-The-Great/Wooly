@@ -29,10 +29,6 @@ int main()
 
 	Debug::Log(Verbosity::Info, "PXG is running");
 
-	Input::AddKeysToTrack(
-		KeyCode::A,KeyCode::W,KeyCode::S,KeyCode::D,KeyCode::Q,KeyCode::E,
-		KeyCode::LeftMouse,KeyCode::RightMouse,KeyCode::MiddleMouse);
-
 	Debug::Log(Verbosity::Info, "KeyCount {0}", Input::GetTrackedKeyCount());
 
 	//--------------------------- Initializing GLFW Stuff--------------------//
@@ -52,19 +48,19 @@ int main()
 
 	glfwMakeContextCurrent(window);
 
-	//GLAD manages function pointers for OPENGL, we must initialize GLAD before we call any OPENGL function
+	
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
 		Debug::Log(Verbosity::Error, "Failed to initialize glad");
 		return -1;
 	}
+	
 	//tell OpenGL the size of the rendering window
-
 	glViewport(0, 0, width, height);
 
 	glfwSetKeyCallback(window, PXG::PXGWindow::key_callback);
 	glfwSetMouseButtonCallback(window, PXG::PXGWindow::mouse_button_callback);
-
+	glfwSetCursorPosCallback(window, PXG::PXGWindow::mouse_position_callback);
 
 	//--------------------Initialize Game-----------------------//
 
@@ -84,7 +80,6 @@ int main()
 	//this is very weird. Will fix it later
 	gamePtr->GetWorld()->GetMeshComponent()->SetOwner(gamePtr->GetWorld());
 	
-
 
 	int frameTickStored = 6;
 	int estimatedInitialFPS = 60.0f;
@@ -124,6 +119,9 @@ int main()
 
 		}
 			
+		Debug::Log("mouseX {0}", Input::GetMouseX());
+		Debug::Log("mouseY {0}", Input::GetMouseY());
+
 		renderingEngine->RenderCurrentlySetWorld();
 
 		glfwSwapBuffers(window);

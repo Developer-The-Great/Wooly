@@ -26,7 +26,7 @@ namespace PXG
 
 			if (Input::GetKey(KeyCode::W))
 			{
-				transform->translate(Vector3(0, 0, speed));
+				transform->translate(Vector3(0, 0, -speed));
 			}
 
 			if (Input::GetKey(KeyCode::A))
@@ -36,7 +36,7 @@ namespace PXG
 			
 			if (Input::GetKey(KeyCode::S))
 			{
-				transform->translate(Vector3(0, 0, -speed));
+				transform->translate(Vector3(0, 0, speed));
 			}
 			
 			if (Input::GetKey(KeyCode::D))

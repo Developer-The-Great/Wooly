@@ -42,6 +42,8 @@ public:
 
 	static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 
+	static void mouse_position_callback(GLFWwindow* window, double xpos, double ypos);
+
 	static bool GetKey(KeyCode keyCode);
 
 	static bool GetKeyDown(KeyCode keyCode);
@@ -50,6 +52,9 @@ public:
 
 	static void LateUpdateTrackedKeyStates();
 
+	static int GetMouseX();
+
+	static int GetMouseY();
 
 private:
 
@@ -63,7 +68,7 @@ private:
 
 	static void UpdateKey(int key, int action);
 
-
+	float x, y;
 
 	
 };

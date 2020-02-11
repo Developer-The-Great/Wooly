@@ -16,5 +16,18 @@ namespace PXG
 	{
 		return cameraComponent;
 	}
+	void World::AddLight(std::shared_ptr<LightComponent> light)
+	{
+		lights.emplace_front(light);
+		
+	}
+	std::list<std::shared_ptr<LightComponent>> World::GetLights()
+	{
+		return lights;
+	}
+	int World::GetLightCount() const
+	{
+		return lights.size();
+	}
 }
 

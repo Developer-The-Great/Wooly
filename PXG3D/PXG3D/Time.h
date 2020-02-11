@@ -2,7 +2,7 @@
 
 #include <list>
 #include <GLFW/glfw3.h>
-//TODO implement time
+
 namespace PXG
 {
 	class Time
