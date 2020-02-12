@@ -1,260 +1,80 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="Header Files\core">
-      <UniqueIdentifier>{03fc3986-7bf1-427d-ae64-9a3857da761d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\materials">
-      <UniqueIdentifier>{01dac92e-37c0-4e82-8c3d-6bc07af2cf60}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\components">
-      <UniqueIdentifier>{f81e5411-ddb9-4351-a94b-dcadfb656a6a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\math">
-      <UniqueIdentifier>{ea505fdb-02d0-4bc2-95f3-9926923aea6e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\components">
-      <UniqueIdentifier>{2fbf2a3c-3e4a-4449-a4fa-c137f836ff60}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\materials">
-      <UniqueIdentifier>{7a9473bf-b89e-482b-8f6b-43a2f0d07711}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\input">
-      <UniqueIdentifier>{51a40922-537d-4f8f-b200-636096669433}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\math">
-      <UniqueIdentifier>{5c8c09d2-10e9-430e-9900-680de3ef074c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\input">
-      <UniqueIdentifier>{c45ce58a-4f7b-4aae-8a3d-f4a3a4d19e5b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\core">
-      <UniqueIdentifier>{db94e042-9aa2-4ae8-a5eb-352ff43efcba}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\game">
-      <UniqueIdentifier>{526cd898-d8f2-4037-8f67-340bbf3ff318}</UniqueIdentifier>
-    </Filter>
+    <ClCompile Include="..\deps\include\src\glad.c" />
+    <ClCompile Include="AbstractMaterial.cpp" />
+    <ClCompile Include="CameraComponent.cpp" />
+    <ClCompile Include="ColorMaterial.cpp" />
+    <ClCompile Include="Component.cpp" />
+    <ClCompile Include="Debug.cpp" />
+    <ClCompile Include="FreeMovementComponent.cpp" />
+    <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Input.cpp" />
+    <ClCompile Include="LightComponent.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="MapMovementComponent.cpp" />
+    <ClCompile Include="Mathf.cpp" />
+    <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="MeshComponent.cpp" />
+    <ClCompile Include="PhysicsComponent.cpp" />
+    <ClCompile Include="PhysicsEngine.cpp" />
+    <ClCompile Include="PXGGame.cpp" />
+    <ClCompile Include="PXGWindow.cpp" />
+    <ClCompile Include="RenderingEngine.cpp" />
+    <ClCompile Include="RotatorComponent.cpp" />
+    <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="StandardLitMaterial.cpp" />
+    <ClCompile Include="TextureMaterial.cpp" />
+    <ClCompile Include="Time.cpp" />
+    <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="Utils.cpp" />
+    <ClCompile Include="Vector3.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="World.cpp" />
+    <ClCompile Include="Canvas.cpp" />
+    <ClCompile Include="UIObject.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\deps\include\src\glad.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="AbstractMaterial.cpp">
-      <Filter>Source Files\materials</Filter>
-    </ClCompile>
-    <ClCompile Include="CameraComponent.cpp">
-      <Filter>Source Files\components</Filter>
-    </ClCompile>
-    <ClCompile Include="ColorMaterial.cpp">
-      <Filter>Source Files\materials</Filter>
-    </ClCompile>
-    <ClCompile Include="Component.cpp">
-      <Filter>Source Files\components</Filter>
-    </ClCompile>
-    <ClCompile Include="FreeMovementComponent.cpp">
-      <Filter>Source Files\components</Filter>
-    </ClCompile>
-    <ClCompile Include="TextureMaterial.cpp">
-      <Filter>Source Files\materials</Filter>
-    </ClCompile>
-    <ClCompile Include="StandardLitMaterial.cpp">
-      <Filter>Source Files\materials</Filter>
-    </ClCompile>
-    <ClCompile Include="LightComponent.cpp">
-      <Filter>Source Files\components</Filter>
-    </ClCompile>
-    <ClCompile Include="Input.cpp">
-      <Filter>Source Files\input</Filter>
-    </ClCompile>
-    <ClCompile Include="MeshComponent.cpp">
-      <Filter>Source Files\components</Filter>
-    </ClCompile>
-    <ClCompile Include="PhysicsComponent.cpp">
-      <Filter>Source Files\components</Filter>
-    </ClCompile>
-    <ClCompile Include="Debug.cpp">
-      <Filter>Source Files\core</Filter>
-    </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>Source Files\core</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>Source Files\core</Filter>
-    </ClCompile>
-    <ClCompile Include="Mathf.cpp">
-      <Filter>Source Files\math</Filter>
-    </ClCompile>
-    <ClCompile Include="Mesh.cpp">
-      <Filter>Source Files\core</Filter>
-    </ClCompile>
-    <ClCompile Include="PhysicsEngine.cpp">
-      <Filter>Source Files\core</Filter>
-    </ClCompile>
-    <ClCompile Include="PXGGame.cpp">
-      <Filter>Source Files\core</Filter>
-    </ClCompile>
-    <ClCompile Include="PXGWindow.cpp">
-      <Filter>Source Files\core</Filter>
-    </ClCompile>
-    <ClCompile Include="RenderingEngine.cpp">
-      <Filter>Source Files\core</Filter>
-    </ClCompile>
-    <ClCompile Include="RotatorComponent.cpp">
-      <Filter>Source Files\components</Filter>
-    </ClCompile>
-    <ClCompile Include="Shader.cpp">
-      <Filter>Source Files\core</Filter>
-    </ClCompile>
-    <ClCompile Include="Time.cpp">
-      <Filter>Source Files\core</Filter>
-    </ClCompile>
-    <ClCompile Include="Transform.cpp">
-      <Filter>Source Files\core</Filter>
-    </ClCompile>
-    <ClCompile Include="Utils.cpp">
-      <Filter>Source Files\core</Filter>
-    </ClCompile>
-    <ClCompile Include="Vector3.cpp">
-      <Filter>Source Files\math</Filter>
-    </ClCompile>
-    <ClCompile Include="World.cpp">
-      <Filter>Source Files\core</Filter>
-    </ClCompile>
-    <ClCompile Include="MapMovementComponent.cpp">
-      <Filter>Source Files\components</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Component.h">
-      <Filter>Header Files\components</Filter>
-    </ClInclude>
-    <ClInclude Include="MeshComponent.h">
-      <Filter>Header Files\components</Filter>
-    </ClInclude>
-    <ClInclude Include="PhysicsComponent.h">
-      <Filter>Header Files\components</Filter>
-    </ClInclude>
-    <ClInclude Include="AbstractMaterial.h">
-      <Filter>Header Files\materials</Filter>
-    </ClInclude>
-    <ClInclude Include="FileConfig.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ColorMaterial.h">
-      <Filter>Header Files\materials</Filter>
-    </ClInclude>
-    <ClInclude Include="Mat4.h">
-      <Filter>Header Files\math</Filter>
-    </ClInclude>
-    <ClInclude Include="Quaternion.h">
-      <Filter>Header Files\math</Filter>
-    </ClInclude>
-    <ClInclude Include="Vector3.h">
-      <Filter>Header Files\math</Filter>
-    </ClInclude>
-    <ClInclude Include="CameraComponent.h">
-      <Filter>Header Files\components</Filter>
-    </ClInclude>
-    <ClInclude Include="FreeMovementComponent.h">
-      <Filter>Header Files\components</Filter>
-    </ClInclude>
-    <ClInclude Include="AxisAngle.h">
-      <Filter>Header Files\math</Filter>
-    </ClInclude>
-    <ClInclude Include="RotatorComponent.h">
-      <Filter>Header Files\components</Filter>
-    </ClInclude>
-    <ClInclude Include="Mathf.h">
-      <Filter>Header Files\math</Filter>
-    </ClInclude>
-    <ClInclude Include="TextureMaterial.h">
-      <Filter>Header Files\materials</Filter>
-    </ClInclude>
-    <ClInclude Include="LightComponent.h">
-      <Filter>Header Files\components</Filter>
-    </ClInclude>
-    <ClInclude Include="StandardLitMaterial.h">
-      <Filter>Header Files\materials</Filter>
-    </ClInclude>
-    <ClInclude Include="Input.h">
-      <Filter>Header Files\input</Filter>
-    </ClInclude>
-    <ClInclude Include="GLMHeaders.h">
-      <Filter>Header Files\math</Filter>
-    </ClInclude>
-    <ClInclude Include="Debug.h">
-      <Filter>Header Files\core</Filter>
-    </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>Header Files\core</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>Header Files\core</Filter>
-    </ClInclude>
-    <ClInclude Include="PXGGame.h">
-      <Filter>Header Files\core</Filter>
-    </ClInclude>
-    <ClInclude Include="PXGWindow.h">
-      <Filter>Header Files\core</Filter>
-    </ClInclude>
-    <ClInclude Include="Utils.h">
-      <Filter>Header Files\core</Filter>
-    </ClInclude>
-    <ClInclude Include="Time.h">
-      <Filter>Header Files\core</Filter>
-    </ClInclude>
-    <ClInclude Include="Transform.h">
-      <Filter>Header Files\core</Filter>
-    </ClInclude>
-    <ClInclude Include="World.h">
-      <Filter>Header Files\core</Filter>
-    </ClInclude>
-    <ClInclude Include="KeyCode.h">
-      <Filter>Header Files\input</Filter>
-    </ClInclude>
-    <ClInclude Include="Mesh.h">
-      <Filter>Header Files\core</Filter>
-    </ClInclude>
-    <ClInclude Include="Shader.h">
-      <Filter>Header Files\core</Filter>
-    </ClInclude>
-    <ClInclude Include="Texture.h">
-      <Filter>Header Files\core</Filter>
-    </ClInclude>
-    <ClInclude Include="MapMovementComponent.h">
-      <Filter>Header Files\components</Filter>
-    </ClInclude>
-    <ClInclude Include="PhysicsEngine.h">
-      <Filter>Header Files\core</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderingEngine.h">
-      <Filter>Header Files\core</Filter>
-    </ClInclude>
-    <ClInclude Include="HitInfo.h">
-      <Filter>Header Files\core</Filter>
-    <ClInclude Include="InventoryComponent.h">
-      <Filter>Source Files\game</Filter>
-    </ClInclude>
-    <ClInclude Include="Item.h">
-      <Filter>Source Files\game</Filter>
-    </ClInclude>
-    <ClInclude Include="ItemRegistry.h">
-      <Filter>Source Files\game</Filter>
-    </ClInclude>
+    <ClInclude Include="AbstractMaterial.h" />
+    <ClInclude Include="AxisAngle.h" />
+    <ClInclude Include="CameraComponent.h" />
+    <ClInclude Include="ColorMaterial.h" />
+    <ClInclude Include="Component.h" />
+    <ClInclude Include="FileConfig.h" />
+    <ClInclude Include="Debug.h" />
+    <ClInclude Include="FreeMovementComponent.h" />
+    <ClInclude Include="GameObject.h" />
+    <ClInclude Include="GLMHeaders.h" />
+    <ClInclude Include="HitInfo.h" />
+    <ClInclude Include="Input.h" />
+    <ClInclude Include="InventoryComponent.h" />
+    <ClInclude Include="Item.h" />
+    <ClInclude Include="ItemRegistry.h" />
+    <ClInclude Include="KeyCode.h" />
+    <ClInclude Include="LightComponent.h" />
+    <ClInclude Include="MapMovementComponent.h" />
+    <ClInclude Include="Mat4.h" />
+    <ClInclude Include="Mathf.h" />
+    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="MeshComponent.h" />
+    <ClInclude Include="PhysicsComponent.h" />
+    <ClInclude Include="PhysicsEngine.h" />
+    <ClInclude Include="PXGGame.h" />
+    <ClInclude Include="PXGWindow.h" />
+    <ClInclude Include="Quaternion.h" />
+    <ClInclude Include="RenderingEngine.h" />
+    <ClInclude Include="RotatorComponent.h" />
+    <ClInclude Include="Shader.h" />
+    <ClInclude Include="StandardLitMaterial.h" />
+    <ClInclude Include="Texture.h" />
+    <ClInclude Include="TextureMaterial.h" />
+    <ClInclude Include="Time.h" />
+    <ClInclude Include="Transform.h" />
+    <ClInclude Include="Utils.h" />
+    <ClInclude Include="Vector3.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="World.h" />
+    <ClInclude Include="Canvas.h" />
+    <ClInclude Include="UIObject.h" />
   </ItemGroup>
 </Project>

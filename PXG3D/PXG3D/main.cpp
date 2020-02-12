@@ -119,8 +119,8 @@ int main()
 			gamePtr->FixedUpdate(tick);
 
 		}
-	/*	glEnable(GL_DEPTH_TEST);
-		renderingEngine->RenderCurrentlySetWorld();*/
+		glEnable(GL_DEPTH_TEST);
+		renderingEngine->RenderCurrentlySetWorld();
 
 		glDisable(GL_DEPTH_TEST);
 		renderingEngine->RenderCanvas();
