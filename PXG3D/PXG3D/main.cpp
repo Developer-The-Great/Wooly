@@ -15,7 +15,7 @@
 #include "Transform.h"
 
 #include "PXGGame.h"
-#include "core/RenderingEngine.h"
+#include "RenderingEngine.h"
 #include "Time.h"
 #include "World.h"
 #include "KeyCode.h"

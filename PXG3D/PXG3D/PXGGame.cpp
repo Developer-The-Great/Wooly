@@ -1,4 +1,6 @@
 #include "PXGGame.h"
+#include "PhysicsEngine.h"
+#include "HitInfo.h"
 #include "FreeMovementComponent.h"
 #include "World.h"
 
@@ -16,6 +18,8 @@
 #include "Texture.h"
 #include "Input.h"
 #include "KeyCode.h"
+#include "ItemRegistry.h"
+#include "InventoryComponent.h"
 
 namespace PXG
 {
@@ -27,6 +31,11 @@ namespace PXG
 
 	void PXGGame::Initialize()
 	{
+		std::ifstream item_config(config::PXG_CONFIGS_PATH + "item_config.json");
+		
+		ItemRegistry::LoadConfig(&item_config);
+
+		
 		Input::AddKeysToTrack(
 			KeyCode::A, KeyCode::W, KeyCode::S, KeyCode::D, KeyCode::Q, KeyCode::E,KeyCode::K,KeyCode::J,
 			KeyCode::LeftMouse, KeyCode::RightMouse, KeyCode::MiddleMouse,KeyCode::Enter);
@@ -47,13 +56,26 @@ namespace PXG
 		//--------------------------Initialize GameObjects and their Components--------------------------------//
 
 		std::shared_ptr<RotatorComponent> rotator = std::make_shared<RotatorComponent>(Vector3(0, 0.77, 0.77), 1.0f);
-
+		auto inventory = std::make_shared<Inventory>();
 		GameObj firstObj = Instantiate();
 		firstObj->name = "firstObj";
 		firstObj->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + "chopper/chopper.obj");
 		firstObj->GetMeshComponent()->SetMaterial(litMaterial);
 		firstObj->GetTransform()->SetLocalPosition(Vector3(0, 0, 0));
 		firstObj->AddComponent(rotator);
+		firstObj->AddComponent(inventory);
+
+		inventory->AddItem(ItemRegistry::LookUpItem("Wood"));
+
+
+		for (auto item_id : inventory->EnumerateUniqueItems())
+		{
+			auto [fname,pname] = ItemRegistry::GetItemInfo(item_id);
+			Debug::Log("Player has items {}:{}", fname, pname);
+		}
+
+
+		
 		world->AddToChildren(firstObj);
 
 		
@@ -153,7 +175,7 @@ namespace PXG
 		//orthoObject->GetMeshComponent()->SetMaterial(textureMaterial);
 		//orthoObject->GetTransform()->Scale(glm::vec3(50));
 		////orthoObject->AddComponent(orthoRotator);
-		//orthoObject->GetTransform()->SetLocalPosition(Vector3(200.0f,0,0 ));
+		//orthoObject->GetTransform()->SetLocalPosition(Vector3(0.0f,0,0 ));
 		//orthoObject->GetMeshComponent()->AddTextureToMeshAt(raphsTexture,0);
 		//world->AddToChildren(orthoObject);
 
@@ -166,8 +188,7 @@ namespace PXG
 		//orthoObject2->GetTransform()->SetLocalPosition(Vector3(300.0f, 0, 0));
 		//orthoObject2->GetMeshComponent()->AddTextureToMeshAt(raphsTexture, 0);
 		//world->AddToChildren(orthoObject2);
-
-
+	
 	}
 
 	void PXGGame::Start()

@@ -3,17 +3,17 @@
 #include "Vector3.h"
 #include <memory>
 #include <vector>
-#include "core/PhysicsEngine.h"
-#include "core/RenderingEngine.h"
+#include "PhysicsEngine.h"
+#include "RenderingEngine.h"
 #include "Component.h"
 
-class MeshComponent;
-class PhysicsComponent;
+
 
 
 namespace PXG
 {
-
+	class MeshComponent;
+	class PhysicsComponent;
 	class GameObject : public std::enable_shared_from_this< GameObject>
 	{
 		typedef std::shared_ptr<GameObject> GOSharedPtr;

@@ -13,6 +13,7 @@ namespace PXG
 		CameraComponent();
 
 		~CameraComponent() override;
+
 		virtual void Start() override;
 
 		virtual void FixedUpdate(float tick) override;
