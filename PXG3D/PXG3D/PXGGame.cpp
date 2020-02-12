@@ -20,6 +20,7 @@
 #include "KeyCode.h"
 #include "ItemRegistry.h"
 #include "InventoryComponent.h"
+#include "LevelLoader.h"
 
 namespace PXG
 {
@@ -148,10 +149,20 @@ namespace PXG
 		
 
 		float offset = 100.0f;
-	
 		int xCount = 5;
 		int yCount = 5;
 
+
+		auto level_loader = std::make_shared<LevelLoader>();
+
+		TileMap->AddComponent(level_loader);
+
+		std::ifstream level_config(config::PXG_CONFIGS_PATH + "level_data.json");
+		
+		level_loader->LoadLevel(level_config, this);
+		
+
+		/*
 		for (int x = 0; x < xCount; x++)
 		{
 			for (int y = 0; y < yCount; y++)
@@ -169,7 +180,7 @@ namespace PXG
 				//world->AddToChildren(orthoObject);
 			}
 		}
-
+		*/
 		//GameObj orthoObject = Instantiate();
 		//orthoObject->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + "cube.obj");
 		//orthoObject->GetMeshComponent()->SetMaterial(textureMaterial);
