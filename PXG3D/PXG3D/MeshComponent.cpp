@@ -7,7 +7,9 @@
 #include "Shader.h"
 namespace PXG
 {
-	
+
+	Assimp::Importer MeshComponent::importer;
+	std::unordered_map<std::string, std::shared_ptr<const aiScene>> MeshComponent::cache;
 
 	MeshComponent::MeshComponent() : Component()
 	{
@@ -26,27 +28,34 @@ namespace PXG
 
 	void MeshComponent::Load3DModel(std::string name)
 	{
-		directory = name.substr(0, name.find_last_of('/'));;
-		
-		//use assimp importer to import scene
-		Debug::Log("Load 3D Model Called");
-		
-		Assimp::Importer importer;
 
-		const aiScene* scene = importer.ReadFile(name, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
-
-		Debug::Log("LOG PROCESS NODE");
-
-		if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
+		if(auto iter = cache.find(name); iter != cache.end())
 		{
-			Debug::Log(Verbosity::Error, "ERROR::ASSIMP::{0}", importer.GetErrorString());
-			return;
+			processNode(iter->second.get(), iter->second->mRootNode);
 		}
+		else{
+			directory = name.substr(0, name.find_last_of('/'));;
+			
+			//use assimp importer to import scene
+			Debug::Log("Load 3D Model Called");
+			
+			
 
+			const aiScene* scene = importer.ReadFile(name, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
 
-		//process scene graph
-		processNode(scene,  scene->mRootNode);
+			Debug::Log("LOG PROCESS NODE");
 
+			if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
+			{
+				Debug::Log(Verbosity::Error, "ERROR::ASSIMP::{0}", importer.GetErrorString());
+				return;
+			}
+
+			cache[name] = std::shared_ptr<const aiScene>(scene);
+
+			//process scene graph
+			processNode(scene,  scene->mRootNode);
+		}
 
 	}
 
