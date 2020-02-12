@@ -8,12 +8,12 @@
 namespace PXG
 {
 
-	Assimp::Importer MeshComponent::importer;
+	Assimp::Importer* MeshComponent::importer;
 	std::unordered_map<std::string, std::shared_ptr<const aiScene>> MeshComponent::cache;
 
 	MeshComponent::MeshComponent() : Component()
 	{
-
+		if (!importer) importer = new Assimp::Importer;
 		//setup mesh
 	}
 
@@ -41,13 +41,13 @@ namespace PXG
 			
 			
 
-			const aiScene* scene = importer.ReadFile(name, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
+			const aiScene* scene = importer->ReadFile(name, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
 
 			Debug::Log("LOG PROCESS NODE");
 
 			if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 			{
-				Debug::Log(Verbosity::Error, "ERROR::ASSIMP::{0}", importer.GetErrorString());
+				Debug::Log(Verbosity::Error, "ERROR::ASSIMP::{0}", importer->GetErrorString());
 				return;
 			}
 
