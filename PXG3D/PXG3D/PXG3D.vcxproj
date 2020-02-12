@@ -124,6 +124,8 @@
     <ClInclude Include="Item.h" />
     <ClInclude Include="ItemRegistry.h" />
     <ClInclude Include="KeyCode.h" />
+    <ClInclude Include="LevelLoader.h" />
+    <ClInclude Include="TileMetaData.h" />
     <ClInclude Include="LightComponent.h" />
     <ClInclude Include="MapMovementComponent.h" />
     <ClInclude Include="Mat4.h" />
@@ -141,6 +143,7 @@
     <ClInclude Include="StandardLitMaterial.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureMaterial.h" />
+    <ClInclude Include="Tile.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Utils.h" />

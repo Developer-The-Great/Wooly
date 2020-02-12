@@ -20,6 +20,7 @@
 #include "KeyCode.h"
 #include "ItemRegistry.h"
 #include "InventoryComponent.h"
+#include "LevelLoader.h"
 
 namespace PXG
 {
@@ -148,47 +149,18 @@ namespace PXG
 		
 
 		float offset = 100.0f;
-	
 		int xCount = 5;
 		int yCount = 5;
 
-		for (int x = 0; x < xCount; x++)
-		{
-			for (int y = 0; y < yCount; y++)
-			{
-				GameObj orthoObject = Instantiate();
 
-				TileMap->AddToChildren(orthoObject);
+		auto level_loader = std::make_shared<LevelLoader>();
 
-				orthoObject->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + "cube.obj");
-				orthoObject->GetMeshComponent()->SetMaterial(textureMaterial);
-				orthoObject->GetTransform()->Scale(glm::vec3(50));
-				//orthoObject->AddComponent(orthoRotator);
-				orthoObject->GetTransform()->SetLocalPosition(Vector3(x*offset-400, 0, y*offset-400));
-				orthoObject->GetMeshComponent()->AddTextureToMeshAt(raphsTexture, 0);
-				//world->AddToChildren(orthoObject);
-			}
-		}
+		TileMap->AddComponent(level_loader);
 
-		//GameObj orthoObject = Instantiate();
-		//orthoObject->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + "cube.obj");
-		//orthoObject->GetMeshComponent()->SetMaterial(textureMaterial);
-		//orthoObject->GetTransform()->Scale(glm::vec3(50));
-		////orthoObject->AddComponent(orthoRotator);
-		//orthoObject->GetTransform()->SetLocalPosition(Vector3(0.0f,0,0 ));
-		//orthoObject->GetMeshComponent()->AddTextureToMeshAt(raphsTexture,0);
-		//world->AddToChildren(orthoObject);
-
-
-		//GameObj orthoObject2 = Instantiate();
-		//orthoObject2->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + "cube.obj");
-		//orthoObject2->GetMeshComponent()->SetMaterial(textureMaterial);
-		//orthoObject2->GetTransform()->Scale(glm::vec3(50));
-		////orthoObject->AddComponent(orthoRotator);
-		//orthoObject2->GetTransform()->SetLocalPosition(Vector3(300.0f, 0, 0));
-		//orthoObject2->GetMeshComponent()->AddTextureToMeshAt(raphsTexture, 0);
-		//world->AddToChildren(orthoObject2);
-	
+		std::ifstream level_config(config::PXG_CONFIGS_PATH + "level_data.json");
+		
+		level_loader->LoadLevel(level_config, this);
+			
 	}
 
 	void PXGGame::Start()
