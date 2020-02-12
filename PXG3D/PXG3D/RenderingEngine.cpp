@@ -1,4 +1,4 @@
-#include "core/RenderingEngine.h"
+#include "RenderingEngine.h"
 #include "World.h"
 #include "CameraComponent.h"
 
