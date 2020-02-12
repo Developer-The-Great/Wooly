@@ -12,6 +12,7 @@
 
 #include "LightComponent.h"
 
+#include "MapMovementComponent.h"
 #include "CameraComponent.h"
 #include "RotatorComponent.h"
 #include "Texture.h"
@@ -36,7 +37,7 @@ namespace PXG
 
 		
 		Input::AddKeysToTrack(
-			KeyCode::A, KeyCode::W, KeyCode::S, KeyCode::D, KeyCode::Q, KeyCode::E,
+			KeyCode::A, KeyCode::W, KeyCode::S, KeyCode::D, KeyCode::Q, KeyCode::E,KeyCode::K,KeyCode::J,
 			KeyCode::LeftMouse, KeyCode::RightMouse, KeyCode::MiddleMouse,KeyCode::Enter);
 
 		GetWorld()->name = "World";
@@ -102,7 +103,16 @@ namespace PXG
 
 
 
+		GameObj TileMap = Instantiate();
+		world->AddToChildren(TileMap);
+		std::shared_ptr<MapMovementComponent> mapMovement = std::make_shared<MapMovementComponent>();
+		mapMovement->SetMap(TileMap);
+		GameObj movementHandler = Instantiate();
+		movementHandler->name = "Movement";
+		movementHandler->AddComponent(mapMovement);
+		
 
+		world->AddToChildren(movementHandler);
 		//--------------------------- Instantiate lights -----------------------------------//
 
 
@@ -134,7 +144,7 @@ namespace PXG
 		Debug::Log("light count {0}", world->GetLightCount());
 
 		std::shared_ptr<RotatorComponent> orthoRotator = std::make_shared<RotatorComponent>(Vector3(0, 1.0, 0.0), 1.0f);
-	 
+
 		
 
 		float offset = 100.0f;
@@ -147,13 +157,16 @@ namespace PXG
 			for (int y = 0; y < yCount; y++)
 			{
 				GameObj orthoObject = Instantiate();
+
+				TileMap->AddToChildren(orthoObject);
+
 				orthoObject->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + "cube.obj");
 				orthoObject->GetMeshComponent()->SetMaterial(textureMaterial);
 				orthoObject->GetTransform()->Scale(glm::vec3(50));
 				//orthoObject->AddComponent(orthoRotator);
 				orthoObject->GetTransform()->SetLocalPosition(Vector3(x*offset-400, 0, y*offset-400));
 				orthoObject->GetMeshComponent()->AddTextureToMeshAt(raphsTexture, 0);
-				world->AddToChildren(orthoObject);
+				//world->AddToChildren(orthoObject);
 			}
 		}
 

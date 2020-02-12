@@ -135,6 +135,9 @@
     <ClCompile Include="World.cpp">
       <Filter>Source Files\core</Filter>
     </ClCompile>
+    <ClCompile Include="MapMovementComponent.cpp">
+      <Filter>Source Files\components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h">
@@ -232,6 +235,9 @@
     </ClInclude>
     <ClInclude Include="Texture.h">
       <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="MapMovementComponent.h">
+      <Filter>Header Files\components</Filter>
     </ClInclude>
     <ClInclude Include="PhysicsEngine.h">
       <Filter>Header Files\core</Filter>
