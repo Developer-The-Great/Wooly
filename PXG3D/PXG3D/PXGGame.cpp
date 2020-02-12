@@ -1,4 +1,6 @@
 #include "PXGGame.h"
+#include "PhysicsEngine.h"
+#include "HitInfo.h"
 #include "FreeMovementComponent.h"
 #include "World.h"
 
@@ -112,7 +114,8 @@ namespace PXG
 		Debug::Log("light count {0}", world->GetLightCount());
 
 		std::shared_ptr<RotatorComponent> orthoRotator = std::make_shared<RotatorComponent>(Vector3(0, 1.0, 0.0), 1.0f);
-
+	 
+		
 
 		float offset = 100.0f;
 	
@@ -139,7 +142,7 @@ namespace PXG
 		//orthoObject->GetMeshComponent()->SetMaterial(textureMaterial);
 		//orthoObject->GetTransform()->Scale(glm::vec3(50));
 		////orthoObject->AddComponent(orthoRotator);
-		//orthoObject->GetTransform()->SetLocalPosition(Vector3(200.0f,0,0 ));
+		//orthoObject->GetTransform()->SetLocalPosition(Vector3(0.0f,0,0 ));
 		//orthoObject->GetMeshComponent()->AddTextureToMeshAt(raphsTexture,0);
 		//world->AddToChildren(orthoObject);
 
@@ -152,8 +155,7 @@ namespace PXG
 		//orthoObject2->GetTransform()->SetLocalPosition(Vector3(300.0f, 0, 0));
 		//orthoObject2->GetMeshComponent()->AddTextureToMeshAt(raphsTexture, 0);
 		//world->AddToChildren(orthoObject2);
-
-
+	
 	}
 
 	void PXGGame::Start()
