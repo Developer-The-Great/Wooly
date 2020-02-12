@@ -119,6 +119,9 @@
     <ClInclude Include="GLMHeaders.h" />
     <ClInclude Include="HitInfo.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="InventoryComponent.h" />
+    <ClInclude Include="Item.h" />
+    <ClInclude Include="ItemRegistry.h" />
     <ClInclude Include="KeyCode.h" />
     <ClInclude Include="LightComponent.h" />
     <ClInclude Include="Mat4.h" />
