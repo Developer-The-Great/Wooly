@@ -33,6 +33,7 @@
     <ClCompile Include="World.cpp" />
     <ClCompile Include="Canvas.cpp" />
     <ClCompile Include="UIObject.cpp" />
+    <ClCompile Include="ButtonComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractMaterial.h" />
@@ -76,5 +77,6 @@
     <ClInclude Include="World.h" />
     <ClInclude Include="Canvas.h" />
     <ClInclude Include="UIObject.h" />
+    <ClInclude Include="ButtonComponent.h" />
   </ItemGroup>
 </Project>

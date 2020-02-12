@@ -78,6 +78,7 @@
   <ItemGroup>
     <ClCompile Include="..\deps\include\src\glad.c" />
     <ClCompile Include="AbstractMaterial.cpp" />
+    <ClCompile Include="ButtonComponent.cpp" />
     <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="Canvas.cpp" />
     <ClCompile Include="ColorMaterial.cpp" />
@@ -112,6 +113,7 @@
   <ItemGroup>
     <ClInclude Include="AbstractMaterial.h" />
     <ClInclude Include="AxisAngle.h" />
+    <ClInclude Include="ButtonComponent.h" />
     <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="Canvas.h" />
     <ClInclude Include="ColorMaterial.h" />

@@ -21,6 +21,7 @@
 #include "KeyCode.h"
 #include "ItemRegistry.h"
 #include "InventoryComponent.h"
+#include "ButtonComponent.h"
 
 namespace PXG
 {
@@ -87,6 +88,9 @@ namespace PXG
 		uiTest->GetTransform()->SetLocalPosition(Vector3(100, 100, -100));
 		canvas->AddToChildren(uiTest);
 		//uiTest->AddComponent(rotator);
+
+		std::shared_ptr<ButtonComponent> buttonComp = std::make_shared<ButtonComponent>();
+		uiTest->AddComponent(buttonComp);
 
 
 		//--------------------------- Instantiate Camera -----------------------------------//
@@ -168,6 +172,7 @@ namespace PXG
 	void PXGGame::FixedUpdate(float tick)
 	{
 		world->FixedUpdate(tick);
+		canvas->FixedUpdate(tick);
 	}
 
 	

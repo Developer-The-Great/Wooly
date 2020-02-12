@@ -10,7 +10,7 @@ namespace PXG
 	}
 	Transform::Transform()
 	{
-		scale = Vector3(1.0f, 1.0f,1.0f);
+		scale = Vector3(1.0f, 1.0f, 1.0f);
 	}
 	inline Quaternion Transform::GetLocalRotation() const
 	{
@@ -19,7 +19,7 @@ namespace PXG
 	Vector3 Transform::GetLocalPosition() const
 	{
 		return position;
-		
+
 	}
 
 	void Transform::SetLocalPosition(Vector3 localPosition)
@@ -31,7 +31,7 @@ namespace PXG
 	{
 		if (parentTransform)
 		{
-			Vector3 result(glm::vec4(position.ToGLMVec3(), 1) * parentTransform->GetWorldTransform().Matrix );
+			Vector3 result(glm::vec4(position.ToGLMVec3(), 1) * parentTransform->GetWorldTransform().Matrix);
 
 			return result;
 		}
@@ -62,7 +62,7 @@ namespace PXG
 		return GetLocalRotation();
 	}
 
-	Mat4 Transform::GetLocalTransform() 
+	Mat4 Transform::GetLocalTransform()
 	{
 		glm::mat4 mat4Scale(
 			glm::vec4(scale.x, 0, 0, 0),
@@ -82,10 +82,10 @@ namespace PXG
 			glm::vec4(0, 0, 1.0f, 0),
 			glm::vec4(position.ToGLMVec3(), 1.0f)
 		);
-		
-		
 
-		return Mat4(mat4Position * mat4Rotation * mat4Scale );
+
+
+		return Mat4(mat4Position * mat4Rotation * mat4Scale);
 	}
 
 	Mat4 Transform::GetWorldTransform()
@@ -94,13 +94,18 @@ namespace PXG
 		{
 			return parentTransform->GetWorldTransform() * GetLocalTransform();
 		}
-		
+
 		return GetLocalTransform();
 	}
 
 	void Transform::SetParent(Transform * transform)
 	{
 		parentTransform = transform;
+	}
+
+	Vector3 Transform::getScale()
+	{
+		return scale;
 	}
 
 	/*inline void Transform::SetParent(Transform * transform)

@@ -36,6 +36,7 @@ namespace PXG
 
 		void SetParent(Transform * transform);
 
+		Vector3 getScale();
 
 	private:
 

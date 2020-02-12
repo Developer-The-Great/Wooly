@@ -8,6 +8,7 @@ namespace PXG
 	public:
 		UIObject();
 		~UIObject();
+		
 	private:
 
 	};
