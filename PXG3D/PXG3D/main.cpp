@@ -72,6 +72,7 @@ int main()
 	std::unique_ptr<PXG::RenderingEngine> renderingEngine = std::make_unique<PXG::RenderingEngine>();
 	renderingEngine->SetWorld(gamePtr->GetWorld());
 	renderingEngine->SetCanvas(gamePtr->GetCanvas());
+	
 
 	//--------------------Initialize Physics Engine -------------------------//
 
@@ -88,6 +89,7 @@ int main()
 
 	std::shared_ptr<PXG::Time> time = std::make_shared<PXG::Time>(frameTickStored, estimatedInitialFPS);
 
+	gamePtr->frender = &renderingEngine->GetFontRenderer();
 	gamePtr->Initialize();
 	gamePtr->Start();
 

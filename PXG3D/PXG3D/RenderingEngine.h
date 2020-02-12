@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include "MeshComponent.h"
+#include "font.h"
 
 namespace PXG
 {
@@ -22,10 +23,17 @@ namespace PXG
 
 		void SetCanvas(std::shared_ptr<Canvas> canvas);
 
+		FontRenderer& GetFontRenderer()
+		{
+			if (!fontRenderer) fontRenderer = std::make_shared<FontRenderer>(true);
+			return *fontRenderer;
+		}
+		
 
 	private:
 
 
+		std::shared_ptr<FontRenderer> fontRenderer;
 		std::shared_ptr<World> world = nullptr;	
 		std::shared_ptr<Canvas> canvas = nullptr;
 

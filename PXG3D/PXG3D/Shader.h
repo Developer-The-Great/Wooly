@@ -13,11 +13,15 @@ namespace PXG
 	{
 	public:
 		Shader(const char* vertexPath, const char* fragmentPath,std::string name = "shader");
+		Shader(const char* vertexSource, const char* fragmentSource, std::string name, bool);
+
 		~Shader();
 
 		unsigned int GetShaderProgram();
 
 		void Use();
+
+		void Release();
 
 		void SetFloat(const std::string &name, float value) const;
 		void SetFloat(const GLint location, float value) const;

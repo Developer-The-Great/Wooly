@@ -14,7 +14,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{5171BF73-E7C2-430E-8C37-60C4D2126BCD}</ProjectGuid>
     <RootNamespace>PXG3D</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
@@ -57,7 +57,7 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>opengl32.lib;assimp-vc141-mtd.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;freetype.lib;assimp-vc141-mtd.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -83,6 +83,7 @@
     <ClCompile Include="ColorMaterial.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Debug.cpp" />
+    <ClCompile Include="font.cpp" />
     <ClCompile Include="FreeMovementComponent.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Input.cpp" />
@@ -118,6 +119,7 @@
     <ClInclude Include="Component.h" />
     <ClInclude Include="FileConfig.h" />
     <ClInclude Include="Debug.h" />
+    <ClInclude Include="font.h" />
     <ClInclude Include="FreeMovementComponent.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GLMHeaders.h" />
