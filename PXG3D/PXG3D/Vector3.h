@@ -109,6 +109,28 @@ namespace PXG
 			return *this;
 		}
 
+		float& operator[](std::size_t location)
+		{
+			switch(location)
+			{
+			case 0: return x;
+			case 1: return y;
+			case 2: return z;
+			default:throw std::out_of_range("Vector3 subscript out of range!");
+			}
+		}
+
+		float operator[](std::size_t location) const
+		{
+			switch (location)
+			{
+			case 0: return x;
+			case 1: return y;
+			case 2: return z;
+			default:throw std::out_of_range("Vector3 subscript out of range!");
+			}
+		}
+
 		float Length()
 		{
 			return glm::length(glm::vec3(x, y, z));
