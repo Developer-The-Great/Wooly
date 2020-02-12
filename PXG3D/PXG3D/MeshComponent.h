@@ -38,8 +38,7 @@ namespace PXG
 	protected:
 		//TODO decrease coupling with assimp
 
-		static Assimp::Importer* importer;
-		static std::unordered_map<std::string, std::shared_ptr<const aiScene>> cache;
+		static std::unordered_map<std::string, std::vector< std::shared_ptr<Mesh>>> cache;
 
 		std::string directory;
 
