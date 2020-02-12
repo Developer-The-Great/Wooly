@@ -36,7 +36,10 @@ namespace PXG
 		void AddTextureToMeshAt(Texture texture, int i);
 
 	protected:
-		//TODO decrease coupling with assimp 
+		//TODO decrease coupling with assimp
+
+		static Assimp::Importer importer;
+		static std::unordered_map<std::string, std::shared_ptr<const aiScene>> cache;
 
 		std::string directory;
 
