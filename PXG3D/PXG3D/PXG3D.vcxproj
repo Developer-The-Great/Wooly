@@ -79,6 +79,7 @@
     <ClCompile Include="..\deps\include\src\glad.c" />
     <ClCompile Include="AbstractMaterial.cpp" />
     <ClCompile Include="CameraComponent.cpp" />
+    <ClCompile Include="Canvas.cpp" />
     <ClCompile Include="ColorMaterial.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Debug.cpp" />
@@ -102,6 +103,7 @@
     <ClCompile Include="TextureMaterial.cpp" />
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="UIObject.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -111,6 +113,7 @@
     <ClInclude Include="AbstractMaterial.h" />
     <ClInclude Include="AxisAngle.h" />
     <ClInclude Include="CameraComponent.h" />
+    <ClInclude Include="Canvas.h" />
     <ClInclude Include="ColorMaterial.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="FileConfig.h" />
@@ -143,6 +146,7 @@
     <ClInclude Include="TextureMaterial.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="Transform.h" />
+    <ClInclude Include="UIObject.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="Game.h" />

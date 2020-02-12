@@ -3,6 +3,7 @@
 #include "HitInfo.h"
 #include "FreeMovementComponent.h"
 #include "World.h"
+#include "Canvas.h"
 
 #include "FileConfig.h"
 
@@ -41,7 +42,7 @@ namespace PXG
 			KeyCode::LeftMouse, KeyCode::RightMouse, KeyCode::MiddleMouse,KeyCode::Enter);
 
 		GetWorld()->name = "World";
-
+		GetCanvas()->name = "canvas";
 		//---------------------------Initialize Textures---------------------------------------//
 		Texture diffuse1(config::PXG_INDEPENDENT_TEXTURES_PATH + "diffuse1.jpg",TextureType::DIFFUSE);
 		Texture raphsTexture(config::PXG_INDEPENDENT_TEXTURES_PATH + "texture.png", TextureType::DIFFUSE);
@@ -49,7 +50,7 @@ namespace PXG
 		//------------------------- Initialize Materials ---------------------------//
 		std::shared_ptr<StandardLitMaterial> litMaterial = std::make_shared<StandardLitMaterial>();
 		std::shared_ptr<ColorMaterial> defaultColorMat = std::make_shared<ColorMaterial>();
-		std::shared_ptr<ColorMaterial> bluetColorMat = std::make_shared<ColorMaterial>(Vector3(1,0,0));
+		std::shared_ptr<ColorMaterial> bluetColorMat = std::make_shared<ColorMaterial>(Vector3(0,0,1));
 		std::shared_ptr<TextureMaterial> textureMaterial = std::make_shared<TextureMaterial>();
 		std::shared_ptr<ColorMaterial> yellowColorMat = std::make_shared<ColorMaterial>(Vector3(1, 1, 0));
 
@@ -78,7 +79,16 @@ namespace PXG
 		
 		world->AddToChildren(firstObj);
 
-		
+		GameObj uiTest = InstantiateUIObject();
+		uiTest->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + "plane.obj");
+		uiTest->GetMeshComponent()->SetMaterial(bluetColorMat);
+
+		uiTest->GetTransform()->Scale(glm::vec3(100));
+		uiTest->GetTransform()->rotate(glm::vec3(0,1,0),-45);
+		uiTest->GetTransform()->SetLocalPosition(Vector3(0, 0, -5));
+		canvas->AddToChildren(uiTest);
+		//world->AddToChildren(uiTest);
+
 		GameObj childOfFirst = Instantiate();
 		childOfFirst->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + "teapot/teapot.obj");
 		childOfFirst->GetMeshComponent()->SetMaterial(bluetColorMat);
@@ -95,11 +105,23 @@ namespace PXG
 		cameraObj->AddComponent(movementComponent);
 		//cameraObj->AddComponent(camRotator);
 		world->AddToChildren(cameraObj);
-		
+
 		cameraObj->GetTransform()->SetLocalPosition(Vector3(600, 600, 600));
-	
+
 		cameraObj->GetTransform()->rotate(Vector3(1, 0, 0), -20.0f);
 		cameraObj->GetTransform()->rotate(Vector3(0, 1, 0), 45);
+		//--------------------------SetUpCanvas--------------------------------//
+
+		std::shared_ptr<CameraComponent> UICam = std::make_shared<CameraComponent>();
+		GameObj UICanvasCam = InstantiateUIObject();
+		UICanvasCam->name = "UICAM";
+		UICanvasCam->AddComponent(UICam);
+		canvas->AddToChildren(UICanvasCam);
+
+		UICanvasCam->GetTransform()->SetLocalPosition(Vector3(600, 0, 0));
+
+		UICanvasCam->GetTransform()->rotate(Vector3(1, 0, 0), -20.0f);
+		UICanvasCam->GetTransform()->rotate(Vector3(0, 1, 0), 45);
 
 
 
@@ -167,6 +189,7 @@ namespace PXG
 				orthoObject->GetTransform()->SetLocalPosition(Vector3(x*offset-400, 0, y*offset-400));
 				orthoObject->GetMeshComponent()->AddTextureToMeshAt(raphsTexture, 0);
 				//world->AddToChildren(orthoObject);
+				
 			}
 		}
 
@@ -194,6 +217,7 @@ namespace PXG
 	void PXGGame::Start()
 	{
 		world->Start();
+		canvas->Start();
 	}
 
 	void PXGGame::Update()
