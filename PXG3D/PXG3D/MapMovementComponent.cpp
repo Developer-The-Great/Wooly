@@ -42,10 +42,22 @@ namespace PXG
 	{
 		std::vector<std::shared_ptr<GameObject>> tiles = map->GetChildren();
 		int i = 0;
-		Transform* transform = map->GetTransform();
+		Transform* mapTransform = map->GetTransform();
 		direction = direction * 100;
-		Debug::Log(transform->GetLocalPosition().ToString());
-		transform->SetLocalPosition(transform->GetPosition() + direction);
+		Debug::Log(mapTransform->GetLocalPosition().ToString());
+		Debug::Log(mapTransform->GetPosition().ToString());
+
+		Debug::Log("get position tile {0}", tiles.at(1)->GetTransform()->GetWorldTransform().ToString());
+		Debug::Log("parent {0} ", tiles.at(1)->GetTransform()->GetParent()->GetWorldTransform().ToString());
+		
+
+		mapTransform->SetLocalPosition(mapTransform->GetPosition() + direction);
+		Debug::Log("after " + mapTransform->GetPosition().ToString());
+		Debug::Log("after " + mapTransform->GetLocalPosition().ToString());
+
+		Debug::Log("after get position tile {0}", tiles.at(1)->GetTransform()->GetWorldTransform().ToString());
+		Debug::Log("afterparent {0} ", tiles.at(1)->GetTransform()->GetParent()->GetWorldTransform().ToString());
+
 	}
 
 

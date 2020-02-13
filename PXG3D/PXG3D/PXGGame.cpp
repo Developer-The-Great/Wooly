@@ -103,11 +103,11 @@ namespace PXG
 
 		GameObj TileMap = Instantiate();
 		world->AddToChildren(TileMap);
-		std::shared_ptr<MapMovementComponent> mapMovement = std::make_shared<MapMovementComponent>();
-
-		mapMovement->subscribe(*raycaster);
 		
+		std::shared_ptr<MapMovementComponent> mapMovement = std::make_shared<MapMovementComponent>();
+		mapMovement->subscribe(*raycaster);
 		mapMovement->SetMap(TileMap);
+		
 		GameObj movementHandler = Instantiate();
 		movementHandler->name = "Movement";
 		movementHandler->AddComponent(mapMovement);
