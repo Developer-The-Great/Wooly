@@ -132,6 +132,9 @@
     <ClCompile Include="World.cpp">
       <Filter>Source Files\core</Filter>
     </ClCompile>
+    <ClCompile Include="RayCastShooter.cpp">
+      <Filter>Source Files\components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h">
@@ -238,6 +241,9 @@
     </ClInclude>
     <ClInclude Include="HitInfo.h">
       <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="RayCastShooter.h">
+      <Filter>Header Files\components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

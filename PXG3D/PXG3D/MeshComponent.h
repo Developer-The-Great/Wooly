@@ -35,6 +35,8 @@ namespace PXG
 
 		void AddTextureToMeshAt(Texture texture, int i);
 
+		std::vector<std::shared_ptr<Mesh>> GetMeshes();
+
 	protected:
 		//TODO decrease coupling with assimp 
 

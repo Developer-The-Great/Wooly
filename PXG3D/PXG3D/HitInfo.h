@@ -10,5 +10,9 @@ namespace PXG
 		Vector3 Position;
 		std::shared_ptr<GameObject> GameObjectHit = nullptr;
 		Vector3 Normal;
+		float DistanceFromRayPosition;
+		float T;
+		bool RayHit;
+
 	};
 }

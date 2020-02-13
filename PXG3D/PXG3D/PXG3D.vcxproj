@@ -94,6 +94,7 @@
     <ClCompile Include="PhysicsEngine.cpp" />
     <ClCompile Include="PXGGame.cpp" />
     <ClCompile Include="PXGWindow.cpp" />
+    <ClCompile Include="RayCastShooter.cpp" />
     <ClCompile Include="RenderingEngine.cpp" />
     <ClCompile Include="RotatorComponent.cpp" />
     <ClCompile Include="Shader.cpp" />
@@ -130,6 +131,7 @@
     <ClInclude Include="PXGGame.h" />
     <ClInclude Include="PXGWindow.h" />
     <ClInclude Include="Quaternion.h" />
+    <ClInclude Include="RayCastShooter.h" />
     <ClInclude Include="RenderingEngine.h" />
     <ClInclude Include="RotatorComponent.h" />
     <ClInclude Include="Shader.h" />

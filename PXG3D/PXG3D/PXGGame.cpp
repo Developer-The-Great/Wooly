@@ -18,6 +18,8 @@
 #include "Input.h"
 #include "KeyCode.h"
 
+#include "RayCastShooter.h"
+
 namespace PXG
 {
 	PXGGame::PXGGame() : Game()
@@ -35,6 +37,7 @@ namespace PXG
 		GetWorld()->name = "World";
 
 		//---------------------------Initialize Textures---------------------------------------//
+
 		Texture diffuse1(config::PXG_INDEPENDENT_TEXTURES_PATH + "diffuse1.jpg",TextureType::DIFFUSE);
 		Texture raphsTexture(config::PXG_INDEPENDENT_TEXTURES_PATH + "texture.png", TextureType::DIFFUSE);
 
@@ -47,40 +50,50 @@ namespace PXG
 
 		//--------------------------Initialize GameObjects and their Components--------------------------------//
 
-		std::shared_ptr<RotatorComponent> rotator = std::make_shared<RotatorComponent>(Vector3(0, 0.77, 0.77), 1.0f);
+		std::shared_ptr<RotatorComponent> rotator = std::make_shared<RotatorComponent>(Vector3(0, 1.0, 0.0), 1.0f);
 
-		GameObj firstObj = Instantiate();
+		/*GameObj firstObj = Instantiate();
 		firstObj->name = "firstObj";
-		firstObj->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + "chopper/chopper.obj");
-		firstObj->GetMeshComponent()->SetMaterial(litMaterial);
-		firstObj->GetTransform()->SetLocalPosition(Vector3(0, 0, 0));
+		firstObj->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + "cube.obj");
+		firstObj->GetMeshComponent()->SetMaterial(bluetColorMat);
+		firstObj->GetTransform()->SetLocalPosition(Vector3(0, 0, -5));
 		firstObj->AddComponent(rotator);
 		world->AddToChildren(firstObj);
 
 		
 		GameObj childOfFirst = Instantiate();
-		childOfFirst->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + "teapot/teapot.obj");
+		childOfFirst->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + "cube.obj");
 		childOfFirst->GetMeshComponent()->SetMaterial(bluetColorMat);
-		childOfFirst->GetTransform()->SetLocalPosition(Vector3(0, 0, -5));
-		firstObj->AddToChildren(childOfFirst);
-		//world->AddToChildren(childOfFirst);
+		childOfFirst->GetTransform()->SetLocalPosition(Vector3(0, 0, 15));
+		
+		childOfFirst->name = "childOfFirst";
+		world->AddToChildren(childOfFirst);*/
 
 		std::shared_ptr<CameraComponent> camera = std::make_shared<CameraComponent>();
 		std::shared_ptr<FreeMovementComponent> movementComponent = std::make_shared<FreeMovementComponent>();
 		std::shared_ptr<RotatorComponent> camRotator = std::make_shared<RotatorComponent>(Vector3(0, 1.0, 0.0), 1.0f);
+		std::shared_ptr<RayCastShooter> raycaster = std::make_shared<RayCastShooter>();
+
 		GameObj cameraObj = Instantiate();
 		cameraObj->name = "cameraObj";
 		cameraObj->AddComponent(camera);
 		cameraObj->AddComponent(movementComponent);
+		cameraObj->AddComponent(raycaster);
 		//cameraObj->AddComponent(camRotator);
 		world->AddToChildren(cameraObj);
 		
-		cameraObj->GetTransform()->SetLocalPosition(Vector3(600, 600, 600));
+		cameraObj->GetTransform()->SetLocalPosition(Vector3(600,300, 600));
 	
 		cameraObj->GetTransform()->rotate(Vector3(1, 0, 0), -20.0f);
-		cameraObj->GetTransform()->rotate(Vector3(0, 1, 0), 45);
+		cameraObj->GetTransform()->rotate(Vector3(0, 1, 0),45);
 
-
+		GameObj debuggerObj = Instantiate();
+		debuggerObj->GetTransform()->SetLocalPosition(Vector3(-0.879406929, 6.78816652, 0.372487307));
+		debuggerObj->GetTransform()->Scale(Vector3(0.2f, 0.2f, 0.2f));
+		debuggerObj->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + "cube.obj");
+		debuggerObj->GetMeshComponent()->SetMaterial(yellowColorMat);
+		debuggerObj->name = "debuggerObj";
+		world->AddToChildren(debuggerObj);
 
 
 		//--------------------------- Instantiate lights -----------------------------------//
@@ -89,7 +102,7 @@ namespace PXG
 		std::shared_ptr<LightComponent> light1 = std::make_shared<LightComponent>();
 		light1->SetIntensity(200.0f);
 
-		GameObj firstLightObj = Instantiate();
+		/*GameObj firstLightObj = Instantiate();
 		firstLightObj->GetTransform()->SetLocalPosition(Vector3(10.0f, 0, 0));
 		firstLightObj->GetTransform()->Scale(Vector3(0.2f, 0.2f, 0.2f));
 		firstLightObj->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + "cube.obj");
@@ -109,7 +122,7 @@ namespace PXG
 		secondLightObj->GetMeshComponent()->SetMaterial(yellowColorMat);
 		secondLightObj->name = "light2";
 		secondLightObj->AddComponent(light2);
-		world->AddToChildren(secondLightObj);
+		world->AddToChildren(secondLightObj);*/
 
 		Debug::Log("light count {0}", world->GetLightCount());
 
@@ -117,45 +130,47 @@ namespace PXG
 	 
 		
 
-		float offset = 100.0f;
+		//float offset = 100.0f;
 	
-		int xCount = 5;
-		int yCount = 5;
+		//int xCount = 5;
+		//int yCount = 5;
 
-		for (int x = 0; x < xCount; x++)
-		{
-			for (int y = 0; y < yCount; y++)
-			{
-				GameObj orthoObject = Instantiate();
-				orthoObject->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + "cube.obj");
-				orthoObject->GetMeshComponent()->SetMaterial(textureMaterial);
-				orthoObject->GetTransform()->Scale(glm::vec3(50));
-				//orthoObject->AddComponent(orthoRotator);
-				orthoObject->GetTransform()->SetLocalPosition(Vector3(x*offset-400, 0, y*offset-400));
-				orthoObject->GetMeshComponent()->AddTextureToMeshAt(raphsTexture, 0);
-				world->AddToChildren(orthoObject);
-			}
-		}
+		//for (int x = 0; x < xCount; x++)
+		//{
+		//	for (int y = 0; y < yCount; y++)
+		//	{
+		//		GameObj orthoObject = Instantiate();
+		//		orthoObject->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + "cube.obj");
+		//		orthoObject->GetMeshComponent()->SetMaterial(textureMaterial);
+		//		orthoObject->GetTransform()->Scale(glm::vec3(50));
+		//		//orthoObject->AddComponent(orthoRotator);
+		//		orthoObject->GetTransform()->SetLocalPosition(Vector3(x*offset-400, 0, y*offset-400));
+		//		orthoObject->GetMeshComponent()->AddTextureToMeshAt(raphsTexture, 0);
+		//		world->AddToChildren(orthoObject);
+		//	}
+		//}
 
-		//GameObj orthoObject = Instantiate();
-		//orthoObject->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + "cube.obj");
-		//orthoObject->GetMeshComponent()->SetMaterial(textureMaterial);
-		//orthoObject->GetTransform()->Scale(glm::vec3(50));
-		////orthoObject->AddComponent(orthoRotator);
-		//orthoObject->GetTransform()->SetLocalPosition(Vector3(0.0f,0,0 ));
-		//orthoObject->GetMeshComponent()->AddTextureToMeshAt(raphsTexture,0);
-		//world->AddToChildren(orthoObject);
-
+		Debug::SetDebugState(false);
+		GameObj orthoObject = Instantiate();
+		orthoObject->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + "cube.obj");
+		orthoObject->GetMeshComponent()->SetMaterial(textureMaterial);
+		orthoObject->GetTransform()->Scale(glm::vec3(70));
+		//orthoObject->AddComponent(orthoRotator);
+		orthoObject->GetTransform()->SetLocalPosition(Vector3(00.0f,0,00.0f ));
+		orthoObject->GetMeshComponent()->AddTextureToMeshAt(raphsTexture,0);
+		world->AddToChildren(orthoObject);
+		//orthoObject->AddComponent(movementComponent);
+		orthoObject->name = "orthoObject";
 
 		//GameObj orthoObject2 = Instantiate();
 		//orthoObject2->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + "cube.obj");
 		//orthoObject2->GetMeshComponent()->SetMaterial(textureMaterial);
-		//orthoObject2->GetTransform()->Scale(glm::vec3(50));
+		//orthoObject2->GetTransform()->Scale(glm::vec3(70));
 		////orthoObject->AddComponent(orthoRotator);
 		//orthoObject2->GetTransform()->SetLocalPosition(Vector3(300.0f, 0, 0));
 		//orthoObject2->GetMeshComponent()->AddTextureToMeshAt(raphsTexture, 0);
 		//world->AddToChildren(orthoObject2);
-	
+		//orthoObject2->name = "orthoObject2";
 	}
 
 	void PXGGame::Start()

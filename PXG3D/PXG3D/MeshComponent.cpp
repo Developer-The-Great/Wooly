@@ -117,6 +117,7 @@ namespace PXG
 			{
 				unsigned int index = face.mIndices[j];
 				indices.push_back(index);
+				
 
 			}
 		}
@@ -195,13 +196,13 @@ namespace PXG
 		auto ownerPointer = GetOwner();
 
 		std::string name = ownerPointer->name;
-		Debug::Log("drawing On {0}", ownerPointer->name);
+		//Debug::Log("drawing On {0}", ownerPointer->name);
 
 		Mat4 currentTransform = ownerPointer->GetTransform()->GetLocalTransform() * parentTransform  ;
 
-		Debug::Log("parentTransform {0}", parentTransform.ToString());
+		/*Debug::Log("parentTransform {0}", parentTransform.ToString());
 		Debug::Log("GetLocalTransform() matrix {0}", ownerPointer->GetTransform()->GetLocalTransform().ToString());
-		Debug::Log("sent matrix {0}", currentTransform.ToString());
+		Debug::Log("sent matrix {0}", currentTransform.ToString());*/
 
 		//material send uniforms
 		if (material)
@@ -238,6 +239,11 @@ namespace PXG
 	void MeshComponent::AddTextureToMeshAt(Texture texture, int i)
 	{
 		meshes.at(i)->Textures.push_back(texture);
+	}
+
+	std::vector<std::shared_ptr<Mesh>> MeshComponent::GetMeshes()
+	{
+		return meshes;
 	}
 
 }
