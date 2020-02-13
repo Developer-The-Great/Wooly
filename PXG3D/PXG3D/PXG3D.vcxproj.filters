@@ -135,7 +135,12 @@
     <ClCompile Include="World.cpp">
       <Filter>Source Files\core</Filter>
     </ClCompile>
+    <ClCompile Include="RayCastShooter.cpp">
+     <Filter>Source Files\core</Filter>
+    </ClCompile>
     <ClCompile Include="MapMovementComponent.cpp">
+     <Filter>Source Files\core</Filter>
+    </ClCompile>
       <Filter>Source Files\components</Filter>
     </ClCompile>
   </ItemGroup>
@@ -255,6 +260,9 @@
     </ClInclude>
     <ClInclude Include="ItemRegistry.h">
       <Filter>Source Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="RayCastShooter.h">
+      <Filter>Header Files\components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

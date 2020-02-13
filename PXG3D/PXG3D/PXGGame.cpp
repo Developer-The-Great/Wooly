@@ -22,6 +22,8 @@
 #include "InventoryComponent.h"
 #include "LevelLoader.h"
 
+#include "RayCastShooter.h"
+
 namespace PXG
 {
 	PXGGame::PXGGame() : Game()
@@ -33,10 +35,10 @@ namespace PXG
 	void PXGGame::Initialize()
 	{
 		std::ifstream item_config(config::PXG_CONFIGS_PATH + "item_config.json");
-		
+
 		ItemRegistry::LoadConfig(&item_config);
 
-		
+
 		Input::AddKeysToTrack(
 			KeyCode::A, KeyCode::W, KeyCode::S, KeyCode::D, KeyCode::Q, KeyCode::E,KeyCode::K,KeyCode::J,
 			KeyCode::LeftMouse, KeyCode::RightMouse, KeyCode::MiddleMouse,KeyCode::Enter);
@@ -44,6 +46,7 @@ namespace PXG
 		GetWorld()->name = "World";
 
 		//---------------------------Initialize Textures---------------------------------------//
+
 		Texture diffuse1(config::PXG_INDEPENDENT_TEXTURES_PATH + "diffuse1.jpg",TextureType::DIFFUSE);
 		Texture raphsTexture(config::PXG_INDEPENDENT_TEXTURES_PATH + "texture.png", TextureType::DIFFUSE);
 
@@ -56,53 +59,32 @@ namespace PXG
 
 		//--------------------------Initialize GameObjects and their Components--------------------------------//
 
-		std::shared_ptr<RotatorComponent> rotator = std::make_shared<RotatorComponent>(Vector3(0, 0.77, 0.77), 1.0f);
-		auto inventory = std::make_shared<Inventory>();
-		GameObj firstObj = Instantiate();
-		firstObj->name = "firstObj";
-		firstObj->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + "chopper/chopper.obj");
-		firstObj->GetMeshComponent()->SetMaterial(litMaterial);
-		firstObj->GetTransform()->SetLocalPosition(Vector3(0, 0, 0));
-		firstObj->AddComponent(rotator);
-		firstObj->AddComponent(inventory);
-
-		inventory->AddItem(ItemRegistry::LookUpItem("Wood"));
-
-
-		for (auto item_id : inventory->EnumerateUniqueItems())
-		{
-			auto [fname,pname] = ItemRegistry::GetItemInfo(item_id);
-			Debug::Log("Player has items {}:{}", fname, pname);
-		}
-
-
-		
-		world->AddToChildren(firstObj);
-
-		
-		GameObj childOfFirst = Instantiate();
-		childOfFirst->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + "teapot/teapot.obj");
-		childOfFirst->GetMeshComponent()->SetMaterial(bluetColorMat);
-		childOfFirst->GetTransform()->SetLocalPosition(Vector3(0, 0, -5));
-		firstObj->AddToChildren(childOfFirst);
-		//world->AddToChildren(childOfFirst);
 
 		std::shared_ptr<CameraComponent> camera = std::make_shared<CameraComponent>();
 		std::shared_ptr<FreeMovementComponent> movementComponent = std::make_shared<FreeMovementComponent>();
 		std::shared_ptr<RotatorComponent> camRotator = std::make_shared<RotatorComponent>(Vector3(0, 1.0, 0.0), 1.0f);
+		std::shared_ptr<RayCastShooter> raycaster = std::make_shared<RayCastShooter>();
+
 		GameObj cameraObj = Instantiate();
 		cameraObj->name = "cameraObj";
 		cameraObj->AddComponent(camera);
 		cameraObj->AddComponent(movementComponent);
+		cameraObj->AddComponent(raycaster);
 		//cameraObj->AddComponent(camRotator);
 		world->AddToChildren(cameraObj);
-		
-		cameraObj->GetTransform()->SetLocalPosition(Vector3(600, 600, 600));
-	
+
+		cameraObj->GetTransform()->SetLocalPosition(Vector3(600,300, 600));
+
 		cameraObj->GetTransform()->rotate(Vector3(1, 0, 0), -20.0f);
-		cameraObj->GetTransform()->rotate(Vector3(0, 1, 0), 45);
+		cameraObj->GetTransform()->rotate(Vector3(0, 1, 0),45);
 
-
+		GameObj debuggerObj = Instantiate();
+		debuggerObj->GetTransform()->SetLocalPosition(Vector3(-0.879406929, 6.78816652, 0.372487307));
+		debuggerObj->GetTransform()->Scale(Vector3(0.2f, 0.2f, 0.2f));
+		debuggerObj->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + "cube.obj");
+		debuggerObj->GetMeshComponent()->SetMaterial(yellowColorMat);
+		debuggerObj->name = "debuggerObj";
+		world->AddToChildren(debuggerObj);
 
 		GameObj TileMap = Instantiate();
 		world->AddToChildren(TileMap);
@@ -111,7 +93,7 @@ namespace PXG
 		GameObj movementHandler = Instantiate();
 		movementHandler->name = "Movement";
 		movementHandler->AddComponent(mapMovement);
-		
+
 
 		world->AddToChildren(movementHandler);
 		//--------------------------- Instantiate lights -----------------------------------//
@@ -120,33 +102,10 @@ namespace PXG
 		std::shared_ptr<LightComponent> light1 = std::make_shared<LightComponent>();
 		light1->SetIntensity(200.0f);
 
-		GameObj firstLightObj = Instantiate();
-		firstLightObj->GetTransform()->SetLocalPosition(Vector3(10.0f, 0, 0));
-		firstLightObj->GetTransform()->Scale(Vector3(0.2f, 0.2f, 0.2f));
-		firstLightObj->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + "cube.obj");
-		firstLightObj->GetMeshComponent()->SetMaterial(yellowColorMat);
-		firstLightObj->name = "light1";
-		firstLightObj->AddComponent(light1);
-		world->AddToChildren(firstLightObj);
-		
-
-		std::shared_ptr<LightComponent> light2 = std::make_shared<LightComponent>();
-		light2->SetIntensity(200.0f);
-
-		GameObj secondLightObj = Instantiate();
-		secondLightObj->GetTransform()->SetLocalPosition(Vector3(-10.0f, 0, 0));
-		secondLightObj->GetTransform()->Scale(Vector3(0.2f, 0.2f, 0.2f));
-		secondLightObj->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + "cube.obj");
-		secondLightObj->GetMeshComponent()->SetMaterial(yellowColorMat);
-		secondLightObj->name = "light2";
-		secondLightObj->AddComponent(light2);
-		world->AddToChildren(secondLightObj);
 
 		Debug::Log("light count {0}", world->GetLightCount());
 
 		std::shared_ptr<RotatorComponent> orthoRotator = std::make_shared<RotatorComponent>(Vector3(0, 1.0, 0.0), 1.0f);
-
-		
 
 		float offset = 100.0f;
 		int xCount = 5;
@@ -158,9 +117,9 @@ namespace PXG
 		TileMap->AddComponent(level_loader);
 
 		std::ifstream level_config(config::PXG_CONFIGS_PATH + "level_data.json");
-		
+
 		level_loader->LoadLevel(level_config, this);
-			
+
 	}
 
 	void PXGGame::Start()
@@ -176,7 +135,5 @@ namespace PXG
 	{
 		world->FixedUpdate(tick);
 	}
-
-	
 }
 

@@ -30,12 +30,17 @@ namespace PXG
 
 		Quaternion GetRotation();
 
-		Mat4 GetLocalTransform();
+		Mat4 GetLocalTransform() const;
 
-		Mat4 GetWorldTransform();
+		Mat4 GetWorldTransform() const;
 
 		void SetParent(Transform * transform);
 
+		Vector3 GetForward() const;
+
+		Vector3 GetRight() const;
+
+		Vector3 GetUp() const;
 
 	private:
 
