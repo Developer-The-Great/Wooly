@@ -75,13 +75,13 @@ namespace PXG
 		std::shared_ptr<ButtonComponent> buttonComp = std::make_shared<ButtonComponent>();
 		subscriber_base*  onClick = new SpecificOnClick();
 
-		GameObj button = InstantiateUIObject();
-		button->name = "Button1";
+		GameObj button = canvas->createCanvasObject(Vector2(100,100), Vector2(100,100), "Button1", bluetColorMat);
+		button->SetWorld(canvas);
 		button->AddComponent(buttonComp);
 		buttonComp->attach(onClick);
-
-
 		canvas->AddToChildren(button);
+
+
 		GameObj cameraObj = Instantiate();
 		cameraObj->name = "cameraObj";
 		cameraObj->AddComponent(camera);
