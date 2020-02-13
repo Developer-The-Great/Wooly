@@ -79,7 +79,6 @@ namespace PXG
 		button->SetWorld(canvas);
 		button->AddComponent(buttonComp);
 		buttonComp->attach(onClick);
-		canvas->AddToChildren(button);
 
 
 		GameObj cameraObj = Instantiate();
