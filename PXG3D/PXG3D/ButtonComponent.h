@@ -4,13 +4,19 @@
 #include "Vector3.h"
 #include "Transform.h"
 #include "KeyCode.h"
+#include "Subject.h"
 namespace PXG
 {
 
 
-	class ButtonComponent : public Component
+	class ButtonComponent : public Component,public subject_base
 	{
 	public:
+
+		enum buttonEvent: event_t
+		{
+			ON_CLICK
+		};
 
 		ButtonComponent();
 		
@@ -22,7 +28,8 @@ namespace PXG
 
 
 	private:
-
+		
+		buttonEvent onClickEvent = ON_CLICK;
 
 	};
 

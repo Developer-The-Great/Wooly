@@ -26,6 +26,9 @@
 #include "LevelLoader.h"
 #include "RayCastShooter.h"
 
+#include "SpecificOnClick.h"
+#include "Subject.h"
+#include "Subscriber.h"
 
 namespace PXG
 {
@@ -69,13 +72,22 @@ namespace PXG
 		std::shared_ptr<FreeMovementComponent> movementComponent = std::make_shared<FreeMovementComponent>();
 		std::shared_ptr<RotatorComponent> camRotator = std::make_shared<RotatorComponent>(Vector3(0, 1.0, 0.0), 1.0f);
 		std::shared_ptr<RayCastShooter> raycaster = std::make_shared<RayCastShooter>();
+		std::shared_ptr<ButtonComponent> buttonComp = std::make_shared<ButtonComponent>();
+		subscriber_base*  onClick = new SpecificOnClick();
 
+		GameObj button = InstantiateUIObject();
+		button->name = "Button1";
+		button->AddComponent(buttonComp);
+		buttonComp->attach(onClick);
+
+
+		canvas->AddToChildren(button);
 		GameObj cameraObj = Instantiate();
 		cameraObj->name = "cameraObj";
 		cameraObj->AddComponent(camera);
 		cameraObj->AddComponent(movementComponent);
 
-		cameraObj->AddComponent(raycaster);
+		//cameraObj->AddComponent(raycaster);
 		//cameraObj->AddComponent(camRotator);
 		world->AddToChildren(cameraObj);
 

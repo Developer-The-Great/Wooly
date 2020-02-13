@@ -3,7 +3,7 @@
 namespace PXG
 {
 
-	ButtonComponent::ButtonComponent() :Component()
+	ButtonComponent::ButtonComponent() :Component(), subject_base()
 	{
 		Debug::Log("created button comp");
 	}
@@ -32,6 +32,7 @@ namespace PXG
 				mouseY > position.y &&mouseY < position.y + scale.z)
 			{
 				Debug::Log("Button hit");
+				notify(onClickEvent);
 			}
 
 
