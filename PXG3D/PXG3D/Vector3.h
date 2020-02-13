@@ -70,6 +70,14 @@ namespace PXG
 			return Vector3(newX, newY, newZ);
 		}
 
+		static friend Vector3 operator-(const Vector3& lhs)
+		{
+			return { -lhs.x,-lhs.y,-lhs.z };
+		}
+		static friend Vector3 operator-(Vector3&& lhs)
+		{
+			return { -lhs.x,-lhs.y,-lhs.z };
+		}
 		Vector3 operator* (const float &scalar)
 		{
 			float newX = x * scalar;

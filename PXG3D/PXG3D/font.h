@@ -95,7 +95,7 @@ public:
 
 
 	template <typename ... Args>
-	void text(Font* fnt, std::string tx, float scale,glm::vec2 position, const Args&& ... args);
+	void text(Font* fnt, std::string tx, float scale,glm::vec2 position, Args&& ... args);
 
 	render_queue save_queue() const;
 	void restore_queue(render_queue* queue);
@@ -124,9 +124,9 @@ private:
 
 template <typename ... Args>
 void FontRenderer::text(Font* fnt, std::string text, float scale, glm::vec2 position,
-	const Args&&... args)
+	Args&&... args)
 {
-	text_fmt_impl(fnt, text, scale, std::forward<util::Vector2f>(position), fmt::make_format_args(args...));
+	text_fmt_impl(fnt, text, scale, std::forward<glm::vec2>(position), fmt::make_format_args(args...));
 }
 
 

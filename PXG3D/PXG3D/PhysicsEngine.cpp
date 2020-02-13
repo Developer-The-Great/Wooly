@@ -266,7 +266,7 @@ namespace PXG
 	{
 		auto  transform = object->GetTransform();
 
-		Vector3 position = transform->GetPosition();
+		Vector3 position = transform->GetLocalPosition();
 		Vector3 up = transform->GetUp();
 		Vector3 right = transform->GetRight();
 

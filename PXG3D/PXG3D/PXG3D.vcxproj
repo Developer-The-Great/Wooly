@@ -121,6 +121,7 @@
     <ClInclude Include="Canvas.h" />
     <ClInclude Include="ColorMaterial.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="EnergyCounterComponent.h" />
     <ClInclude Include="FileConfig.h" />
     <ClInclude Include="Debug.h" />
     <ClInclude Include="font.h" />

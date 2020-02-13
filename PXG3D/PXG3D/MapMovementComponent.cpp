@@ -4,16 +4,10 @@
 #include "GameObject.h"
 #include "KeyCode.h"
 #include "Debug.h"
+#include "Tile.h"
+
 namespace PXG
 {
-
-	MapMovementComponent::MapMovementComponent()
-	{
-	}
-
-	MapMovementComponent::~MapMovementComponent()
-	{
-	}
 
 
 	void MapMovementComponent::Start()
@@ -22,6 +16,33 @@ namespace PXG
 
 	void MapMovementComponent::FixedUpdate(float tick)
 	{
+		static float timer = 0;
+		timer += tick;
+
+		if(timer > 0.5f)
+		{
+			if(!commandQueue.empty())
+			{
+				auto back = commandQueue.back();
+				commandQueue.pop_back();
+
+				switch(back)
+				{
+				case FORWARD:	move({  0, 0, 1 }); break;
+				case BACKWARD:  move({  0 ,0,-1 }); break;
+				case UP:		move({  0, 1, 0 }); break;
+				case DOWN:		move({  0,-1, 0 }); break;
+				case LEFT:		move({  1, 0, 0 }); break;
+				case RIGHT:		move({ -1, 0, 0 }); break;
+				default: ;
+				}
+				
+
+			}
+			timer = 0;
+		}
+
+		
 
 		if (Input::GetKeyDown(KeyCode::K))
 		{
@@ -38,25 +59,23 @@ namespace PXG
 		this->map = newMap;
 	}
 
+	void MapMovementComponent::Reset()
+	{
+		Transform* mapTransform = map->GetTransform();
+		mapTransform->SetLocalPosition({ 0,0,0 });
+	}
+	
 	void MapMovementComponent::move(PXG::Vector3 direction)
 	{
+
+		
 		std::vector<std::shared_ptr<GameObject>> tiles = map->GetChildren();
 		int i = 0;
 		Transform* mapTransform = map->GetTransform();
 		direction = direction * 100;
-		Debug::Log(mapTransform->GetLocalPosition().ToString());
-		Debug::Log(mapTransform->GetPosition().ToString());
-
-		Debug::Log("get position tile {0}", tiles.at(1)->GetTransform()->GetWorldTransform().ToString());
-		Debug::Log("parent {0} ", tiles.at(1)->GetTransform()->GetParent()->GetWorldTransform().ToString());
-		
-
 		mapTransform->SetLocalPosition(mapTransform->GetPosition() + direction);
-		Debug::Log("after " + mapTransform->GetPosition().ToString());
-		Debug::Log("after " + mapTransform->GetLocalPosition().ToString());
+		notify(ON_MOVE);
 
-		Debug::Log("after get position tile {0}", tiles.at(1)->GetTransform()->GetWorldTransform().ToString());
-		Debug::Log("afterparent {0} ", tiles.at(1)->GetTransform()->GetParent()->GetWorldTransform().ToString());
 
 	}
 
