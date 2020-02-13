@@ -53,6 +53,14 @@ namespace PXG
 			return Vector3(newX, newY, newZ);
 		}
 
+		Vector3 operator*(const int &scaler)
+		{
+			float newX = x *= scaler;
+			float newY = y *= scaler;
+			float newZ = z *= scaler;
+			return Vector3(newX, newY, newZ);
+		}
+
 		Vector3 operator- (const Vector3 &vec3)
 		{
 			float newX = x - vec3.x;
@@ -71,32 +79,54 @@ namespace PXG
 			return Vector3(newX, newY, newZ);
 		}
 
-		Vector3 operator/ (const float &scalar) 
+		Vector3 operator/ (const float &scalar)
 		{
 			float newX = x / scalar;
 			float newY = y / scalar;
 			float newZ = z / scalar;
 
-			return Vector3(newX,newY,newZ);
+			return Vector3(newX, newY, newZ);
 		}
 
-		Vector3& operator= (const Vector3 &vec3) 
+		Vector3& operator= (const Vector3 &vec3)
 		{
 
 			x = vec3.x;
 			y = vec3.y;
 			z = vec3.z;
-			
+
 			return *this;
 		}
 
-		Vector3& operator= (const glm::vec3& vec3) 
+		Vector3& operator= (const glm::vec3& vec3)
 		{
 			x = vec3.x;
 			y = vec3.y;
 			z = vec3.z;
 
 			return *this;
+		}
+
+		float& operator[](std::size_t location)
+		{
+			switch(location)
+			{
+			case 0: return x;
+			case 1: return y;
+			case 2: return z;
+			default:throw std::out_of_range("Vector3 subscript out of range!");
+			}
+		}
+
+		float operator[](std::size_t location) const
+		{
+			switch (location)
+			{
+			case 0: return x;
+			case 1: return y;
+			case 2: return z;
+			default:throw std::out_of_range("Vector3 subscript out of range!");
+			}
 		}
 
 		float Length()

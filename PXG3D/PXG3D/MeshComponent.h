@@ -38,7 +38,9 @@ namespace PXG
 		std::vector<std::shared_ptr<Mesh>> GetMeshes();
 
 	protected:
-		//TODO decrease coupling with assimp 
+		//TODO decrease coupling with assimp
+
+		static std::unordered_map<std::string, std::vector< std::shared_ptr<Mesh>>> cache;
 
 		std::string directory;
 
