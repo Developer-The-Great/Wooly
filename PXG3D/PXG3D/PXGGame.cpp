@@ -31,6 +31,8 @@ namespace PXG
 
 	}
 
+	FontRenderer::render_queue render_queue;
+
 	void PXGGame::Initialize()
 	{
 		std::ifstream item_config(config::PXG_CONFIGS_PATH + "item_config.json");
@@ -157,6 +159,13 @@ namespace PXG
 				
 			}
 		}
+
+		font = new Font(config::PXG_FONT_PATH + "Roboto-Regular.ttf");
+
+		frender->text(font, "Hello World", 1, { 100,10 });
+
+		render_queue = frender->save_queue();
+		
 	}
 
 	void PXGGame::Start()
@@ -171,6 +180,7 @@ namespace PXG
 
 	void PXGGame::FixedUpdate(float tick)
 	{
+		frender->restore_queue(&render_queue);
 		world->FixedUpdate(tick);
 		canvas->FixedUpdate(tick);
 	}

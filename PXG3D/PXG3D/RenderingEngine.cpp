@@ -34,6 +34,8 @@ namespace PXG
 	}
 	void RenderingEngine::RenderCanvas()
 	{
+		const glm::vec3 red = { 0,1,0 };
+		
 		std::shared_ptr<CameraComponent>  camera = canvas->GetCamera();
 
 		if (camera)
@@ -47,6 +49,11 @@ namespace PXG
 				meshComponent->Draw(Mat4(), camera->GetView(), camera->GetProjection());
 			}
 
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+			if (fontRenderer)
+				fontRenderer->draw(camera->GetProjection().ToGLM(), red);
 		}
 	}
 	void RenderingEngine::SetWorld(std::shared_ptr<World> world)
