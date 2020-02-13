@@ -34,9 +34,7 @@ namespace PXG
 
 		Vector3 Normalized()
 		{
-			Vector3 normVector = *this;
-
-			return normVector / Length();
+			return Vector3(glm::normalize(glm::vec3(x,y,z)));
 		}
 
 		Vector3& Normalize()
@@ -141,7 +139,7 @@ namespace PXG
 			return glm::to_string(glm::vec3(x, y, z));
 		}
 
-		glm::vec3 ToGLMVec3()
+		glm::vec3 ToGLMVec3() const
 		{
 			return glm::vec3(x, y, z);
 		}
