@@ -43,6 +43,9 @@
     <Filter Include="Source Files\core">
       <UniqueIdentifier>{db94e042-9aa2-4ae8-a5eb-352ff43efcba}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\game">
+      <UniqueIdentifier>{526cd898-d8f2-4037-8f67-340bbf3ff318}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -241,6 +244,14 @@
     </ClInclude>
     <ClInclude Include="HitInfo.h">
       <Filter>Header Files\core</Filter>
+    <ClInclude Include="InventoryComponent.h">
+      <Filter>Source Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Source Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemRegistry.h">
+      <Filter>Source Files\game</Filter>
     </ClInclude>
     <ClInclude Include="RayCastShooter.h">
       <Filter>Header Files\components</Filter>
