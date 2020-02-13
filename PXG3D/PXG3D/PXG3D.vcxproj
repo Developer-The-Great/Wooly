@@ -98,6 +98,7 @@
     <ClCompile Include="PhysicsEngine.cpp" />
     <ClCompile Include="PXGGame.cpp" />
     <ClCompile Include="PXGWindow.cpp" />
+    <ClCompile Include="RayCastShooter.cpp" />
     <ClCompile Include="RenderingEngine.cpp" />
     <ClCompile Include="RotatorComponent.cpp" />
     <ClCompile Include="Shader.cpp" />
@@ -131,6 +132,8 @@
     <ClInclude Include="Item.h" />
     <ClInclude Include="ItemRegistry.h" />
     <ClInclude Include="KeyCode.h" />
+    <ClInclude Include="LevelLoader.h" />
+    <ClInclude Include="TileMetaData.h" />
     <ClInclude Include="LightComponent.h" />
     <ClInclude Include="MapMovementComponent.h" />
     <ClInclude Include="Mat4.h" />
@@ -142,12 +145,14 @@
     <ClInclude Include="PXGGame.h" />
     <ClInclude Include="PXGWindow.h" />
     <ClInclude Include="Quaternion.h" />
+    <ClInclude Include="RayCastShooter.h" />
     <ClInclude Include="RenderingEngine.h" />
     <ClInclude Include="RotatorComponent.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="StandardLitMaterial.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureMaterial.h" />
+    <ClInclude Include="Tile.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="UIObject.h" />

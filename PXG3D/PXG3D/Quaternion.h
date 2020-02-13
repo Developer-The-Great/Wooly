@@ -104,7 +104,7 @@ namespace PXG
 			return glm::to_string(glm::quat(w, x, y, z));
 		}
 
-		glm::quat ToGLMQuat()
+		glm::quat ToGLMQuat() const
 		{
 			return glm::quat(w, x, y, z);
 		}

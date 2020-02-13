@@ -62,7 +62,8 @@ namespace PXG
 		return GetLocalRotation();
 	}
 
-	Mat4 Transform::GetLocalTransform()
+
+	Mat4 Transform::GetLocalTransform() const
 	{
 		glm::mat4 mat4Scale(
 			glm::vec4(scale.x, 0, 0, 0),
@@ -88,7 +89,7 @@ namespace PXG
 		return Mat4(mat4Position * mat4Rotation * mat4Scale);
 	}
 
-	Mat4 Transform::GetWorldTransform()
+	Mat4 Transform::GetWorldTransform() const
 	{
 		if (parentTransform)
 		{
@@ -103,9 +104,26 @@ namespace PXG
 		parentTransform = transform;
 	}
 
-	Vector3 Transform::getScale()
+	Vector3 Transform::getScale() const
 	{
 		return scale;
+	}
+	Vector3 Transform::GetForward() const
+	{
+		auto result = GetWorldTransform().ToGLM() * glm::vec4(0,0,1,0) ;
+		return Vector3(result.x,result.y,result.z).Normalized();
+	}
+
+	Vector3 Transform::GetRight() const
+	{
+		auto result = GetWorldTransform().ToGLM() * glm::vec4(1, 0, 0, 0);
+		return Vector3(result.x, result.y, result.z).Normalized();
+	}
+
+	Vector3 Transform::GetUp() const
+	{
+		auto result = GetWorldTransform().ToGLM() * glm::vec4(0, 1, 0, 0);
+		return Vector3(result.x, result.y, result.z).Normalized();
 	}
 
 	/*inline void Transform::SetParent(Transform * transform)

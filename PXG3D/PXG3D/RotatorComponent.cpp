@@ -20,7 +20,8 @@ namespace PXG
 		if (transform)
 		{
 			transform->rotate(RotationAxis, speed);
-			Debug::Log(transform->GetLocalTransform().ToString());
+			Debug::Log("position rotator {0}", transform->GetLocalPosition().ToString());
+
 		}
 
 	}
