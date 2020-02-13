@@ -21,7 +21,7 @@ namespace PXG
 			auto ownerPtr = owner.lock();
 			auto transform = ownerPtr->GetTransform();
 
-			float speed = 1.1f;
+			float speed = 2.1f;
 
 			if (Input::GetKey(KeyCode::W))
 			{

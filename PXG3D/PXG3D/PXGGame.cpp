@@ -3,6 +3,7 @@
 #include "HitInfo.h"
 #include "FreeMovementComponent.h"
 #include "World.h"
+#include "Canvas.h"
 
 #include "FileConfig.h"
 
@@ -20,9 +21,11 @@
 #include "KeyCode.h"
 #include "ItemRegistry.h"
 #include "InventoryComponent.h"
-#include "LevelLoader.h"
 
+#include "ButtonComponent.h"
+#include "LevelLoader.h"
 #include "RayCastShooter.h"
+
 
 namespace PXG
 {
@@ -31,6 +34,8 @@ namespace PXG
 
 
 	}
+
+	FontRenderer::render_queue render_queue;
 
 	void PXGGame::Initialize()
 	{
@@ -44,7 +49,7 @@ namespace PXG
 			KeyCode::LeftMouse, KeyCode::RightMouse, KeyCode::MiddleMouse,KeyCode::Enter);
 
 		GetWorld()->name = "World";
-
+		GetCanvas()->name = "canvas";
 		//---------------------------Initialize Textures---------------------------------------//
 
 		Texture diffuse1(config::PXG_INDEPENDENT_TEXTURES_PATH + "diffuse1.jpg",TextureType::DIFFUSE);
@@ -53,7 +58,7 @@ namespace PXG
 		//------------------------- Initialize Materials ---------------------------//
 		std::shared_ptr<StandardLitMaterial> litMaterial = std::make_shared<StandardLitMaterial>();
 		std::shared_ptr<ColorMaterial> defaultColorMat = std::make_shared<ColorMaterial>();
-		std::shared_ptr<ColorMaterial> bluetColorMat = std::make_shared<ColorMaterial>(Vector3(1,0,0));
+		std::shared_ptr<ColorMaterial> bluetColorMat = std::make_shared<ColorMaterial>(Vector3(0,0,1));
 		std::shared_ptr<TextureMaterial> textureMaterial = std::make_shared<TextureMaterial>();
 		std::shared_ptr<ColorMaterial> yellowColorMat = std::make_shared<ColorMaterial>(Vector3(1, 1, 0));
 
@@ -69,6 +74,7 @@ namespace PXG
 		cameraObj->name = "cameraObj";
 		cameraObj->AddComponent(camera);
 		cameraObj->AddComponent(movementComponent);
+
 		cameraObj->AddComponent(raycaster);
 		//cameraObj->AddComponent(camRotator);
 		world->AddToChildren(cameraObj);
@@ -78,13 +84,19 @@ namespace PXG
 		cameraObj->GetTransform()->rotate(Vector3(1, 0, 0), -20.0f);
 		cameraObj->GetTransform()->rotate(Vector3(0, 1, 0),45);
 
-		GameObj debuggerObj = Instantiate();
-		debuggerObj->GetTransform()->SetLocalPosition(Vector3(-0.879406929, 6.78816652, 0.372487307));
-		debuggerObj->GetTransform()->Scale(Vector3(0.2f, 0.2f, 0.2f));
-		debuggerObj->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + "cube.obj");
-		debuggerObj->GetMeshComponent()->SetMaterial(yellowColorMat);
-		debuggerObj->name = "debuggerObj";
-		world->AddToChildren(debuggerObj);
+		//--------------------------SetUpUICanvas--------------------------------//
+
+		std::shared_ptr<CameraComponent> UICam = std::make_shared<CameraComponent>();
+		GameObj UICanvasCam = InstantiateUIObject();
+		UICanvasCam->name = "UICAM";
+		UICanvasCam->AddComponent(UICam);
+		canvas->AddToChildren(UICanvasCam);
+
+		//half of game width and half of game height
+		UICanvasCam->GetTransform()->SetLocalPosition(Vector3(300, 200, 0));
+
+		//--------------------------- Map movement -----------------------------------//
+
 
 		GameObj TileMap = Instantiate();
 		world->AddToChildren(TileMap);
@@ -94,23 +106,20 @@ namespace PXG
 		movementHandler->name = "Movement";
 		movementHandler->AddComponent(mapMovement);
 
-
 		world->AddToChildren(movementHandler);
-		//--------------------------- Instantiate lights -----------------------------------//
 
-
-		std::shared_ptr<LightComponent> light1 = std::make_shared<LightComponent>();
-		light1->SetIntensity(200.0f);
-
-
-		Debug::Log("light count {0}", world->GetLightCount());
-
-		std::shared_ptr<RotatorComponent> orthoRotator = std::make_shared<RotatorComponent>(Vector3(0, 1.0, 0.0), 1.0f);
+		//--------------------------- Instantiate Cubes -----------------------------------//
 
 		float offset = 100.0f;
 		int xCount = 5;
 		int yCount = 5;
 
+
+		font = new Font(config::PXG_FONT_PATH + "Roboto-Regular.ttf");
+
+		frender->text(font, "Hello World", 1, { 100,10 });
+
+		render_queue = frender->save_queue();
 
 		auto level_loader = std::make_shared<LevelLoader>();
 
@@ -119,12 +128,12 @@ namespace PXG
 		std::ifstream level_config(config::PXG_CONFIGS_PATH + "level_data.json");
 
 		level_loader->LoadLevel(level_config, this);
-
 	}
 
 	void PXGGame::Start()
 	{
 		world->Start();
+		canvas->Start();
 	}
 
 	void PXGGame::Update()
@@ -133,7 +142,9 @@ namespace PXG
 
 	void PXGGame::FixedUpdate(float tick)
 	{
+		frender->restore_queue(&render_queue);
 		world->FixedUpdate(tick);
+		canvas->FixedUpdate(tick);
 	}
 }
 

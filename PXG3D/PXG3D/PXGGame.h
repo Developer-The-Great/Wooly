@@ -16,6 +16,11 @@ namespace PXG
 		virtual void FixedUpdate(float tick)override;
 
 		virtual void Initialize() override;
+
+
+		Font* font;
+		FontRenderer* frender;
+		
 	};
 
 }

@@ -2,13 +2,15 @@
 #include <memory>
 #include <vector>
 #include "GameObject.h"
+#include "UIObject.h"
 
 typedef std::shared_ptr<PXG::GameObject> GameObj;
+typedef std::shared_ptr<PXG::UIObject> UIObj;
 
 namespace PXG
 {
 	class World;
-
+	class Canvas;
 	class Game
 	{
 
@@ -26,13 +28,14 @@ namespace PXG
 		virtual void FixedUpdate(float tick) = 0;
 
 		std::shared_ptr < World>  GetWorld() const;
+		std::shared_ptr < Canvas>  GetCanvas() const;
 
 		void SetCamera();
 
 		virtual void Initialize();
 
 		GameObj Instantiate();
-
+		GameObj InstantiateUIObject();
 
 
 
@@ -40,6 +43,7 @@ namespace PXG
 
 
 		std::shared_ptr < World> world;
+		std::shared_ptr < Canvas> canvas;
 		
 
 	};

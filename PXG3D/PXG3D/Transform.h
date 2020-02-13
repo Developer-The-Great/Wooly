@@ -36,11 +36,15 @@ namespace PXG
 
 		void SetParent(Transform * transform);
 
+
+		Vector3 getScale() const;
+
 		Vector3 GetForward() const;
 
 		Vector3 GetRight() const;
 
 		Vector3 GetUp() const;
+
 
 	private:
 
@@ -48,7 +52,7 @@ namespace PXG
 		Vector3 position;
 		Vector3 scale;
 
-		
+
 		Transform* parentTransform = nullptr;
 
 

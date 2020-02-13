@@ -18,6 +18,7 @@
 #include "RenderingEngine.h"
 #include "Time.h"
 #include "World.h"
+#include "Canvas.h"
 #include "KeyCode.h"
 
 constexpr int width = 800;
@@ -70,6 +71,8 @@ int main()
 
 	std::unique_ptr<PXG::RenderingEngine> renderingEngine = std::make_unique<PXG::RenderingEngine>();
 	renderingEngine->SetWorld(gamePtr->GetWorld());
+	renderingEngine->SetCanvas(gamePtr->GetCanvas());
+	
 
 	//--------------------Initialize Physics Engine -------------------------//
 
@@ -86,10 +89,13 @@ int main()
 
 	std::shared_ptr<PXG::Time> time = std::make_shared<PXG::Time>(frameTickStored, estimatedInitialFPS);
 
+	gamePtr->frender = &renderingEngine->GetFontRenderer();
 	gamePtr->Initialize();
 	gamePtr->Start();
 
 	Debug::Log("children in world {0}", gamePtr->GetWorld()->GetImmediateChildrenCount());
+	Debug::Log("children in Canvas {0}", gamePtr->GetCanvas()->GetImmediateChildrenCount());
+
 
 	//-------------------------------------- GAME LOOP ------------------------------------//
 	glEnable(GL_DEPTH_TEST);
@@ -115,8 +121,11 @@ int main()
 			gamePtr->FixedUpdate(tick);
 
 		}
-	
+		glEnable(GL_DEPTH_TEST);
 		renderingEngine->RenderCurrentlySetWorld();
+
+		glDisable(GL_DEPTH_TEST);
+		renderingEngine->RenderCanvas();
 
 		glfwSwapBuffers(window);
 

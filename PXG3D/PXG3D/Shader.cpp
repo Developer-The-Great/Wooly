@@ -114,6 +114,71 @@ namespace PXG
 
 	}
 
+	Shader::Shader(const char* vertexSource, const char* fragmentSource, std::string name, bool)
+	{
+
+		const char* vertexShaderSource = vertexSource;
+		const char* fragmentShaderSource = fragmentSource;
+		//generate vertex shader 
+		unsigned int vertexShader, fragmentShader;
+		int success;
+		char infoLog[512];
+
+		vertexShader = glCreateShader(GL_VERTEX_SHADER);
+
+
+		//compile shader source
+		glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
+
+		glCompileShader(vertexShader);
+
+		glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
+
+		if (!success)
+		{
+			glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
+			Debug::Log("ERROR::VERTEX_SHADER[{0}]::SHADER_COMPILATION_FAILED::{1}", vertexSource, infoLog);
+
+		}
+
+		fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+
+		glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+
+		glCompileShader(fragmentShader);
+
+		glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
+
+		if (!success)
+		{
+			glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
+			Debug::Log("ERROR::VERTEX_SHADER[{0}]::SHADER_COMPILATION_FAILED::{1}", fragmentSource, infoLog);
+
+		}
+
+		shaderID = glCreateProgram();
+
+		glAttachShader(shaderID, vertexShader);
+		glAttachShader(shaderID, fragmentShader);
+
+		glLinkProgram(shaderID);
+
+		glGetProgramiv(shaderID, GL_LINK_STATUS, &success);
+
+		if (!success)
+		{
+			glGetProgramInfoLog(shaderID, 512, NULL, infoLog);
+			std::cerr << "ERROR::SHADER_PROGRAM::LINKING_FAILED \n";
+			std::cerr << infoLog << "\n";
+		}
+
+		glDeleteShader(fragmentShader);
+		glDeleteShader(vertexShader);
+		//store contents of files
+
+
+		Debug::Log("Shader program for {0} and {1} has finished", vertexSource, fragmentSource);
+	}
 
 
 	Shader::~Shader()
@@ -128,6 +193,11 @@ namespace PXG
 	void Shader::Use()
 	{
 		glUseProgram(shaderID);
+	}
+
+	void Shader::Release()
+	{
+		glUseProgram(0);
 	}
 
 	void Shader::SetFloat( const std::string & name, float value) const
