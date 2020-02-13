@@ -89,13 +89,13 @@ namespace PXG
 
 				}
 
-		
+				std::shared_ptr<TileMetaData> metaData = std::make_shared<TileMetaData>();
+
 
 				//check if there is meta-data to add
 				if(tile["meta-data"].is_object())
 				{
 					Debug::Log(Verbosity::Info, "encountered object with attached meta-data!");
-					std::shared_ptr<TileMetaData> metaData = std::make_shared<TileMetaData>();
 					for(auto[key,value] : tile["meta-data"].items())
 					{
 						if(!value.is_string())
@@ -106,11 +106,13 @@ namespace PXG
 
 						metaData->metaData[key] = value.get<std::string>();
 
-						child->AddComponent(metaData);
 						
 					}
 					
 				}
+
+				metaData->offset = offset;
+				child->AddComponent(metaData);
 
 
 				//add the child to the map

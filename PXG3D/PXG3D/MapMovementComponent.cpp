@@ -46,15 +46,6 @@ namespace PXG
 		direction = direction * 100;
 		Debug::Log(transform->GetLocalPosition().ToString());
 		transform->SetLocalPosition(transform->GetPosition() + direction);
-
-	/*	for (auto const& tile : tiles)
-		{
-			direction = direction * 100;
-			Transform* transform = tile->GetTransform();
-			transform->SetLocalPosition(transform->GetPosition() + direction);
-			i += 1;
-			Debug::Log("count {0}", i);
-		}*/
 	}
 
 

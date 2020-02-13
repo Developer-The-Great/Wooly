@@ -56,13 +56,6 @@ namespace PXG
 		gameObj->SetParent(shared_from_this());
 	}
 
-	void GameObject::AddComponent(std::shared_ptr<Component> component)
-	{
-		components.push_back(component);
-		component->SetOwner(shared_from_this());
-
-	}
-
 	void GameObject::SetParent(GOSharedPtr gameObj)
 	{
 		parent = gameObj;

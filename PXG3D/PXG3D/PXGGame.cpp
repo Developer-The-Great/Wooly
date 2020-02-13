@@ -68,6 +68,9 @@ namespace PXG
 		std::shared_ptr<CameraComponent> camera = std::make_shared<CameraComponent>();
 		std::shared_ptr<FreeMovementComponent> movementComponent = std::make_shared<FreeMovementComponent>();
 		std::shared_ptr<RotatorComponent> camRotator = std::make_shared<RotatorComponent>(Vector3(0, 1.0, 0.0), 1.0f);
+
+
+		
 		std::shared_ptr<RayCastShooter> raycaster = std::make_shared<RayCastShooter>();
 
 		GameObj cameraObj = Instantiate();
@@ -101,6 +104,9 @@ namespace PXG
 		GameObj TileMap = Instantiate();
 		world->AddToChildren(TileMap);
 		std::shared_ptr<MapMovementComponent> mapMovement = std::make_shared<MapMovementComponent>();
+
+		mapMovement->subscribe(*raycaster);
+		
 		mapMovement->SetMap(TileMap);
 		GameObj movementHandler = Instantiate();
 		movementHandler->name = "Movement";
@@ -128,6 +134,8 @@ namespace PXG
 		std::ifstream level_config(config::PXG_CONFIGS_PATH + "level_data.json");
 
 		level_loader->LoadLevel(level_config, this);
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	}
 
 	void PXGGame::Start()
