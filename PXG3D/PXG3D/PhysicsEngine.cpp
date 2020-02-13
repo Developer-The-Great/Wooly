@@ -80,20 +80,15 @@ namespace PXG
 		std::vector<std::shared_ptr<MeshComponent>> meshComponents;
 		RecursiveGetMeshComponents(meshComponents,world);
 
-		//Debug::Log("meshComponents Found {0}", meshComponents.size());
-
-		//for each MeshComponent in MeshComponents
 		for (auto const& meshComponent : meshComponents)
 		{
 			auto meshes = meshComponent->GetMeshes();
 			auto gameObject = meshComponent->GetOwner();
 
 			Mat4 worldTransform = gameObject->GetTransform()->GetWorldTransform();
-			//Debug::Log("intersection check for {0}", gameObject->name);
 
 			for (auto const& mesh : meshes)
 			{
-				//Debug::Log("RayToMeshIntersection");
 				RayToMeshIntersection(position, direction, hitInfo,mesh, worldTransform,gameObject);
 			}
 			
@@ -107,16 +102,13 @@ namespace PXG
 	void PhysicsEngine::RayToMeshIntersection(Vector3 position, Vector3 direction, HitInfo & hitInfo, std::shared_ptr<Mesh> mesh, Mat4 objectTransform, std::shared_ptr<GameObject> owner)
 	{
 
-		//Debug::Log("mesh indices count " + mesh->Indices.size());
-
 		for (int index = 0; index < mesh->Indices.size(); index+=3)
 		{
 
-			//Debug::Log("index {0} ", index);
 			int v0Index = mesh->Indices[index];
 			int v1Index = mesh->Indices[index+1];
 			int v2Index = mesh->Indices[index+2];
-			//Debug::Log("index {0} {1} {2}", v0Index,v1Index,v2Index);
+
 			HitInfo triangleHitInfo;
 			triangleHitInfo.RayHit = false;
 
@@ -184,7 +176,6 @@ namespace PXG
 		}
 
 
-		// rayPosition.ToGLMVec3() + rayDirection.ToGLMVec3()  * t;
 		glm::vec3 P = rayOrigin + rayDir * t;
 		//---------check if that point is inside the the triangle using barycentric coordinates--------//
 
@@ -193,8 +184,6 @@ namespace PXG
 		Vector3 v0 = b - a;
 		Vector3 v1 = c - a;
 		Vector3 v2 = p - a;
-
-
 
 		float d00 = Mathf::Dot(v0, v0);
 		float d10 = Mathf::Dot(v1, v0);
@@ -245,7 +234,7 @@ namespace PXG
 		Result.GameObjectHit = owner;
 		Result.RayHit = true;
 		Result.T = t;
-		//Result.DistanceFromRayPosition = glm::distance(rayPosition.ToGLMVec3(), p.ToGLMVec3());
+
 		hitInfo = Result;
 
 	}

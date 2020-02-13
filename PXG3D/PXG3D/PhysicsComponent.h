@@ -3,6 +3,8 @@
 
 namespace PXG
 {
+	
+
 	class PhysicsComponent : public Component
 	{
 	public:
@@ -11,6 +13,11 @@ namespace PXG
 		virtual void FixedUpdate(float tick) override;
 
 		PhysicsComponent();
+	private:
+
+		//creates a collision cube that expands all the vertices of a given mesh
+		void ConstructCollisionCube();
+
 
 	};
 }
