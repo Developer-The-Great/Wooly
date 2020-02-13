@@ -1,51 +1,39 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="Header Files\core">
-      <UniqueIdentifier>{03fc3986-7bf1-427d-ae64-9a3857da761d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\materials">
-      <UniqueIdentifier>{01dac92e-37c0-4e82-8c3d-6bc07af2cf60}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\components">
-      <UniqueIdentifier>{f81e5411-ddb9-4351-a94b-dcadfb656a6a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\math">
-      <UniqueIdentifier>{ea505fdb-02d0-4bc2-95f3-9926923aea6e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\components">
-      <UniqueIdentifier>{2fbf2a3c-3e4a-4449-a4fa-c137f836ff60}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\materials">
-      <UniqueIdentifier>{7a9473bf-b89e-482b-8f6b-43a2f0d07711}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\input">
-      <UniqueIdentifier>{51a40922-537d-4f8f-b200-636096669433}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\math">
-      <UniqueIdentifier>{5c8c09d2-10e9-430e-9900-680de3ef074c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\input">
-      <UniqueIdentifier>{c45ce58a-4f7b-4aae-8a3d-f4a3a4d19e5b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\core">
-      <UniqueIdentifier>{db94e042-9aa2-4ae8-a5eb-352ff43efcba}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\game">
-      <UniqueIdentifier>{526cd898-d8f2-4037-8f67-340bbf3ff318}</UniqueIdentifier>
-    </Filter>
+    <ClCompile Include="..\deps\include\src\glad.c" />
+    <ClCompile Include="AbstractMaterial.cpp" />
+    <ClCompile Include="CameraComponent.cpp" />
+    <ClCompile Include="ColorMaterial.cpp" />
+    <ClCompile Include="Component.cpp" />
+    <ClCompile Include="Debug.cpp" />
+    <ClCompile Include="FreeMovementComponent.cpp" />
+    <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Input.cpp" />
+    <ClCompile Include="LightComponent.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="MapMovementComponent.cpp" />
+    <ClCompile Include="Mathf.cpp" />
+    <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="MeshComponent.cpp" />
+    <ClCompile Include="PhysicsComponent.cpp" />
+    <ClCompile Include="PhysicsEngine.cpp" />
+    <ClCompile Include="PXGGame.cpp" />
+    <ClCompile Include="PXGWindow.cpp" />
+    <ClCompile Include="RenderingEngine.cpp" />
+    <ClCompile Include="RotatorComponent.cpp" />
+    <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="StandardLitMaterial.cpp" />
+    <ClCompile Include="TextureMaterial.cpp" />
+    <ClCompile Include="Time.cpp" />
+    <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="Utils.cpp" />
+    <ClCompile Include="Vector3.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="World.cpp" />
+    <ClCompile Include="Canvas.cpp" />
+    <ClCompile Include="UIObject.cpp" />
+    <ClCompile Include="ButtonComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -264,5 +252,9 @@
     <ClInclude Include="RayCastShooter.h">
       <Filter>Header Files\components</Filter>
     </ClInclude>
+    <ClInclude Include="Canvas.h" />
+    <ClInclude Include="UIObject.h" />
+    <ClInclude Include="ButtonComponent.h" />
   </ItemGroup>
 </Project>
+
