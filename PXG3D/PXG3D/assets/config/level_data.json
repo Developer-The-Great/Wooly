@@ -139,13 +139,6 @@
             "model" : "grass.obj",
             "texture": "dirt_and_grass.png",
             "meta-data":{}
-        },
-
-        
-
-        
-        
-        
-        
+        }      
     ]
 }
