@@ -103,6 +103,7 @@
     <ClCompile Include="RotatorComponent.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="StandardLitMaterial.cpp" />
+    <ClCompile Include="Subject.cpp" />
     <ClCompile Include="TextureMaterial.cpp" />
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="Transform.cpp" />
@@ -120,6 +121,7 @@
     <ClInclude Include="Canvas.h" />
     <ClInclude Include="ColorMaterial.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="EnergyCounterComponent.h" />
     <ClInclude Include="FileConfig.h" />
     <ClInclude Include="Debug.h" />
     <ClInclude Include="font.h" />
@@ -133,6 +135,9 @@
     <ClInclude Include="ItemRegistry.h" />
     <ClInclude Include="KeyCode.h" />
     <ClInclude Include="LevelLoader.h" />
+    <ClInclude Include="SurroundingObjectEnumeratorComponent.h" />
+    <ClInclude Include="Subject.h" />
+    <ClInclude Include="Subscriber.h" />
     <ClInclude Include="TileMetaData.h" />
     <ClInclude Include="LightComponent.h" />
     <ClInclude Include="MapMovementComponent.h" />

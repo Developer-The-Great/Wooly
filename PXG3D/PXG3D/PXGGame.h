@@ -18,6 +18,8 @@ namespace PXG
 		virtual void Initialize() override;
 
 
+		GameObj MakeChild(const std::string& name);
+		
 		Font* font;
 		FontRenderer* frender;
 		

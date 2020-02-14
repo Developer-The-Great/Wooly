@@ -36,6 +36,7 @@
     <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="World.cpp" />
+    <ClCompile Include="Subject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractMaterial.h" />
@@ -85,5 +86,9 @@
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="World.h" />
+    <ClInclude Include="Subject.h" />
+    <ClInclude Include="Subscriber.h" />
+    <ClInclude Include="EnergyCounterComponent.h" />
+    <ClInclude Include="SurroundingObjectEnumeratorComponent.h" />
   </ItemGroup>
 </Project>

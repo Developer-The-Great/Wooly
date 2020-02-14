@@ -15,9 +15,16 @@ namespace PXG
 		[[nodiscard]]
 		const std::unordered_map<std::string, std::string>& GetMetaData() const { return metaData; }
 
+		Vector3 GetOffset() const
+		{
+			return offset;
+		};
+		
+
 	private:
 		friend class LevelLoader;
 		std::unordered_map<std::string, std::string> metaData;
+		Vector3 offset;
 		
 
 	};

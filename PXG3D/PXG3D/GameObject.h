@@ -6,8 +6,7 @@
 #include "PhysicsEngine.h"
 #include "RenderingEngine.h"
 #include "Component.h"
-
-
+#include <typeindex>
 
 
 namespace PXG
@@ -32,8 +31,42 @@ namespace PXG
 		virtual void FixedUpdate(float tick);
 
 		virtual void AddToChildren(GOSharedPtr gameObj);
+		
 
-		void AddComponent(std::shared_ptr<Component> component);
+		template <class T,
+			typename = std::enable_if_t<std::is_base_of_v<Component, T>>>
+		void AddComponent(std::shared_ptr<T> component)
+		{
+			components.push_back(component);
+			componentTable.insert(componentTable.begin(),
+				{ typeid(T),std::static_pointer_cast<Component>(component) }
+			);
+			
+			component->SetOwner(shared_from_this());
+		}
+
+		
+
+		template <class T,
+				 typename = std::enable_if_t<std::is_base_of_v<Component,T>>>
+		std::shared_ptr<T> GetComponent(std::size_t offs = 0)
+		{
+			if(componentTable.find(typeid(T)) != componentTable.end())
+			{
+				auto [start, end] = componentTable.equal_range(typeid(T));
+				
+				if (offs > std::distance(start, end))
+				{
+					throw std::out_of_range("component subscript out of range!");
+				}
+				std::advance(start, offs);
+				return std::reinterpret_pointer_cast<T>(start->second);
+				
+			}
+			return nullptr;
+		}
+
+		
 
 		void SetParent(GOSharedPtr gameObj);
 
@@ -58,6 +91,8 @@ namespace PXG
 
 	protected:
 
+		std::unordered_multimap<std::type_index, std::shared_ptr<Component>> componentTable;
+		
 		std::vector< std::shared_ptr<Component>> components;
 		
 		std::vector<std::shared_ptr<GameObject>> children;

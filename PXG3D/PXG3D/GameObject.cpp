@@ -11,9 +11,6 @@ namespace PXG
 		Debug::Log("init {0}", name);
 		physicsComponent = std::make_shared<PhysicsComponent>();
 		meshComponent = std::make_shared<MeshComponent>();
-
-		
-
 	}
 
 	GameObject::~GameObject()
@@ -54,13 +51,6 @@ namespace PXG
 	{
 		children.push_back(gameObj);
 		gameObj->SetParent(shared_from_this());
-	}
-
-	void GameObject::AddComponent(std::shared_ptr<Component> component)
-	{
-		components.push_back(component);
-		component->SetOwner(shared_from_this());
-
 	}
 
 	void GameObject::SetParent(GOSharedPtr gameObj)
