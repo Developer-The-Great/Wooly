@@ -47,7 +47,6 @@ namespace PXG
 
 		ItemRegistry::LoadConfig(&item_config);
 
-
 		Input::AddKeysToTrack(
 			KeyCode::A, KeyCode::W, KeyCode::S, KeyCode::D, KeyCode::Q, KeyCode::E,KeyCode::K,KeyCode::J,
 			KeyCode::LeftMouse, KeyCode::RightMouse, KeyCode::MiddleMouse,KeyCode::Enter);

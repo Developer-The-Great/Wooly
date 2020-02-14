@@ -80,9 +80,6 @@ int main()
 	physicsEngine->SetWorld(gamePtr->GetWorld());
 
 	//------------------- Initialize World -----------------------------------//
-	//this is very weird. Will fix it later
-	//gamePtr->GetWorld()->GetMeshComponent()->SetOwner(gamePtr->GetWorld());
-	
 
 	int frameTickStored = 6;
 	int estimatedInitialFPS = 60.0f;

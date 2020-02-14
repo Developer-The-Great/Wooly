@@ -15,10 +15,13 @@ namespace PXG
 	}
 	void RayCastShooter::FixedUpdate(float tick)
 	{
+
 			   		
 		if (!Input::GetKeyDown(KeyCode::LeftMouse)) return;
 		
 		auto transform = GetOwnerTransform();
+
+
 		Vector3 forward = transform->GetForward();
 
 		HitInfo info;
@@ -38,12 +41,9 @@ namespace PXG
 			lastHit = info;
 			notify(ON_RAYCAST_HIT);
 			
-		}	else
-		{
+		}	else {
 			Debug::Log("oof ");
-
 		}
-
 	}
 }
 
