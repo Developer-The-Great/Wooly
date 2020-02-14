@@ -135,6 +135,7 @@
     <ClInclude Include="ItemRegistry.h" />
     <ClInclude Include="KeyCode.h" />
     <ClInclude Include="LevelLoader.h" />
+    <ClInclude Include="SurroundingObjectEnumeratorComponent.h" />
     <ClInclude Include="Subject.h" />
     <ClInclude Include="Subscriber.h" />
     <ClInclude Include="TileMetaData.h" />
