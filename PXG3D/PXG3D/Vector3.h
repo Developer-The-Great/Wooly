@@ -2,7 +2,7 @@
 #include "GLMHeaders.h"
 #include "Debug.h"
 #include <string>
-
+#include "Vector2.h"
 namespace PXG
 {
 	struct Vector3
@@ -151,7 +151,10 @@ namespace PXG
 		{
 			return glm::vec3(x, y, z);
 		}
-
+		Vector2 discardZ(Vector3 vec3)
+		{
+			return Vector2(vec3.x, vec3.y);
+		}
 	};
 }
 
