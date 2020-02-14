@@ -10,5 +10,11 @@ namespace PXG
 	PhysicsComponent::PhysicsComponent() : Component()
 	{
 	}
+	void PhysicsComponent::ConstructCollisionCube()
+	{
+
+
+
+	}
 }
 

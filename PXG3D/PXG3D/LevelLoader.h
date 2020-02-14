@@ -111,7 +111,10 @@ namespace PXG
 					}
 					
 				}
-
+				if (tile["rotation"].is_number())
+				{
+					float angle = tile["rotation"].get<float>();
+				}
 
 				//add the child to the map
 				GetOwner()->AddToChildren(child);

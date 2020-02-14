@@ -15,7 +15,7 @@ namespace PXG
 	void RayCastShooter::FixedUpdate(float tick)
 	{
 
-		auto transform = GetOwnerTransform();
+		/*auto transform = GetOwnerTransform();
 		Vector3 forward = transform->GetForward();
 
 		HitInfo info;
@@ -36,7 +36,7 @@ namespace PXG
 		else
 		{
 			Debug::Log("raycast did not hit");
-		}
+		}*/
 
 	}
 }
