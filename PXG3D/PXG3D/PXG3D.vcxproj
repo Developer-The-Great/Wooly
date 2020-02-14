@@ -14,7 +14,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{5171BF73-E7C2-430E-8C37-60C4D2126BCD}</ProjectGuid>
     <RootNamespace>PXG3D</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
@@ -102,8 +102,10 @@
     <ClCompile Include="RenderingEngine.cpp" />
     <ClCompile Include="RotatorComponent.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="SpecificOnClick.cpp" />
     <ClCompile Include="StandardLitMaterial.cpp" />
     <ClCompile Include="Subject.cpp" />
+    <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="TextureMaterial.cpp" />
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="Transform.cpp" />
@@ -115,6 +117,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractMaterial.h" />
+    <ClInclude Include="AbstractOnClick.h" />
     <ClInclude Include="AxisAngle.h" />
     <ClInclude Include="ButtonComponent.h" />
     <ClInclude Include="CameraComponent.h" />
@@ -135,9 +138,13 @@
     <ClInclude Include="ItemRegistry.h" />
     <ClInclude Include="KeyCode.h" />
     <ClInclude Include="LevelLoader.h" />
+    <ClInclude Include="ScreenSize.h" />
+    <ClInclude Include="SpecificOnClick.h" />
+    <ClInclude Include="stb_image.h" />
     <ClInclude Include="SurroundingObjectEnumeratorComponent.h" />
     <ClInclude Include="Subject.h" />
     <ClInclude Include="Subscriber.h" />
+    <ClInclude Include="TextComponent.h" />
     <ClInclude Include="TileMetaData.h" />
     <ClInclude Include="LightComponent.h" />
     <ClInclude Include="MapMovementComponent.h" />
@@ -162,9 +169,14 @@
     <ClInclude Include="Transform.h" />
     <ClInclude Include="UIObject.h" />
     <ClInclude Include="Utils.h" />
+    <ClInclude Include="Vector2.h" />
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="World.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="PXGColor.frag.glsl" />
+    <None Include="PXGColor.vert.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -90,12 +90,17 @@
     <ClInclude Include="World.h" />
     <ClInclude Include="Subject.h" />
     <ClInclude Include="Subscriber.h" />
-    <ClInclude Include="AbstractOnClick.h" />
-    <ClInclude Include="SpecificOnClick.h" />
-    <ClInclude Include="Vector2.h" />
-    <ClInclude Include="TextComponent.h" />
-    <ClInclude Include="ScreenSize.h" />
     <ClInclude Include="EnergyCounterComponent.h" />
     <ClInclude Include="SurroundingObjectEnumeratorComponent.h" />
+    <ClInclude Include="AbstractOnClick.h" />
+    <ClInclude Include="ScreenSize.h" />
+    <ClInclude Include="SpecificOnClick.h" />
+    <ClInclude Include="stb_image.h" />
+    <ClInclude Include="TextComponent.h" />
+    <ClInclude Include="Vector2.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="PXGColor.frag.glsl" />
+    <None Include="PXGColor.vert.glsl" />
   </ItemGroup>
 </Project>
