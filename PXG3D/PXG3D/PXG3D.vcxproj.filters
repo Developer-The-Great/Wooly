@@ -95,5 +95,7 @@
     <ClInclude Include="Vector2.h" />
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="ScreenSize.h" />
+    <ClInclude Include="EnergyCounterComponent.h" />
+    <ClInclude Include="SurroundingObjectEnumeratorComponent.h" />
   </ItemGroup>
 </Project>

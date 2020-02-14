@@ -25,6 +25,7 @@
 #include "ButtonComponent.h"
 #include "LevelLoader.h"
 #include "RayCastShooter.h"
+#include "EnergyCounterComponent.h"
 
 #include "SpecificOnClick.h"
 #include "Subject.h"
@@ -43,40 +44,36 @@ namespace PXG
 
 	void PXGGame::Initialize()
 	{
+		font = new Font(config::PXG_FONT_PATH + "Roboto-Regular.ttf",20);
+
+		
 		std::ifstream item_config(config::PXG_CONFIGS_PATH + "item_config.json");
 
 		ItemRegistry::LoadConfig(&item_config);
-
 
 		Input::AddKeysToTrack(
 			KeyCode::A, KeyCode::W, KeyCode::S, KeyCode::D, KeyCode::Q, KeyCode::E, KeyCode::K, KeyCode::J,
 			KeyCode::LeftMouse, KeyCode::RightMouse, KeyCode::MiddleMouse, KeyCode::Enter);
 
-		GetWorld()->name = "World";
-		GetCanvas()->name = "canvas";
 		//---------------------------Initialize Textures---------------------------------------//
 
-		Texture diffuse1(config::PXG_INDEPENDENT_TEXTURES_PATH + "diffuse1.jpg", TextureType::DIFFUSE);
-		Texture raphsTexture(config::PXG_INDEPENDENT_TEXTURES_PATH + "texture.png", TextureType::DIFFUSE);
 
-		//------------------------- Initialize Materials ---------------------------//
-		std::shared_ptr<StandardLitMaterial> litMaterial = std::make_shared<StandardLitMaterial>();
-		std::shared_ptr<ColorMaterial> defaultColorMat = std::make_shared<ColorMaterial>();
 		std::shared_ptr<ColorMaterial> bluetColorMat = std::make_shared<ColorMaterial>(Vector3(0, 0, 1));
 		std::shared_ptr<TextureMaterial> textureMaterial = std::make_shared<TextureMaterial>();
-		std::shared_ptr<ColorMaterial> yellowColorMat = std::make_shared<ColorMaterial>(Vector3(1, 1, 0));
 
 		//--------------------------Initialize GameObjects and their Components--------------------------------//
 
 
-		std::shared_ptr<CameraComponent> camera = std::make_shared<CameraComponent>();
-		std::shared_ptr<FreeMovementComponent> movementComponent = std::make_shared<FreeMovementComponent>();
-		std::shared_ptr<RotatorComponent> camRotator = std::make_shared<RotatorComponent>(Vector3(0, 1.0, 0.0), 1.0f);
-		std::shared_ptr<RayCastShooter> raycaster = std::make_shared<RayCastShooter>();
+		auto camera				= std::make_shared<CameraComponent>();
+		auto movementComponent	= std::make_shared<FreeMovementComponent>();
+		auto energyCounter		= std::make_shared<EnergyCounterComponent>(frender, font);
+		auto raycaster			= std::make_shared<RayCastShooter>();
+
+	
+
 
 
 		//--------------------------Initialize UI and their Components--------------------------------//
-		font = new Font(config::PXG_FONT_PATH + "Roboto-Regular.ttf",20);
 
 		std::shared_ptr<TextComponent> textComp = std::make_shared<TextComponent>();
 		std::shared_ptr<TextComponent> textComp2 = std::make_shared<TextComponent>();
@@ -104,28 +101,31 @@ namespace PXG
 		GameObj emptyUIObject = canvas->createEmptyCanvasObject();
 		emptyUIObject->SetWorld(canvas);
 		emptyUIObject->AddComponent(textComp2);
-
-
+    
 		//--------------------------SetUpUICanvas--------------------------------//
 
-		std::shared_ptr<CameraComponent> UICam = std::make_shared<CameraComponent>();
+		auto UICam = std::make_shared<CameraComponent>();
+		
 		GameObj UICanvasCam = InstantiateUIObject();
+		canvas->AddToChildren(UICanvasCam);
+		
 		UICanvasCam->name = "UICAM";
 		UICanvasCam->AddComponent(UICam);
-		canvas->AddToChildren(UICanvasCam);
+		
 
 		//half of game width and half of game height
 		UICanvasCam->GetTransform()->SetLocalPosition(Vector3(300, 200, 0));
-
 
 		//--------------------------SetUpCam--------------------------------//
 
 		GameObj cameraObj = Instantiate();
 		cameraObj->name = "cameraObj";
+    
 		cameraObj->AddComponent(camera);
-		//cameraObj->AddComponent(movementComponent);
-		//cameraObj->AddComponent(raycaster);
-		//cameraObj->AddComponent(camRotator);
+		cameraObj->AddComponent(movementComponent);
+		cameraObj->AddComponent(raycaster);
+		cameraObj->AddComponent(energyCounter);
+
 		world->AddToChildren(cameraObj);
 
 		cameraObj->GetTransform()->SetLocalPosition(Vector3(600, 300, 600));
@@ -137,26 +137,41 @@ namespace PXG
 		//--------------------------- Map movement -----------------------------------//
 
 
-		GameObj TileMap = Instantiate();
-		world->AddToChildren(TileMap);
+		//------------------------------ Player --------------------------------------//
+
+		GameObj Player = MakeChild("Player");
+		
+		Player->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + "character.obj");
+		Player->GetMeshComponent()->AddTextureToMeshAt({ config::PXG_INDEPENDENT_TEXTURES_PATH + "texture.png",TextureType::DIFFUSE }, 0);
+		Player->GetTransform()->SetLocalPosition({ 0,100,0 });
+		Player->GetTransform()->Scale(glm::vec3{ 100 });
+		Player->GetMeshComponent()->SetMaterial(textureMaterial);
+
+		
+		//--------------------------- Map movement -----------------------------------//
+
+		GameObj TileMap = MakeChild("TileMap");
+		
 		std::shared_ptr<MapMovementComponent> mapMovement = std::make_shared<MapMovementComponent>();
+		
+		mapMovement->subscribe(*raycaster);
+
 		mapMovement->SetMap(TileMap);
+		
 		GameObj movementHandler = Instantiate();
 		movementHandler->name = "Movement";
 		movementHandler->AddComponent(mapMovement);
 
 		world->AddToChildren(movementHandler);
 
+
 		//--------------------------- Instantiate Cubes -----------------------------------//
 
-		float offset = 100.0f;
-		int xCount = 5;
-		int yCount = 5;
+		energyCounter->subscribe(*mapMovement);
+		mapMovement->subscribe(*energyCounter);
 
 
-
-		frender->text(font, "Hello World", 2, { 200,200 });
-		//frender->text(font, "Hello World2", 2, { 0,0 });*/
+		//--------------------------- Instantiate Cubes -----------------------------------//
 
 
 		auto level_loader = std::make_shared<LevelLoader>();
@@ -164,8 +179,16 @@ namespace PXG
 		TileMap->AddComponent(level_loader);
 
 		std::ifstream level_config(config::PXG_CONFIGS_PATH + "level_data.json");
-
 		level_loader->LoadLevel(level_config, this);
+
+	}
+
+	GameObj PXGGame::MakeChild(const std::string& name)
+  {
+		GameObj go = Instantiate();
+		go->name = name;
+		world->AddToChildren(go);
+		return go;
 	}
 
 	void PXGGame::Start()

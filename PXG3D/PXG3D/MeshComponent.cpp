@@ -7,8 +7,6 @@
 #include "Shader.h"
 namespace PXG
 {
-
-	
 	std::unordered_map<std::string, std::vector<std::shared_ptr<Mesh>>> MeshComponent::cache;
 
 	MeshComponent::MeshComponent() : Component()
@@ -210,13 +208,8 @@ namespace PXG
 		auto ownerPointer = GetOwner();
 
 		std::string name = ownerPointer->name;
-		//Debug::Log("drawing On {0}", ownerPointer->name);
 
 		Mat4 currentTransform = ownerPointer->GetTransform()->GetLocalTransform() * parentTransform  ;
-
-		/*Debug::Log("parentTransform {0}", parentTransform.ToString());
-		Debug::Log("GetLocalTransform() matrix {0}", ownerPointer->GetTransform()->GetLocalTransform().ToString());
-		Debug::Log("sent matrix {0}", currentTransform.ToString());*/
 
 		//material send uniforms
 		if (material)

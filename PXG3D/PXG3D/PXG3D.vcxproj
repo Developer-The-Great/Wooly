@@ -14,7 +14,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{5171BF73-E7C2-430E-8C37-60C4D2126BCD}</ProjectGuid>
     <RootNamespace>PXG3D</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
@@ -103,6 +103,7 @@
     <ClCompile Include="RotatorComponent.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="StandardLitMaterial.cpp" />
+    <ClCompile Include="Subject.cpp" />
     <ClCompile Include="TextureMaterial.cpp" />
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="Transform.cpp" />
@@ -120,6 +121,7 @@
     <ClInclude Include="Canvas.h" />
     <ClInclude Include="ColorMaterial.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="EnergyCounterComponent.h" />
     <ClInclude Include="FileConfig.h" />
     <ClInclude Include="Debug.h" />
     <ClInclude Include="font.h" />
@@ -133,6 +135,9 @@
     <ClInclude Include="ItemRegistry.h" />
     <ClInclude Include="KeyCode.h" />
     <ClInclude Include="LevelLoader.h" />
+    <ClInclude Include="SurroundingObjectEnumeratorComponent.h" />
+    <ClInclude Include="Subject.h" />
+    <ClInclude Include="Subscriber.h" />
     <ClInclude Include="TileMetaData.h" />
     <ClInclude Include="LightComponent.h" />
     <ClInclude Include="MapMovementComponent.h" />

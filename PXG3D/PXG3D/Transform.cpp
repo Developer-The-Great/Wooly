@@ -93,7 +93,7 @@ namespace PXG
 	{
 		if (parentTransform)
 		{
-			return parentTransform->GetWorldTransform() * GetLocalTransform();
+			return  GetLocalTransform() * parentTransform->GetWorldTransform();
 		}
 
 		return GetLocalTransform();
@@ -102,6 +102,11 @@ namespace PXG
 	void Transform::SetParent(Transform * transform)
 	{
 		parentTransform = transform;
+	}
+
+	Transform * Transform::GetParent() const
+	{
+		return parentTransform;
 	}
 
 	Vector3 Transform::getScale() const

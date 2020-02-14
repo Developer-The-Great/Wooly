@@ -40,8 +40,6 @@ namespace PXG
 
 	private:
 
-		
-
 		static void RayToMeshIntersection(Vector3 position, Vector3 direction, HitInfo& hitInfo,std::shared_ptr<Mesh> mesh, Mat4 objectTransform,std::shared_ptr<GameObject> owner);
 
 		static void RecursiveGetMeshComponents(std::vector<std::shared_ptr<MeshComponent>>& MeshComponentList, std::shared_ptr<GameObject> gameObject);

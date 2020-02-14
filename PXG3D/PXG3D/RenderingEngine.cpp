@@ -34,7 +34,9 @@ namespace PXG
 	}
 	void RenderingEngine::RenderCanvas()
 	{
+
 		const glm::vec3 red = { 0.2f,0.2f,0.2f };
+
 		
 		std::shared_ptr<CameraComponent>  camera = canvas->GetCamera();
 

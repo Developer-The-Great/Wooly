@@ -6,6 +6,7 @@
 #include "HitInfo.h"
 #include "Input.h"
 #include "CameraComponent.h"
+#include "KeyCode.h"
 
 namespace PXG
 {
@@ -15,7 +16,12 @@ namespace PXG
 	void RayCastShooter::FixedUpdate(float tick)
 	{
 
+			   		
+		if (!Input::GetKeyDown(KeyCode::LeftMouse)) return;
+		
 		auto transform = GetOwnerTransform();
+
+
 		Vector3 forward = transform->GetForward();
 
 		HitInfo info;
@@ -30,14 +36,14 @@ namespace PXG
 		
 
 		if (info.RayHit) 
-		{ 
-			Debug::Log("raycast hit {0} ", info.GameObjectHit->name);
-		}
-		else
 		{
-			Debug::Log("raycast did not hit");
+			Debug::Log("raycast hit {0} ", info.GameObjectHit->name);
+			lastHit = info;
+			notify(ON_RAYCAST_HIT);
+			
+		}	else {
+			Debug::Log("oof ");
 		}
-
 	}
 }
 
