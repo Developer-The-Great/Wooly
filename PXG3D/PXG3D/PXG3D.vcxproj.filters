@@ -38,6 +38,7 @@
     <ClCompile Include="World.cpp" />
     <ClCompile Include="Subject.cpp" />
     <ClCompile Include="SpecificOnClick.cpp" />
+    <ClCompile Include="TextComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractMaterial.h" />
@@ -92,5 +93,7 @@
     <ClInclude Include="AbstractOnClick.h" />
     <ClInclude Include="SpecificOnClick.h" />
     <ClInclude Include="Vector2.h" />
+    <ClInclude Include="TextComponent.h" />
+    <ClInclude Include="ScreenSize.h" />
   </ItemGroup>
 </Project>

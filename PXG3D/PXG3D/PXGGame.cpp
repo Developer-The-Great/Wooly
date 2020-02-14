@@ -21,7 +21,7 @@
 #include "KeyCode.h"
 #include "ItemRegistry.h"
 #include "InventoryComponent.h"
-
+#include "TextComponent.h"
 #include "ButtonComponent.h"
 #include "LevelLoader.h"
 #include "RayCastShooter.h"
@@ -30,6 +30,7 @@
 #include "Subject.h"
 #include "Subscriber.h"
 
+#include "ScreenSize.h"
 namespace PXG
 {
 	PXGGame::PXGGame() : Game()
@@ -38,7 +39,7 @@ namespace PXG
 
 	}
 
-	FontRenderer::render_queue render_queue;
+	//FontRenderer::render_queue render_queue;
 
 	void PXGGame::Initialize()
 	{
@@ -48,20 +49,20 @@ namespace PXG
 
 
 		Input::AddKeysToTrack(
-			KeyCode::A, KeyCode::W, KeyCode::S, KeyCode::D, KeyCode::Q, KeyCode::E,KeyCode::K,KeyCode::J,
-			KeyCode::LeftMouse, KeyCode::RightMouse, KeyCode::MiddleMouse,KeyCode::Enter);
+			KeyCode::A, KeyCode::W, KeyCode::S, KeyCode::D, KeyCode::Q, KeyCode::E, KeyCode::K, KeyCode::J,
+			KeyCode::LeftMouse, KeyCode::RightMouse, KeyCode::MiddleMouse, KeyCode::Enter);
 
 		GetWorld()->name = "World";
 		GetCanvas()->name = "canvas";
 		//---------------------------Initialize Textures---------------------------------------//
 
-		Texture diffuse1(config::PXG_INDEPENDENT_TEXTURES_PATH + "diffuse1.jpg",TextureType::DIFFUSE);
+		Texture diffuse1(config::PXG_INDEPENDENT_TEXTURES_PATH + "diffuse1.jpg", TextureType::DIFFUSE);
 		Texture raphsTexture(config::PXG_INDEPENDENT_TEXTURES_PATH + "texture.png", TextureType::DIFFUSE);
 
 		//------------------------- Initialize Materials ---------------------------//
 		std::shared_ptr<StandardLitMaterial> litMaterial = std::make_shared<StandardLitMaterial>();
 		std::shared_ptr<ColorMaterial> defaultColorMat = std::make_shared<ColorMaterial>();
-		std::shared_ptr<ColorMaterial> bluetColorMat = std::make_shared<ColorMaterial>(Vector3(0,0,1));
+		std::shared_ptr<ColorMaterial> bluetColorMat = std::make_shared<ColorMaterial>(Vector3(0, 0, 1));
 		std::shared_ptr<TextureMaterial> textureMaterial = std::make_shared<TextureMaterial>();
 		std::shared_ptr<ColorMaterial> yellowColorMat = std::make_shared<ColorMaterial>(Vector3(1, 1, 0));
 
@@ -72,28 +73,38 @@ namespace PXG
 		std::shared_ptr<FreeMovementComponent> movementComponent = std::make_shared<FreeMovementComponent>();
 		std::shared_ptr<RotatorComponent> camRotator = std::make_shared<RotatorComponent>(Vector3(0, 1.0, 0.0), 1.0f);
 		std::shared_ptr<RayCastShooter> raycaster = std::make_shared<RayCastShooter>();
+
+
+		//--------------------------Initialize UI and their Components--------------------------------//
+		font = new Font(config::PXG_FONT_PATH + "Roboto-Regular.ttf",20);
+
+		std::shared_ptr<TextComponent> textComp = std::make_shared<TextComponent>();
+		std::shared_ptr<TextComponent> textComp2 = std::make_shared<TextComponent>();
+		
+		textComp->InitText(frender);
+		textComp->SetFont(font);
+		textComp->setRelativePosition(Vector2(50, 50));
+		textComp->setString("Hello World");
+
+		textComp2->InitText(frender);
+		textComp2->SetFont(font);
+		textComp2->setRelativePosition(Vector2(350, 150));
+		textComp2->setString("Hello World2");
+
 		std::shared_ptr<ButtonComponent> buttonComp = std::make_shared<ButtonComponent>();
 		subscriber_base*  onClick = new SpecificOnClick();
-
-		GameObj button = canvas->createCanvasObject(Vector2(100,100), Vector2(100,100), "Button1", bluetColorMat);
+		//button with onclick component & text
+		GameObj button = canvas->createCanvasObject(Vector2(100, 100), Vector2(100, 100), "Button1", bluetColorMat);
 		button->SetWorld(canvas);
 		button->AddComponent(buttonComp);
 		buttonComp->attach(onClick);
+		button->AddComponent(textComp);
+		button->AddComponent(movementComponent);
+		//empty UI object with text
+		GameObj emptyUIObject = canvas->createEmptyCanvasObject();
+		emptyUIObject->SetWorld(canvas);
+		emptyUIObject->AddComponent(textComp2);
 
-
-		GameObj cameraObj = Instantiate();
-		cameraObj->name = "cameraObj";
-		cameraObj->AddComponent(camera);
-		cameraObj->AddComponent(movementComponent);
-
-		//cameraObj->AddComponent(raycaster);
-		//cameraObj->AddComponent(camRotator);
-		world->AddToChildren(cameraObj);
-
-		cameraObj->GetTransform()->SetLocalPosition(Vector3(600,300, 600));
-
-		cameraObj->GetTransform()->rotate(Vector3(1, 0, 0), -20.0f);
-		cameraObj->GetTransform()->rotate(Vector3(0, 1, 0),45);
 
 		//--------------------------SetUpUICanvas--------------------------------//
 
@@ -105,6 +116,23 @@ namespace PXG
 
 		//half of game width and half of game height
 		UICanvasCam->GetTransform()->SetLocalPosition(Vector3(300, 200, 0));
+
+
+		//--------------------------SetUpCam--------------------------------//
+
+		GameObj cameraObj = Instantiate();
+		cameraObj->name = "cameraObj";
+		cameraObj->AddComponent(camera);
+		//cameraObj->AddComponent(movementComponent);
+		//cameraObj->AddComponent(raycaster);
+		//cameraObj->AddComponent(camRotator);
+		world->AddToChildren(cameraObj);
+
+		cameraObj->GetTransform()->SetLocalPosition(Vector3(600, 300, 600));
+		cameraObj->GetTransform()->rotate(Vector3(1, 0, 0), -20.0f);
+		cameraObj->GetTransform()->rotate(Vector3(0, 1, 0), 45);
+
+
 
 		//--------------------------- Map movement -----------------------------------//
 
@@ -126,11 +154,10 @@ namespace PXG
 		int yCount = 5;
 
 
-		font = new Font(config::PXG_FONT_PATH + "Roboto-Regular.ttf");
 
-		frender->text(font, "Hello World", 1, { 100,10 });
+		frender->text(font, "Hello World", 2, { 200,200 });
+		//frender->text(font, "Hello World2", 2, { 0,0 });*/
 
-		render_queue = frender->save_queue();
 
 		auto level_loader = std::make_shared<LevelLoader>();
 
@@ -153,7 +180,7 @@ namespace PXG
 
 	void PXGGame::FixedUpdate(float tick)
 	{
-		frender->restore_queue(&render_queue);
+		//frender->restore_queue(&render_queue);
 		world->FixedUpdate(tick);
 		canvas->FixedUpdate(tick);
 	}

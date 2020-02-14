@@ -17,6 +17,13 @@ namespace PXG
 		return newGameObject;
 	}
 
+	GameObj Canvas::createEmptyCanvasObject()
+	{
+		GameObj newGameObject = std::make_shared<GameObject>();
+		this->AddToChildren(newGameObject);
+		return newGameObject;
+	}
+
 
 
 	

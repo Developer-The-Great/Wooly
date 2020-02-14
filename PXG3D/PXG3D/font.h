@@ -126,7 +126,7 @@ template <typename ... Args>
 void FontRenderer::text(Font* fnt, std::string text, float scale, glm::vec2 position,
 	const Args&&... args)
 {
-	text_fmt_impl(fnt, text, scale, std::forward<util::Vector2f>(position), fmt::make_format_args(args...));
+	text_fmt_impl(fnt, text, scale, std::forward<glm::vec2>(position), fmt::make_format_args(args...));
 }
 
 
