@@ -32,11 +32,6 @@ namespace PXG
 		if (this->active)
 		{
 			updateText();
-			frenderer->add_queue(&render_queue);
-		}
-		else
-		{
-			//frenderer->delete_queue();
 		}
 
 	}
@@ -80,9 +75,7 @@ namespace PXG
 			{
 				updatePos();
 			}
-			//frenderer->delete_queue();
 			frenderer->text(font, Text, CharSize, position.ToGLMVec2());
-			render_queue = frenderer->save_queue();
 		}
 	}
 	void TextComponent::Start()
