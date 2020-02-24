@@ -12,7 +12,6 @@ namespace PXG
 
 		RotatorComponent(Vector3 axis,float speed = 1.0f);
 
-		virtual void Start() override;
 		virtual void FixedUpdate(float tick) override;
 
 	private:

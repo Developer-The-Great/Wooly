@@ -25,18 +25,11 @@ namespace PXG
 
 	}
 
-	Time::~Time()
-	{
-	}
-
 	float Time::GetTime()
 	{
 		return glfwGetTime();
 	}
-
-
-
-	float Time::GetAverageDeltaTime()
+	float Time::GetAverageDeltaTime() const
 	{
 		return averageDeltaTick;
 	}
@@ -45,7 +38,7 @@ namespace PXG
 	{
 		timePassed = glfwGetTime();
 	}
-	float Time::GetCurrentDeltaTime()
+	float Time::GetCurrentDeltaTime() const
 	{
 		return glfwGetTime() - timePassed;
 	}
@@ -58,13 +51,10 @@ namespace PXG
 
 		averageDeltaTick = 0.0f;
 
-
 		calculateAverageDeltaTick();
-
-
 	}
 
-	float Time::GetFPS()
+	float Time::GetFPS() const
 	{
 		return  1.0f / averageDeltaTick;
 	}

@@ -18,7 +18,7 @@ namespace PXG
 		{
 			ON_MOVE
 		};
-		
+
 
 		void onNotify(subject_base* subject_base, subject_base::event_t event) override
 		{
@@ -43,10 +43,9 @@ namespace PXG
 					auto metadata = info.GameObjectHit->GetComponent<TileMetaData>();
 
 					if (!metadata) return;
-						
+
 					Debug::Log("retrieved Meta-Inf via raycast!");
 
-						
 					auto delta = offset-metadata->GetOffset() ;
 					//delta.x = -delta.x;
 
@@ -68,7 +67,6 @@ namespace PXG
 						}
 					};
 
-						
 					pusher(delta.x, LEFT, RIGHT);
 					pusher(delta.y, UP, DOWN);
 					pusher(delta.z, FORWARD, BACKWARD);
@@ -85,10 +83,8 @@ namespace PXG
 						case RIGHT:		Debug::Log("Right"); break;
 						default: ; }
 					}
-						
 					//move(delta);
 					offset = metadata->GetOffset();
-						
 					break;
 				}
 				default:break;
@@ -100,7 +96,7 @@ namespace PXG
 		void Start() override;
 		void FixedUpdate(float tick) override;
 		void SetMap(std::shared_ptr<GameObject> newMap);
-		void Reset();
+		void Reset() const;
 
 	private:
 		void move(PXG::Vector3 direction);
@@ -119,10 +115,6 @@ namespace PXG
 			RIGHT
 		};
 
-		
 		std::deque<MovementCommands> commandQueue;
-
-		
 	};
-
 }

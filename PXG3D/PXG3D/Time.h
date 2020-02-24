@@ -9,21 +9,19 @@ namespace PXG
 	{
 	public:
 
-		Time(int frameTickStored,float firstFPSEstimate);
-
-		~Time();
+		Time(int,float);
 
 		float GetTime();
 
-		float GetAverageDeltaTime();
+		float GetAverageDeltaTime() const;
 
 		void UpdateTimePassed();
 
-		float GetCurrentDeltaTime();
+		float GetCurrentDeltaTime() const;
 
 		void UpdateAverageTime();
 
-		float GetFPS();
+		float GetFPS() const;
 
 	private:
 

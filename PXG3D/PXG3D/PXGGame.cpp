@@ -45,8 +45,6 @@ namespace PXG
 	void PXGGame::Initialize()
 	{
 		font = new Font(config::PXG_FONT_PATH + "Roboto-Regular.ttf",20);
-
-		
 		std::ifstream item_config(config::PXG_CONFIGS_PATH + "item_config.json");
 
 		ItemRegistry::LoadConfig(&item_config);
@@ -69,15 +67,11 @@ namespace PXG
 		auto energyCounter		= std::make_shared<EnergyCounterComponent>(frender, font);
 		auto raycaster			= std::make_shared<RayCastShooter>();
 
-	
-
-
-
 		//--------------------------Initialize UI and their Components--------------------------------//
 
 		std::shared_ptr<TextComponent> textComp = std::make_shared<TextComponent>();
 		std::shared_ptr<TextComponent> textComp2 = std::make_shared<TextComponent>();
-		
+
 		textComp->InitText(frender);
 		textComp->SetFont(font);
 		textComp->setRelativePosition(Vector2(50, 50));
@@ -101,17 +95,16 @@ namespace PXG
 		GameObj emptyUIObject = canvas->createEmptyCanvasObject();
 		emptyUIObject->SetWorld(canvas);
 		emptyUIObject->AddComponent(textComp2);
-    
+
 		//--------------------------SetUpUICanvas--------------------------------//
 
 		auto UICam = std::make_shared<CameraComponent>();
-		
 		GameObj UICanvasCam = InstantiateUIObject();
+
 		canvas->AddToChildren(UICanvasCam);
-		
+
 		UICanvasCam->name = "UICAM";
 		UICanvasCam->AddComponent(UICam);
-		
 
 		//half of game width and half of game height
 		UICanvasCam->GetTransform()->SetLocalPosition(Vector3(300, 200, 0));
@@ -120,7 +113,7 @@ namespace PXG
 
 		GameObj cameraObj = Instantiate();
 		cameraObj->name = "cameraObj";
-    
+
 		cameraObj->AddComponent(camera);
 		cameraObj->AddComponent(movementComponent);
 		cameraObj->AddComponent(raycaster);
@@ -140,24 +133,23 @@ namespace PXG
 		//------------------------------ Player --------------------------------------//
 
 		GameObj Player = MakeChild("Player");
-		
+
 		Player->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + "character.obj");
 		Player->GetMeshComponent()->AddTextureToMeshAt({ config::PXG_INDEPENDENT_TEXTURES_PATH + "texture.png",TextureType::DIFFUSE }, 0);
 		Player->GetTransform()->SetLocalPosition({ 0,100,0 });
 		Player->GetTransform()->Scale(glm::vec3{ 100 });
 		Player->GetMeshComponent()->SetMaterial(textureMaterial);
 
-		
 		//--------------------------- Map movement -----------------------------------//
 
 		GameObj TileMap = MakeChild("TileMap");
-		
+
 		std::shared_ptr<MapMovementComponent> mapMovement = std::make_shared<MapMovementComponent>();
-		
+
 		mapMovement->subscribe(*raycaster);
 
 		mapMovement->SetMap(TileMap);
-		
+
 		GameObj movementHandler = Instantiate();
 		movementHandler->name = "Movement";
 		movementHandler->AddComponent(mapMovement);
@@ -187,7 +179,7 @@ namespace PXG
 	}
 
 	GameObj PXGGame::MakeChild(const std::string& name)
-  {
+	{
 		GameObj go = Instantiate();
 		go->name = name;
 		world->AddToChildren(go);

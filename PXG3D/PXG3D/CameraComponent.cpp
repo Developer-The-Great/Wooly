@@ -18,27 +18,21 @@ namespace PXG
 	{
 		Debug::Log("CAM DESTROYED");
 	}
-	void CameraComponent::Start()
-	{
-	}
-	void CameraComponent::FixedUpdate(float tick)
-	{
-	}
-	Mat4 CameraComponent::GetView()
+	Mat4 CameraComponent::GetView() const
 	{
 		bool hasOwner = !(owner.expired());
 		if (hasOwner)
 		{
 			auto ownerPtr = owner.lock();
-			
+
 			auto transform = ownerPtr->GetTransform();
-	
+
 			return glm::inverse(transform->GetWorldTransform().ToGLM());
 		}
-		
+
 		return Mat4();
 	}
-	Mat4 CameraComponent::GetProjection()
+	Mat4 CameraComponent::GetProjection() const
 	{
 		return projection;
 	}
@@ -51,7 +45,7 @@ namespace PXG
 			worldPtr->SetCamera(shared_from_this());
 		}
 	}
-	int CameraComponent::GetUseCount()
+	int CameraComponent::GetUseCount() const
 	{
 		return owner.use_count();
 	}

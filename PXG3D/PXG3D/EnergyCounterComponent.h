@@ -14,7 +14,7 @@ namespace PXG
 			ON_OUT_OF_ENERGY = 0xDEAD
 		};
 
-		
+
 	public:
 		EnergyCounterComponent(FontRenderer* renderer,Font* font) :ffont(font), frender(renderer) {};
 
@@ -28,7 +28,7 @@ namespace PXG
 		{
 
 			static MapMovementComponent* mmc;
-			
+
 			if (mmc != nullptr && mmc == subject_base || mmc == nullptr && (mmc = dynamic_cast<MapMovementComponent*>(subject_base)) != nullptr)
 			{
 				switch(event)
@@ -49,7 +49,7 @@ namespace PXG
 			}
 
 		}
-		
+
 
 	private:
 
@@ -58,6 +58,6 @@ namespace PXG
 		Font* ffont;
 		FontRenderer * frender;
 		std::string text;
-		
+
 	};
 }

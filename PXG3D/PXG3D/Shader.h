@@ -17,9 +17,9 @@ namespace PXG
 
 		~Shader();
 
-		unsigned int GetShaderProgram();
+		unsigned int GetShaderProgram() const;
 
-		void Use();
+		void Use() const;
 
 		void Release();
 
@@ -29,13 +29,12 @@ namespace PXG
 		void SetInt( const std::string &name, int value) const;
 		void SetInt(const GLint location, int value) const;
 
-		
-		void SetVec3( const std::string & name,Vector3 vec);
+		void SetVec3( const std::string & name,Vector3 vec) const;
 		void SetVec3(const GLint location, Vector3 vec) const;
 
 		//void SetVec4(const std::string &name, float v0, float v1, float v2, float v3);
 
-		void SetMat4( const std::string &name, Mat4 matrixValue);
+		void SetMat4( const std::string &name, Mat4 matrixValue) const;
 
 		unsigned int shaderID;
 

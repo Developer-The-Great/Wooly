@@ -5,9 +5,9 @@ namespace PXG
 {
 	struct ScreenSize
 	{
-		static inline const float width = 800;
-		static inline const float height = 600;
-		static inline const Vector2 dimensions = Vector2(800, 600);
+		static inline const float WIDTH = 800;
+		static inline const float HEIGHT = 600;
+		static inline const Vector2 DIMENSIONS = Vector2(800, 600);
 
 	};
 }

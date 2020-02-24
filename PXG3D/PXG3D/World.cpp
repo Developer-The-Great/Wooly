@@ -3,7 +3,7 @@
 
 namespace PXG
 {
-	bool World::needToDrawPhysicsComponentMesh = true;
+	bool World::needToDrawPhysicsComponentMesh = false;
 
 	World::World():GameObject()
 	{
@@ -14,7 +14,7 @@ namespace PXG
 		this->cameraComponent = cameraComponent;
 	}
 
-	std::shared_ptr<CameraComponent> World::GetCamera()
+	std::shared_ptr<CameraComponent> World::GetCamera() const
 	{
 	
 		return cameraComponent;
@@ -24,7 +24,7 @@ namespace PXG
 		lights.emplace_front(light);
 		
 	}
-	std::list<std::shared_ptr<LightComponent>> World::GetLights()
+	std::list<std::shared_ptr<LightComponent>> World::GetLights() const
 	{
 		return lights;
 	}

@@ -27,7 +27,7 @@ namespace PXG
 		position = localPosition;
 	}
 
-	Vector3 Transform::GetPosition()
+	Vector3 Transform::GetPosition() const
 	{
 		if (parentTransform)
 		{
@@ -53,7 +53,7 @@ namespace PXG
 		scale = newScale;
 	}
 
-	Quaternion Transform::GetRotation()
+	Quaternion Transform::GetRotation() const
 	{
 		if (parentTransform)
 		{

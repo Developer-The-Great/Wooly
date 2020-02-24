@@ -18,10 +18,6 @@ namespace PXG
 	{
 	public:
 
-		virtual void Start() override;
-
-		virtual void FixedUpdate(float tick) override;
-
 		void Load3DModel(std::string name);
 
 		void SetMaterial(std::shared_ptr<AbstractMaterial> material);
@@ -34,7 +30,7 @@ namespace PXG
 
 		void AddTextureToMeshAt(Texture texture, int i);
 
-		std::vector<std::shared_ptr<Mesh>> GetMeshes();
+		std::vector<std::shared_ptr<Mesh>> GetMeshes() const;
 
 	protected:
 		//TODO decrease coupling with assimp

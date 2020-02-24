@@ -69,8 +69,6 @@ private:
 	static void UpdateKey(int key, int action);
 
 	float x, y;
-
-	
 };
 
 

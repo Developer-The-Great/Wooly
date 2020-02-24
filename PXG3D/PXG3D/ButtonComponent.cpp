@@ -7,12 +7,6 @@ namespace PXG
 	{
 		Debug::Log("created button comp");
 	}
-	ButtonComponent::~ButtonComponent()
-	{
-	}
-	void ButtonComponent::Start()
-	{
-	}
 	void ButtonComponent::FixedUpdate(float tick)
 	{
 		if (Input::GetKeyDown(KeyCode::LeftMouse))
@@ -28,7 +22,7 @@ namespace PXG
 			if (mouseX > position.x && mouseX < position.x + scale.x &&
 				mouseY > position.y &&mouseY < position.y + scale.z)
 			{
-				notify(onClickEvent);
+				notify(ON_CLICK);
 			}
 		}
 	}

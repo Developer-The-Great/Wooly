@@ -19,8 +19,6 @@ namespace PXG
 
 		Game();
 
-
-
 		virtual void Start() = 0;
 
 		virtual void Update() = 0;
@@ -34,18 +32,11 @@ namespace PXG
 
 		virtual void Initialize();
 
-		GameObj Instantiate();
-		GameObj InstantiateUIObject();
-
-
-
+		GameObj Instantiate() const;
+		GameObj InstantiateUIObject() const;
 	protected:
-
-
 		std::shared_ptr < World> world;
 		std::shared_ptr < Canvas> canvas;
-		
-
 	};
 
 

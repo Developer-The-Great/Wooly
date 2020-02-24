@@ -14,11 +14,10 @@ namespace PXG
 {
 	class LevelLoader : public Component
 	{
-
-
 	public:
 		void Start() override {}
 		void FixedUpdate(float tick) override {}
+
 
 		void LoadLevel(std::ifstream& file, Game* game, std::shared_ptr<NodeGraph> nodeGraph)
 		{
@@ -57,6 +56,7 @@ namespace PXG
 					continue;
 				}
 
+
 				//load the position field and make sure they are numbers 
 				for (int i = 0; i < 3; ++i)
 				{
@@ -70,7 +70,6 @@ namespace PXG
 				}
 
 				Debug::Log("{}", offset.ToString());
-
 
 
 				//create a game-object
@@ -145,15 +144,10 @@ namespace PXG
 							continue;
 						}
 						metaData->metaData[key] = value.get<std::string>();
-
-					}
-
-
+          }
 				}
 				metaData->offset = offset;
 				child->AddComponent(metaData);
-
-
 
 				if (tile["rotation"].is_number())
 				{
