@@ -6,6 +6,13 @@ namespace PXG
 {
 	//std::string Mesh::textureDiffuseStr = "texture_diffuse";
 	//std::string Mesh::textureSpecularStr = "texture_specular";
+	Mesh::Mesh(std::vector<unsigned int> indices, std::vector<Vertex> vertices, std::vector<Texture> textures)
+	{
+		this->Textures = textures;
+		this->Indices = indices;
+		this->Vertices = vertices;
+		setupMesh();
+	}
 
 	void Mesh::Draw(Shader* shader)
 	{
@@ -15,7 +22,6 @@ namespace PXG
 		for (unsigned int i = 0; i < Textures.size(); i++)
 		{
 			glActiveTexture(GL_TEXTURE0 + i);
-
 
 			std::string number;
 			std::string name = Textures[i].type;
@@ -37,8 +43,6 @@ namespace PXG
 			//int test = glGetUniformLocation(shader.shaderID, ("material." + name + number).c_str());
 			//std::cerr << "DEBUG::Mesh::Draw::uniform found? " << test << std::endl;
 
-
-
 			shader->SetInt(("material." + name + number).c_str(), i);
 			glBindTexture(GL_TEXTURE_2D, Textures[i].id);
 		}
@@ -47,13 +51,12 @@ namespace PXG
 		glDrawElements(GL_TRIANGLES, Indices.size(), GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 	}
-	Mesh::Mesh(std::vector<unsigned int> indices, std::vector<Vertex> vertices, std::vector<Texture> textures)
+
+	void Mesh::SetRasterizationMode(RasterizationMode newRasterizationMode)
 	{
-		this->Textures = textures;
-		this->Indices = indices;
-		this->Vertices = vertices;
-		setupMesh();
+		glPolygonMode(GL_FRONT_AND_BACK, (int)newRasterizationMode);
 	}
+	
 	void Mesh::setupMesh()
 	{
 		glGenVertexArrays(1, &VAO);

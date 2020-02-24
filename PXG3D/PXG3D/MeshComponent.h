@@ -13,8 +13,7 @@ namespace PXG
 	class Mesh;
 	class AbstractMaterial;
 
-	//TODO MeshComponent manages the drawing of meshes. But it also imports 
-	//them into the game. Make a seperate class that does the importing
+	//TODO MeshComponent manages the drawing of meshes. But it also imports them into the game. Make a seperate class that does the importing
 	class MeshComponent : public Component
 	{
 	public:

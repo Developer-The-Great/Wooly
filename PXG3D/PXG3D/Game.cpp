@@ -35,7 +35,7 @@ namespace PXG
 	GameObj Game::Instantiate()
 	{
 		GameObj newGameObject = std::make_shared<GameObject>();
-
+		newGameObject->InitializeComponentOwners();
 		newGameObject->SetWorld(world);
 		return newGameObject;
 	}

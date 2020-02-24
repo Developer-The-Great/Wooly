@@ -8,7 +8,7 @@
 #include "Tile.h"
 #include "FileConfig.h"
 #include "TextureMaterial.h"
-
+#include "PhysicsComponent.h"
 namespace PXG
 {
 	class LevelLoader : public Component
@@ -81,6 +81,10 @@ namespace PXG
 				//load the model
 				child->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + tile["model"].get<std::string>());
 				child->GetMeshComponent()->SetMaterial(material);
+
+				//create physics representation 
+				child->GetPhysicsComponent()->ConstructPhysicsRepresentationFromMeshComponent();
+
 				child->GetTransform()->Scale(glm::vec3{ Tile::WORLD_SCALE });
 				//check if there is a separate texture and load it
 				if (tile["texture"].is_string())

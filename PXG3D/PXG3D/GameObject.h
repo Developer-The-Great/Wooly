@@ -24,6 +24,8 @@ namespace PXG
 
 		~GameObject();
 
+		void InitializeComponentOwners();
+
 		virtual void Start();
 
 		virtual void Update();
@@ -90,6 +92,8 @@ namespace PXG
 		std::string name = "";
 
 	protected:
+
+		
 
 		std::unordered_multimap<std::type_index, std::shared_ptr<Component>> componentTable;
 		

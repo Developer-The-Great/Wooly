@@ -97,8 +97,6 @@ namespace PXG
 		return hitInfo.RayHit;
 	}
 
-	
-
 	void PhysicsEngine::RayToMeshIntersection(Vector3 position, Vector3 direction, HitInfo & hitInfo, std::shared_ptr<Mesh> mesh, Mat4 objectTransform, std::shared_ptr<GameObject> owner)
 	{
 
