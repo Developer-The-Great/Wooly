@@ -26,7 +26,6 @@ namespace PXG
 		{
 			updateText();
 		}
-
 	}
 	void TextComponent::SetFont(Font * font)
 	{

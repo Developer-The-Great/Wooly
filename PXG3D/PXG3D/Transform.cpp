@@ -19,7 +19,6 @@ namespace PXG
 	Vector3 Transform::GetLocalPosition() const
 	{
 		return position;
-
 	}
 
 	void Transform::SetLocalPosition(Vector3 localPosition)
@@ -131,10 +130,6 @@ namespace PXG
 		return Vector3(result.x, result.y, result.z).Normalized();
 	}
 
-	/*inline void Transform::SetParent(Transform * transform)
-	{
-		parentTransform = transform;
-	}*/
 
 }
 

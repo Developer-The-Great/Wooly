@@ -20,7 +20,7 @@ namespace PXG
 	{
 		return shader;
 	}
-	
+
 	void TextureMaterial::SendUniforms(std::weak_ptr<World> _world, Mat4 model, Mat4 view, Mat4 projection)
 	{
 		shader->Use();

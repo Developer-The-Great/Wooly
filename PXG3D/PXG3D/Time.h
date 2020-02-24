@@ -9,8 +9,7 @@ namespace PXG
 	{
 	public:
 
-		Time(int,float);
-
+		Time(int ,float );
 		float GetTime();
 
 		float GetAverageDeltaTime() const;

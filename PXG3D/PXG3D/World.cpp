@@ -16,13 +16,12 @@ namespace PXG
 
 	std::shared_ptr<CameraComponent> World::GetCamera() const
 	{
-	
+
 		return cameraComponent;
 	}
 	void World::AddLight(std::shared_ptr<LightComponent> light)
 	{
 		lights.emplace_front(light);
-		
 	}
 	std::list<std::shared_ptr<LightComponent>> World::GetLights() const
 	{
