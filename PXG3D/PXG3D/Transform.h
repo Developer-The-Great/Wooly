@@ -53,10 +53,6 @@ namespace PXG
 		Vector3 position;
 		Vector3 scale;
 
-
 		Transform* parentTransform = nullptr;
-
-
-
 	};
 }
