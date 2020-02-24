@@ -9,15 +9,17 @@
 #include "FileConfig.h"
 #include "TextureMaterial.h"
 #include "PhysicsComponent.h"
+#include "NodeGraph.h"
 namespace PXG
 {
 	class LevelLoader : public Component
 	{
 	public:
-		void Start() override{}
-		void FixedUpdate(float tick) override{}
+		void Start() override {}
+		void FixedUpdate(float tick) override {}
 
-		void LoadLevel(std::ifstream& file,Game* game) const
+
+		void LoadLevel(std::ifstream& file, Game* game, std::shared_ptr<NodeGraph> nodeGraph)
 		{
 			using json = nlohmann::json;
 
@@ -27,11 +29,11 @@ namespace PXG
 
 			auto material = std::make_shared<TextureMaterial>();
 
-			for(auto& tile : config["tiles"])
+			for (auto& tile : config["tiles"])
 			{
 
 				//check if we are dealing with an object
-				if(!tile.is_object())
+				if (!tile.is_object())
 				{
 					Debug::Log(Verbosity::Warning, "encountered non object type in tile-map, skipping!");
 					continue;
@@ -39,7 +41,7 @@ namespace PXG
 
 
 				//check if the object has the required fields
-				if( !tile["position"].is_array() ||	!tile["model"].is_string())
+				if (!tile["position"].is_array() || !tile["model"].is_string())
 				{
 					Debug::Log(Verbosity::Error, "encountered object with invalid data!, abort loading");
 					continue;
@@ -48,16 +50,17 @@ namespace PXG
 				Vector3 offset;
 
 				//check if the position field has enough entries
-				if(tile["position"].size() < 3)
+				if (tile["position"].size() < 3)
 				{
 					Debug::Log(Verbosity::Error, "encountered an object with invalid position, not enough elements");
 					continue;
 				}
 
-				//load the position field and make sure they are numbers
-				for(int i = 0; i <3;++i)
+
+				//load the position field and make sure they are numbers 
+				for (int i = 0; i < 3; ++i)
 				{
-					if(!tile["position"][i].is_number())
+					if (!tile["position"][i].is_number())
 					{
 						Debug::Log(Verbosity::Error, "encountered an object with invalid position, element was not a number!");
 						continue;
@@ -95,26 +98,56 @@ namespace PXG
 
 
 				//check if there is meta-data to add
-				if(tile["meta-data"].is_object())
+				if (tile["meta-data"].is_object())
 				{
 					Debug::Log(Verbosity::Info, "encountered object with attached meta-data!");
-					for(auto[key,value] : tile["meta-data"].items())
+					for (auto[key, value] : tile["meta-data"].items())
 					{
-						if(!value.is_string())
+
+						if (key == "node")
+						{
+							Debug::Log("found Node");
+							//create Node 
+							Node* newNode = new Node();
+							int weight = 1;
+							newNode->initNode(offset);
+							nodeGraph->AddNewNode(newNode);
+
+							if (value.is_object())
+							{
+								Debug::Log("Object in Node Meta Data");
+								for (auto[key, value] : value.items())
+								{
+									if (key == "connected_nodes" && value.is_array())
+									{
+										for (auto& connection : value)
+										{
+											if(connection.is_array())
+											{
+												Vector3 connectionPos;
+												for (int i = 0; i < 3; i++)
+												{
+													const float dp = connection[i].get<float>();
+													connectionPos[i] = dp;
+												}
+												newNode->AddNewConnection(connectionPos);
+											}
+										}
+									}
+								}
+								continue;
+							}
+						}
+						if (!value.is_string())
 						{
 							Debug::Log(Verbosity::Error, "invalid meta-data in object , value was not string");
 							continue;
 						}
-
 						metaData->metaData[key] = value.get<std::string>();
-
-
-					}
-
+          }
 				}
 				metaData->offset = offset;
 				child->AddComponent(metaData);
-
 
 				if (tile["rotation"].is_number())
 				{

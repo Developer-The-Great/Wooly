@@ -91,6 +91,8 @@
     <ClCompile Include="Mathf.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshComponent.cpp" />
+    <ClCompile Include="Node.cpp" />
+    <ClCompile Include="NodeGraph.cpp" />
     <ClCompile Include="PhysicsComponent.cpp" />
     <ClCompile Include="PhysicsEngine.cpp" />
     <ClCompile Include="PXGGame.cpp" />
@@ -132,6 +134,8 @@
     <ClInclude Include="ItemRegistry.h" />
     <ClInclude Include="KeyCode.h" />
     <ClInclude Include="LevelLoader.h" />
+    <ClInclude Include="Node.h" />
+    <ClInclude Include="NodeGraph.h" />
     <ClInclude Include="RasterizationMode.h" />
     <ClInclude Include="ScreenSize.h" />
     <ClInclude Include="SpecificOnClick.h" />
