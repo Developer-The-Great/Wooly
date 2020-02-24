@@ -2,7 +2,7 @@
 
 namespace PXG
 {
-	
+
 	Canvas::Canvas(){}
 
 	GameObj Canvas::createCanvasObject( Vector2 position, Vector2 dimensions, std::string name, std::shared_ptr<AbstractMaterial>  material)
@@ -23,9 +23,5 @@ namespace PXG
 		this->AddToChildren(newGameObject);
 		return newGameObject;
 	}
-
-
-
-	
 }
 

@@ -29,7 +29,6 @@ namespace PXG
 	}
 	void GameObject::Update()
 	{
-
 	}
 
 	void GameObject::FixedUpdate(float tick)
@@ -66,27 +65,27 @@ namespace PXG
 		transform.SetLocalPosition(newPosition);
 	}
 
-	int GameObject::GetImmediateChildrenCount()
+	int GameObject::GetImmediateChildrenCount() const
 	{
-		return children.size();
+		return static_cast<int>(children.size());
 	}
 
-	std::shared_ptr<MeshComponent> GameObject::GetMeshComponent()
+	std::shared_ptr<MeshComponent> GameObject::GetMeshComponent() const
 	{
 		return meshComponent;
 	}
 
-	std::shared_ptr<PhysicsComponent> GameObject::GetPhysicsComponent()
+	std::shared_ptr<PhysicsComponent> GameObject::GetPhysicsComponent() const
 	{
 		return physicsComponent;
 	}
 
-	std::vector<std::shared_ptr<GameObject>> GameObject::GetChildren()
+	std::vector<std::shared_ptr<GameObject>> GameObject::GetChildren() const
 	{
 		return children;
 	}
 
-	std::weak_ptr<World> GameObject::GetWorld()
+	std::weak_ptr<World> GameObject::GetWorld() const
 	{
 		return world;
 	}

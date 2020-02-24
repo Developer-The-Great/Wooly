@@ -15,15 +15,13 @@ namespace PXG
 
 		void AddRenderingComponent(std::shared_ptr<MeshComponent> meshComponent);
 
-		void RenderCurrentlySetWorld();
+		void RenderCurrentlySetWorld() const;
 
-		void RenderDebugDrawingForSetWorld();
+		void RenderDebugDrawingForSetWorld() const;
 
-		void RenderCanvas();
+		void RenderCanvas() const;
 
 		//void EnableDepthTest()
-
-
 		void SetWorld(std::shared_ptr<World> world);
 
 		void SetCanvas(std::shared_ptr<Canvas> canvas);
@@ -33,15 +31,11 @@ namespace PXG
 			if (!fontRenderer) fontRenderer = std::make_shared<FontRenderer>(true);
 			return *fontRenderer;
 		}
-		
 
 	private:
-
-
 		std::shared_ptr<FontRenderer> fontRenderer;
-		std::shared_ptr<World> world = nullptr;	
+		std::shared_ptr<World> world = nullptr;
 		std::shared_ptr<Canvas> canvas = nullptr;
-
 
 	};
 }

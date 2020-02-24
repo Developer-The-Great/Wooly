@@ -8,36 +8,27 @@ namespace PXG
 	class GameObject;
 	class Transform;
 
-	class Component 
+	class Component
 	{
 	public:
 
-		virtual void Start() = 0;
+		virtual void Start() {}
 
-		virtual void FixedUpdate(float tick) = 0;
+		virtual void FixedUpdate(float tick) {}
 
-		Component();
+		Component() = default;
 
-		virtual ~Component();
+		virtual ~Component() = default;
 
 		virtual void SetOwner(std::shared_ptr<GameObject> owner);
 
 		Transform* GetOwnerTransform();
 
-		std::shared_ptr<GameObject> GetOwner();
+		std::shared_ptr<GameObject> GetOwner() const;
 
 	protected:
 
 		std::weak_ptr<GameObject> owner;
-
-
-	private:
-
-
-		
-
-
-
 	};
 }
 

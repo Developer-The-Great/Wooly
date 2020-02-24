@@ -27,19 +27,17 @@ namespace PXG
 
 	void Game::Initialize()
 	{
-
-
 	}
 
 
-	GameObj Game::Instantiate()
+	GameObj Game::Instantiate() const
 	{
 		GameObj newGameObject = std::make_shared<GameObject>();
 		newGameObject->InitializeComponentOwners();
 		newGameObject->SetWorld(world);
 		return newGameObject;
 	}
-	GameObj Game::InstantiateUIObject()
+	GameObj Game::InstantiateUIObject() const
 	{
 		GameObj newGameObject = std::make_shared<GameObject>();
 

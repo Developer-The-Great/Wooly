@@ -13,13 +13,11 @@ namespace PXG
 {
 	class LevelLoader : public Component
 	{
-
-		
 	public:
 		void Start() override{}
 		void FixedUpdate(float tick) override{}
 
-		void LoadLevel(std::ifstream& file,Game* game)
+		void LoadLevel(std::ifstream& file,Game* game) const
 		{
 			using json = nlohmann::json;
 
@@ -44,7 +42,7 @@ namespace PXG
 				if( !tile["position"].is_array() ||	!tile["model"].is_string())
 				{
 					Debug::Log(Verbosity::Error, "encountered object with invalid data!, abort loading");
-					continue;	
+					continue;
 				}
 
 				Vector3 offset;
@@ -56,7 +54,7 @@ namespace PXG
 					continue;
 				}
 
-				//load the position field and make sure they are numbers 
+				//load the position field and make sure they are numbers
 				for(int i = 0; i <3;++i)
 				{
 					if(!tile["position"][i].is_number())
@@ -67,9 +65,9 @@ namespace PXG
 					const auto dp = tile["position"][i].get<float>();
 					offset[i] = dp;
 				}
-				
+
 				Debug::Log("{}", offset.ToString());
-				
+
 
 				//create a game-object
 				GameObj child = game->Instantiate();
@@ -110,9 +108,9 @@ namespace PXG
 
 						metaData->metaData[key] = value.get<std::string>();
 
-						
+
 					}
-					
+
 				}
 				metaData->offset = offset;
 				child->AddComponent(metaData);
@@ -126,6 +124,6 @@ namespace PXG
 				GetOwner()->AddToChildren(child);
 			}
 		}
-		
+
 	};
 }

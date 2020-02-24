@@ -13,8 +13,6 @@ namespace PXG
 		Debug::Log("Color material Init");
 		initalizeColorMaterial();
 		this->color = color;
-
-
 	}
 	Shader * ColorMaterial::GetShader()
 	{
@@ -24,7 +22,6 @@ namespace PXG
 	{
 		shader->Use();
 
-		//shader->SetMat4("MVP", projection * view * model);
 		shader->SetMat4("MVP",  model * view * projection);
 		shader->SetVec3("diffuseColor", color);
 
@@ -41,7 +38,7 @@ namespace PXG
 
 			strncpy_s(vertexFilename, "assets/shaders/", sizeof(vertexFilename));
 			strncat_s(vertexFilename, "PXGColor.vert.glsl", sizeof(vertexFilename));
-			
+
 			strncpy_s(fragmentFilename, "assets/shaders/", sizeof(fragmentFilename));
 			strncat_s(fragmentFilename, "PXGColor.frag.glsl", sizeof(fragmentFilename));
 

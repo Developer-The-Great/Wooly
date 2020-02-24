@@ -19,13 +19,10 @@ namespace PXG
 		{
 			return offset;
 		};
-		
 
 	private:
 		friend class LevelLoader;
 		std::unordered_map<std::string, std::string> metaData;
 		Vector3 offset;
-		
-
 	};
 }

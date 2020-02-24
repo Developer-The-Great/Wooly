@@ -35,8 +35,6 @@
 
 namespace PXG {
 
-
-	
 	class Shader;
 
 	const std::string FONT_EXCEPTION_TAG = "Fonts";
@@ -105,7 +103,7 @@ public:
 
 
 	void draw(const glm::mat4& projection, glm::vec3 color);
-	void draw_text(glm::vec3 color, std::string text, glm::vec2 position, GLfloat scale, Font* fnt);
+	void draw_text(glm::vec3 color, std::string text, glm::vec2 position, GLfloat scale, Font* fnt) const;
 
 private:
 	Shader* m_shader;

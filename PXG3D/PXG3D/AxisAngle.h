@@ -5,7 +5,7 @@
 #include "Vector3.h"
 namespace PXG
 {
-	//struct Quaternion;
+	struct Quaternion;
 
 	struct AxisAngle
 	{
@@ -30,20 +30,9 @@ namespace PXG
 			z = az;
 		}
 
-		//Quaternion ToQuaternion()
-		//{
-		//	Vector3 axis(x, y, z);
-		//	axis.Normalize();
-		//	//axis.no
-		//	float qx = axis.x * Mathf::Sin(glm::radians(angle/2.0f));
-		//	float qy = axis.y * Mathf::Sin(glm::radians(angle / 2.0f));
-		//	float qz = axis.z * Mathf::Sin(glm::radians(angle / 2.0f));
-		//	float qw = Mathf::Cos(glm::radians(angle / 2.0f));
+		Quaternion ToQuaternion() const;
 
-		//	return Quaternion(qw, qx, qy, qz).Normalized;
-		//}
-
-		std::string ToString()
+		std::string ToString() const
 		{
 			return "AxisAngle(Angle: " + std::to_string(angle) + " ,X: " + std::to_string(x) + " ,Y: " + std::to_string(y) + " ,Z: " + std::to_string(z);
 		}

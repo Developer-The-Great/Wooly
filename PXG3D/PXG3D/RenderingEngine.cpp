@@ -17,52 +17,39 @@ namespace PXG
 
 	}
 	//TODO [Medium Priority] refactor RenderCurrentlySetWorld() and RenderDebugDrawingForSetWorld()
-	void RenderingEngine::RenderCurrentlySetWorld()
+	void RenderingEngine::RenderCurrentlySetWorld() const
 	{
+
+		//check if the world exists
+		if(!world) return;
+
+		auto camera = world->GetCamera();
+
+		//check if the camera exists
+		if (!camera) return;
+		glEnable(GL_DEPTH_TEST);
 		Mesh::SetRasterizationMode(RasterizationMode::FILL);
-		std::shared_ptr<CameraComponent>  camera = world->GetCamera();
-		
-		if (camera)
+		auto meshComponent = world->GetMeshComponent();
+
+		//render mesh if it exists
+		if (meshComponent)
 		{
-
-			std::shared_ptr<MeshComponent> meshComponent = world->GetMeshComponent();
-
-			if (meshComponent)
-			{
-				meshComponent->Draw(Mat4(), camera->GetView(), camera->GetProjection());
-			}
-
+			meshComponent->Draw(Mat4(), camera->GetView(), camera->GetProjection());
 		}
-		
-
-	}
-
-	void RenderingEngine::RenderDebugDrawingForSetWorld()
-	{
+		glDisable(GL_DEPTH_TEST);
 		Mesh::SetRasterizationMode(RasterizationMode::LINE);
 		//render physics components if necessary
-		if (world)
+		if (world->IsDrawPhysicsComponentMeshNeeded() )
 		{
-			bool needToDrawPhysicsComponent = world->IsDrawPhysicsComponentMeshNeeded();
-			auto camera = world->GetCamera();
-
-			if (needToDrawPhysicsComponent && camera)
-			{
-				world->GetPhysicsComponent()->DrawPhysicsRepresentation(Mat4(), camera->GetView(), camera->GetProjection());
-			}
-
+			world->GetPhysicsComponent()->DrawPhysicsRepresentation(Mat4(), camera->GetView(), camera->GetProjection());
 		}
-
-		//render all objects send for debug
-
 	}
 
-	void RenderingEngine::RenderCanvas()
+	void RenderingEngine::RenderCanvas() const
 	{
 		Mesh::SetRasterizationMode(RasterizationMode::FILL);
 		const glm::vec3 red = { 0.2f,0.2f,0.2f };
 
-		
 		std::shared_ptr<CameraComponent>  camera = canvas->GetCamera();
 
 		if (camera)
@@ -72,7 +59,6 @@ namespace PXG
 
 			if (meshComponent)
 			{
-
 				meshComponent->Draw(Mat4(), camera->GetView(), camera->GetProjection());
 			}
 

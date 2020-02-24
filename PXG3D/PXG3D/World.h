@@ -15,16 +15,16 @@ namespace PXG
 		World();
 
 		void SetCamera(std::shared_ptr<CameraComponent> cameraComponent);
-		std::shared_ptr<CameraComponent> GetCamera();
+		std::shared_ptr<CameraComponent> GetCamera() const;
 
 		void AddLight(std::shared_ptr<LightComponent> light);
-		std::list<std::shared_ptr<LightComponent>>  GetLights();
+		std::list<std::shared_ptr<LightComponent>>  GetLights() const;
 
 		int GetLightCount() const;
 
-		bool IsDrawPhysicsComponentMeshNeeded();
+		static bool IsDrawPhysicsComponentMeshNeeded();
 		//TODO [LOW PRIORITY] also make a better name for this
-		void SetDrawPhysicsComponentMeshDraw(bool newPhysicsComponentDrawState);
+		static void SetDrawPhysicsComponentMeshDraw(bool newPhysicsComponentDrawState);
 
 	protected:
 

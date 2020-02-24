@@ -16,15 +16,6 @@ namespace PXG
 		//setup mesh
 	}
 
-	void MeshComponent::Start()
-	{
-	}
-
-	void MeshComponent::FixedUpdate(float tick)
-	{
-
-	}
-
 	void MeshComponent::Load3DModel(std::string name)
 	{
 
@@ -33,15 +24,11 @@ namespace PXG
 		if(auto iter = cache.find(name); iter != cache.end())
 		{
 			std::copy(iter->second.begin(), iter->second.end(), std::back_inserter(meshes));
-			
 		}
 		else{
 			directory = name.substr(0, name.find_last_of('/'));;
-			
 			//use assimp importer to import scene
 			Debug::Log("Load 3D Model Called");
-			
-			
 
 			const aiScene* scene = importer.ReadFile(name, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
 
@@ -53,13 +40,11 @@ namespace PXG
 				return;
 			}
 
-			
 			//process scene graph
 			processNode(scene,  scene->mRootNode);
 
 			auto& cmesh = cache[name];
 			std::copy(meshes.begin(), meshes.end(), std::back_inserter(cmesh));
-		
 		}
 
 	}
@@ -87,7 +72,6 @@ namespace PXG
 
 	std::shared_ptr<Mesh> MeshComponent::processMesh(aiMesh * mesh, const aiScene * scene)
 	{
-		
 		Debug::Log("Process Mesh Called");
 
 		std::vector<Vertex> vertices;
@@ -131,11 +115,8 @@ namespace PXG
 			{
 				unsigned int index = face.mIndices[j];
 				indices.push_back(index);
-				
-
 			}
 		}
-
 
 		//textures
 		if (mesh->mMaterialIndex >= 0)
@@ -149,11 +130,6 @@ namespace PXG
 			textures.insert(textures.end(), specularTextures.begin(), specularTextures.end());
 
 		}
-		else
-		{
-
-		}
-
 
 		return std::make_shared<Mesh>(indices,vertices, textures);
 	}
@@ -206,7 +182,6 @@ namespace PXG
 	void MeshComponent::Draw(Mat4 parentTransform,Mat4 view,Mat4 projection)
 	{
 		Debug::SetDebugState(false);
-		
 		auto ownerPointer = GetOwner();
 
 		std::string name = ownerPointer->name;
@@ -229,10 +204,6 @@ namespace PXG
 
 		}
 
-
-		
-
-
 		if (ownerPointer)
 		{
 			for (std::shared_ptr<GameObject> const& child : ownerPointer->GetChildren())
@@ -250,7 +221,7 @@ namespace PXG
 		meshes.at(i)->Textures.push_back(texture);
 	}
 
-	std::vector<std::shared_ptr<Mesh>> MeshComponent::GetMeshes()
+	std::vector<std::shared_ptr<Mesh>> MeshComponent::GetMeshes() const
 	{
 		return meshes;
 	}

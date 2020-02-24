@@ -14,7 +14,7 @@ namespace PXG
 	class World;
 	class Mesh;
 	struct Mat4;
-	
+
 	class PhysicsEngine
 	{
 	public:
@@ -23,9 +23,9 @@ namespace PXG
 
 		void SetWorld(std::shared_ptr<World> world);
 
-		float GetTickRate();
+		float GetTickRate() const;
 
-		float GetCurrentTickRemaining();
+		float GetCurrentTickRemaining() const;
 
 		void SetTickRemaining(float tick);
 

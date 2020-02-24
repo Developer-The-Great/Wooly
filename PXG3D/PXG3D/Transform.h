@@ -20,7 +20,7 @@ namespace PXG
 
 		void SetLocalPosition(Vector3 localPosition);
 
-		Vector3 GetPosition();
+		Vector3 GetPosition() const;
 
 		void translate(Vector3 translation);
 
@@ -28,7 +28,7 @@ namespace PXG
 
 		void Scale(Vector3 newScale);
 
-		Quaternion GetRotation();
+		Quaternion GetRotation() const;
 
 		Mat4 GetLocalTransform() const;
 

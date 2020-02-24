@@ -18,38 +18,35 @@ namespace PXG
 			Matrix = glm::mat4(1.0f);
 		}
 
-		Mat4 operator*(const Mat4& otherMat4)
+		Mat4 operator*(const Mat4& otherMat4) const
 		{
 			return Mat4( otherMat4.Matrix  * Matrix);
 		}
 
-		Mat4 operator*(const Vector3 vec3)
+		Vector3 operator*(const Vector3 vec3) const
 		{
-			glm::mat3 x(Matrix);
-			
-			return Matrix ;
+			glm::vec4 v(vec3.ToGLMVec3(),1);
+			return  Vector3(glm::vec3(Matrix * v));
 		}
 
 		Mat4& operator=(const Mat4& otherMat4)
 		{
 			Matrix = otherMat4.Matrix;
-
 			return *this;
 		}
 
 		Mat4& operator=(const glm::mat4& otherMat4)
 		{
 			Matrix = otherMat4;
-
 			return *this;
 		}
 
-		std::string ToString()
+		std::string ToString() const
 		{
 			return glm::to_string(Matrix);
 		}
 
-		glm::mat4 ToGLM()
+		glm::mat4 ToGLM() const
 		{
 			return Matrix;
 		}

@@ -28,7 +28,7 @@ namespace PXG
 			y = GLMVec2.y;
 		}
 
-		Vector2 Normalized()
+		Vector2 Normalized() const
 		{
 			return Vector2(glm::normalize(glm::vec2(x, y)));
 		}
@@ -40,7 +40,7 @@ namespace PXG
 			return *this;
 		}
 
-		Vector2 operator+ (const Vector2 &vec2)
+		Vector2 operator+ (const Vector2 &vec2) const
 		{
 			float newX = x + vec2.x;
 			float newY = y + vec2.y;
@@ -55,7 +55,7 @@ namespace PXG
 			return Vector2(newX, newY);
 		}
 
-		Vector2 operator- (const Vector2 &vec2)
+		Vector2 operator- (const Vector2 &vec2) const
 		{
 			float newX = x - vec2.x;
 			float newY = y - vec2.y;
@@ -63,7 +63,7 @@ namespace PXG
 			return Vector2(newX, newY);
 		}
 
-		Vector2 operator* (const float &scalar)
+		Vector2 operator* (const float &scalar) const
 		{
 			float newX = x * scalar;
 			float newY = y * scalar;
@@ -71,7 +71,7 @@ namespace PXG
 			return Vector2(newX, newY);
 		}
 
-		Vector2 operator/ (const float &scalar)
+		Vector2 operator/ (const float &scalar) const
 		{
 			float newX = x / scalar;
 			float newY = y / scalar;
@@ -116,12 +116,12 @@ namespace PXG
 			}
 		}
 
-		float Length()
+		float Length() const
 		{
 			return glm::length(glm::vec2(x, y));
 		}
 
-		std::string ToString()
+		std::string ToString() const
 		{
 			return glm::to_string(glm::vec2(x, y));
 		}
