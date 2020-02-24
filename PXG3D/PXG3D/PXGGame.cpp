@@ -30,7 +30,7 @@
 #include "SpecificOnClick.h"
 #include "Subject.h"
 #include "Subscriber.h"
-
+#include "NodeGraph.h"
 #include "ScreenSize.h"
 namespace PXG
 {
@@ -172,14 +172,17 @@ namespace PXG
 
 
 		//--------------------------- Instantiate Cubes -----------------------------------//
-
+		GameObj NodesObj = MakeChild("NodesObj");
 
 		auto level_loader = std::make_shared<LevelLoader>();
-
 		TileMap->AddComponent(level_loader);
 
+		auto node_graph = std::make_shared<NodeGraph>();
+		NodesObj->AddComponent(node_graph);
+
 		std::ifstream level_config(config::PXG_CONFIGS_PATH + "level_data.json");
-		level_loader->LoadLevel(level_config, this);
+		level_loader->LoadLevel(level_config, this, node_graph);
+		node_graph->generateConnections();
 
 	}
 

@@ -111,6 +111,12 @@
     <ClCompile Include="SpecificOnClick.cpp">
       <Filter>game</Filter>
     </ClCompile>
+    <ClCompile Include="Node.cpp">
+      <Filter>game</Filter>
+    </ClCompile>
+    <ClCompile Include="NodeGraph.cpp">
+      <Filter>game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PXGGame.h" />
@@ -283,6 +289,12 @@
       <Filter>game</Filter>
     </ClInclude>
     <ClInclude Include="Item.h">
+      <Filter>game</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>game</Filter>
+    </ClInclude>
+    <ClInclude Include="NodeGraph.h">
       <Filter>game</Filter>
     </ClInclude>
   </ItemGroup>

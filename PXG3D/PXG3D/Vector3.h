@@ -137,6 +137,19 @@ namespace PXG
 			}
 		}
 
+		friend bool operator==(const Vector3& lhs, const Vector3& rhs)
+		{
+			return 
+				lhs.x == rhs.x &&
+				lhs.y == rhs.y &&
+				lhs.z == rhs.z;
+		}
+
+		friend bool operator!=(const Vector3& lhs, const Vector3& rhs)
+		{
+			return !(lhs == rhs);
+		}
+
 		float Length()
 		{
 			return glm::length(glm::vec3(x, y, z));
@@ -154,6 +167,10 @@ namespace PXG
 		Vector2 discardZ(Vector3 vec3)
 		{
 			return Vector2(vec3.x, vec3.y);
+		}
+		Vector2 discardY(Vector3 vec3)
+		{
+			return Vector2(vec3.x, vec3.z);
 		}
 	};
 }
