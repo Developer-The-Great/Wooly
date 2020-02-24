@@ -16,7 +16,12 @@ namespace PXG
 		void AddRenderingComponent(std::shared_ptr<MeshComponent> meshComponent);
 
 		void RenderCurrentlySetWorld();
+
+		void RenderDebugDrawingForSetWorld();
+
 		void RenderCanvas();
+
+		//void EnableDepthTest()
 
 
 		void SetWorld(std::shared_ptr<World> world);

@@ -5,6 +5,8 @@
 #include "Mesh.h"
 #include "AbstractMaterial.h"
 #include "Shader.h"
+#include "RasterizationMode.h"
+
 namespace PXG
 {
 	std::unordered_map<std::string, std::vector<std::shared_ptr<Mesh>>> MeshComponent::cache;
@@ -85,7 +87,7 @@ namespace PXG
 
 	std::shared_ptr<Mesh> MeshComponent::processMesh(aiMesh * mesh, const aiScene * scene)
 	{
-
+		
 		Debug::Log("Process Mesh Called");
 
 		std::vector<Vertex> vertices;
@@ -204,7 +206,7 @@ namespace PXG
 	void MeshComponent::Draw(Mat4 parentTransform,Mat4 view,Mat4 projection)
 	{
 		Debug::SetDebugState(false);
-
+		
 		auto ownerPointer = GetOwner();
 
 		std::string name = ownerPointer->name;

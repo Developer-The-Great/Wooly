@@ -98,6 +98,7 @@
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="Vector2.h" />
+    <ClInclude Include="RasterizationMode.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PXGColor.frag.glsl" />

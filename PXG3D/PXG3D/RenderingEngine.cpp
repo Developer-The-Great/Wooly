@@ -1,8 +1,11 @@
 #include "RenderingEngine.h"
 #include "World.h"
 #include "Canvas.h"
+#include "PhysicsComponent.h"
 #include "CameraComponent.h"
-
+#include "Mat4.h"
+#include "Mesh.h"
+#include "RasterizationMode.h"
 namespace PXG
 {
 	RenderingEngine::RenderingEngine()
@@ -13,9 +16,10 @@ namespace PXG
 	{
 
 	}
+	//TODO [Medium Priority] refactor RenderCurrentlySetWorld() and RenderDebugDrawingForSetWorld()
 	void RenderingEngine::RenderCurrentlySetWorld()
 	{
-
+		Mesh::SetRasterizationMode(RasterizationMode::FILL);
 		std::shared_ptr<CameraComponent>  camera = world->GetCamera();
 		
 		if (camera)
@@ -32,9 +36,30 @@ namespace PXG
 		
 
 	}
+
+	void RenderingEngine::RenderDebugDrawingForSetWorld()
+	{
+		Mesh::SetRasterizationMode(RasterizationMode::LINE);
+		//render physics components if necessary
+		if (world)
+		{
+			bool needToDrawPhysicsComponent = world->IsDrawPhysicsComponentMeshNeeded();
+			auto camera = world->GetCamera();
+
+			if (needToDrawPhysicsComponent && camera)
+			{
+				world->GetPhysicsComponent()->DrawPhysicsRepresentation(Mat4(), camera->GetView(), camera->GetProjection());
+			}
+
+		}
+
+		//render all objects send for debug
+
+	}
+
 	void RenderingEngine::RenderCanvas()
 	{
-
+		Mesh::SetRasterizationMode(RasterizationMode::FILL);
 		const glm::vec3 red = { 0.2f,0.2f,0.2f };
 
 		

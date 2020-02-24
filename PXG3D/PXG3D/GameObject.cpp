@@ -11,6 +11,7 @@ namespace PXG
 		Debug::Log("init {0}", name);
 		physicsComponent = std::make_shared<PhysicsComponent>();
 		meshComponent = std::make_shared<MeshComponent>();
+
 	}
 
 	GameObject::~GameObject()
@@ -20,9 +21,7 @@ namespace PXG
 
 	void GameObject::Start()
 	{
-		physicsComponent->SetOwner(shared_from_this());
-		meshComponent->SetOwner(shared_from_this());
-
+		InitializeComponentOwners();
 		for (auto const& child : children)
 		{
 			child->Start();
@@ -100,6 +99,12 @@ namespace PXG
 	Transform* GameObject::GetTransform()
 	{
 		return &transform;
+	}
+
+	void GameObject::InitializeComponentOwners()
+	{
+		physicsComponent->SetOwner(shared_from_this());
+		meshComponent->SetOwner(shared_from_this());
 	}
 
 	

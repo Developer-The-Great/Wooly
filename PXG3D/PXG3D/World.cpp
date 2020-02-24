@@ -3,6 +3,8 @@
 
 namespace PXG
 {
+	bool World::needToDrawPhysicsComponentMesh = true;
+
 	World::World():GameObject()
 	{
 
@@ -29,6 +31,14 @@ namespace PXG
 	int World::GetLightCount() const
 	{
 		return lights.size();
+	}
+	bool World::IsDrawPhysicsComponentMeshNeeded()
+	{
+		return needToDrawPhysicsComponentMesh;
+	}
+	void World::SetDrawPhysicsComponentMeshDraw(bool newPhysicsComponentDrawState)
+	{
+		needToDrawPhysicsComponentMesh = newPhysicsComponentDrawState;
 	}
 }
 

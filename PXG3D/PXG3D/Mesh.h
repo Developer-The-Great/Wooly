@@ -6,6 +6,7 @@
 namespace PXG
 {
 	class Shader;
+	enum class RasterizationMode;
 
 	struct Vertex
 	{
@@ -24,6 +25,8 @@ namespace PXG
 
 		void Draw(Shader* shader);
 
+		static void SetRasterizationMode(RasterizationMode newRasterizationMode);
+
 		Mesh(std::vector<unsigned int> indices, std::vector<Vertex> vertices, std::vector<Texture> textures);
 
 		 
@@ -32,7 +35,7 @@ namespace PXG
 
 		unsigned int VAO, VBO, EBO;
 
-
+		//static RasterizationMode rasterizationMode;
 		
 
 
