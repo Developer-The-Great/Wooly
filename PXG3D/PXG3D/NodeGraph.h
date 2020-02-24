@@ -17,8 +17,6 @@ namespace PXG
 
 		std::vector<Node*> nodes;
 		
-
-		// Geerbt über Component
 		virtual void Start() override;
 
 		virtual void FixedUpdate(float tick) override;
