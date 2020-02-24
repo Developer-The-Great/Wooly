@@ -15,8 +15,6 @@ namespace PXG
 		//elem 2 file_name
 		using item_info_t = std::tuple<std::string, std::string>;
 
-		
-
 		static void LoadConfig(std::ifstream* file)
 		{
 			using json = nlohmann::json;
@@ -25,7 +23,7 @@ namespace PXG
 			*file >> config;
 
 			item_identifier_t i = 1;
-			
+
 			for(auto item_desc : config["items"])
 			{
 				if(item_desc["pretty_name"].is_string() && item_desc["file_name"].is_string())
@@ -40,7 +38,7 @@ namespace PXG
 				}
 			}
 		}
-		
+
 		static item_identifier_t LookUpItem(const std::string& name)
 		{
 			if(const auto itr = reverseTable.find(name); itr != reverseTable.end())
@@ -61,13 +59,12 @@ namespace PXG
 				return itr->second;
 			}
 			return item_info_t{};
-			
-		}
 
+		}
 
 	private:
 		inline static std::map<item_identifier_t, item_info_t> nameTable;
 		inline static std::unordered_map<std::string, item_identifier_t> reverseTable;
-		
-	};	
+
+	};
 }

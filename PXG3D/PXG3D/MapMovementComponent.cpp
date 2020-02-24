@@ -36,13 +36,13 @@ namespace PXG
 				case RIGHT:		move({ -1, 0, 0 }); break;
 				default: ;
 				}
-				
+
 
 			}
 			timer = 0;
 		}
 
-		
+
 
 		if (Input::GetKeyDown(KeyCode::K))
 		{
@@ -59,16 +59,15 @@ namespace PXG
 		this->map = newMap;
 	}
 
-	void MapMovementComponent::Reset()
+	void MapMovementComponent::Reset() const
 	{
 		Transform* mapTransform = map->GetTransform();
 		mapTransform->SetLocalPosition({ 0,0,0 });
 	}
-	
+
 	void MapMovementComponent::move(PXG::Vector3 direction)
 	{
 
-		
 		std::vector<std::shared_ptr<GameObject>> tiles = map->GetChildren();
 		int i = 0;
 		Transform* mapTransform = map->GetTransform();

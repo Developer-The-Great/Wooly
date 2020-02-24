@@ -18,10 +18,6 @@ namespace PXG
 
 	public:
 
-		virtual void Start() override;
-
-		virtual void FixedUpdate(float tick) override;
-
 		LightComponent(Vector3 ambient = Vector3(0.05f, 0.05f, 0.05f),Vector3 diffuse = Vector3(0.7f, 0.7f, 0.7f),Vector3 specular = Vector3(1.0f, 1.0f, 1.0f));
 
 		virtual void SetOwner(std::shared_ptr<GameObject> owner) override;
@@ -37,9 +33,9 @@ namespace PXG
 
 	private:
 
-		void SendPointUniform(Shader * shaderProgram, std::vector<int>& lightTypeCount);
-		void SendSpotUniform(Shader * shaderProgram, std::vector<int>& lightTypeCount);
-		void SendDirectionalUniform(Shader* shaderProgram, std::vector<int>& lightTypeCount);
+		void SendPointUniform(Shader * shaderProgram, std::vector<int>& lightTypeCount) const;
+		void SendSpotUniform(Shader * shaderProgram, std::vector<int>& lightTypeCount) const;
+		void SendDirectionalUniform(Shader* shaderProgram, std::vector<int>& lightTypeCount) const;
 
 		glm::vec3 direction = glm::vec3(0, -1, 0);
 		float cutoffAngle = glm::cos(glm::radians(30.0f));

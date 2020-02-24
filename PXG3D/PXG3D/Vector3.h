@@ -32,7 +32,7 @@ namespace PXG
 			z = GLMVec3.z;
 		}
 
-		Vector3 Normalized()
+		Vector3 Normalized() const
 		{
 			return Vector3(glm::normalize(glm::vec3(x,y,z)));
 		}
@@ -44,7 +44,7 @@ namespace PXG
 			return *this;
 		}
 
-		Vector3 operator+ (const Vector3 &vec3)
+		Vector3 operator+ (const Vector3 &vec3) const
 		{
 			float newX = x + vec3.x;
 			float newY = y + vec3.y;
@@ -53,15 +53,9 @@ namespace PXG
 			return Vector3(newX, newY, newZ);
 		}
 
-		Vector3 operator*(const int &scaler)
-		{
-			float newX = x *= scaler;
-			float newY = y *= scaler;
-			float newZ = z *= scaler;
-			return Vector3(newX, newY, newZ);
-		}
 
-		Vector3 operator- (const Vector3 &vec3)
+
+		Vector3 operator- (const Vector3 &vec3) const
 		{
 			float newX = x - vec3.x;
 			float newY = y - vec3.y;
@@ -78,7 +72,7 @@ namespace PXG
 		{
 			return { -lhs.x,-lhs.y,-lhs.z };
 		}
-		Vector3 operator* (const float &scalar)
+		Vector3 operator* (float scalar) const
 		{
 			float newX = x * scalar;
 			float newY = y * scalar;
@@ -87,7 +81,7 @@ namespace PXG
 			return Vector3(newX, newY, newZ);
 		}
 
-		Vector3 operator/ (const float &scalar)
+		Vector3 operator/ ( float scalar) const
 		{
 			float newX = x / scalar;
 			float newY = y / scalar;
@@ -137,12 +131,12 @@ namespace PXG
 			}
 		}
 
-		float Length()
+		float Length() const
 		{
 			return glm::length(glm::vec3(x, y, z));
 		}
 
-		std::string ToString()
+		std::string ToString() const
 		{
 			return glm::to_string(glm::vec3(x, y, z));
 		}

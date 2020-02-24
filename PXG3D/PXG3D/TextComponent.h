@@ -13,8 +13,7 @@ namespace PXG
 	class TextComponent :public Component, public std::enable_shared_from_this<TextComponent>
 	{
 	public:
-		TextComponent();
-		~TextComponent();
+
 		void setString(std::string string);
 		void setFontSize(int size);
 		void setRelativePosition(Vector2 position);
@@ -34,7 +33,6 @@ namespace PXG
 		FontRenderer* frenderer;
 		bool active = true;
 		bool isStatic = false;
-		virtual void Start() override;
 	};
 
 

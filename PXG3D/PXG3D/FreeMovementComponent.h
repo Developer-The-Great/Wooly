@@ -7,14 +7,7 @@ namespace PXG
 	{
 	public:
 
-		virtual void Start() override;
 		virtual void FixedUpdate(float tick) override;
-
-
-	private:
-
-
-
 	};
 
 }

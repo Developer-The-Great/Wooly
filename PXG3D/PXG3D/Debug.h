@@ -17,7 +17,7 @@ enum class Verbosity
 class Debug
 {
 public:
-	
+
 	template<typename ...Args>
 	static void Log(Verbosity verbosity, std::string str, const Args & ...args)
 	{
@@ -56,17 +56,17 @@ public:
 		Log(DefaultVerbosity, str, args...);
 
 	};
-	
+
 	static void SetPattern(std::string pattern);
 
 	static void SetDebugState(bool newState);
-	
+
 	static void SetDefaultVerbosity(Verbosity defaultVerbosity);
 
 private:
 
 	static bool debugOn;
-	
+
 	static Verbosity DefaultVerbosity;
 };
 

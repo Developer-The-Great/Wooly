@@ -27,7 +27,6 @@ namespace PXG
 
 	void PhysicsComponent::ConstructPhysicsRepresentationFromMeshComponent()
 	{
-		
 		auto meshComponentMeshes = GetOwner()->GetMeshComponent()->GetMeshes();
 		meshes = meshComponentMeshes;
 	}

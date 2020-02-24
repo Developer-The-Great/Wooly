@@ -5,7 +5,6 @@
 
 namespace PXG
 {
-	
 	struct  Quaternion
 	{
 		float x;
@@ -37,7 +36,7 @@ namespace PXG
 			w = Quat.w;
 		}
 
-		Quaternion operator/(const float scalar)
+		Quaternion operator/(const float scalar) const
 		{
 			float newW = w / scalar;
 			float newX = x / scalar;
@@ -47,7 +46,7 @@ namespace PXG
 			return Quaternion(newW,newX,newY,newZ);
 		}
 
-		Quaternion operator*(const float& scalar)
+		Quaternion operator*(const float& scalar) const
 		{
 			float newW = w * scalar;
 			float newX = x * scalar;
@@ -56,7 +55,7 @@ namespace PXG
 			return Quaternion(newW, newX, newY, newZ);
 		}
 
-		Quaternion operator*(const Quaternion& otherQuat)
+		Quaternion operator*(const Quaternion& otherQuat) const
 		{
 			return Quaternion(glm::quat(w, x, y, z) * glm::quat(otherQuat.w, otherQuat.x, otherQuat.y, otherQuat.z));
 		}
@@ -71,12 +70,12 @@ namespace PXG
 			return *this;
 		}
 
-		float Length()
+		float Length() const
 		{
 			return glm::length(glm::quat(w, x, y, z));
 		}
 
-		Quaternion Normalized()
+		Quaternion Normalized() const
 		{
 			return glm::normalize(glm::quat(w, x, y, z));
 		}
@@ -93,13 +92,7 @@ namespace PXG
 			return Result;
 		}
 
-		/*static Quaternion axisAngle(Vector3 axis, float angle)
-		{
-
-			return Quaternion();
-		}*/
-
-		std::string ToString()
+		std::string ToString() const
 		{
 			return glm::to_string(glm::quat(w, x, y, z));
 		}
@@ -114,6 +107,5 @@ namespace PXG
 			return Quaternion();
 		}
 
-		
 	};
 }

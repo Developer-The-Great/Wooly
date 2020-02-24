@@ -16,7 +16,6 @@ namespace PXG
 			ON_RAYCAST_HIT
 		};
 
-		
 		virtual void Start() override;
 
 		virtual void FixedUpdate(float tick) override;
@@ -26,7 +25,6 @@ namespace PXG
 		{
 			return lastHit;
 		}
-		
 
 	private:
 		HitInfo lastHit;

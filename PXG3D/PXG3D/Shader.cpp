@@ -38,7 +38,7 @@ namespace PXG
 			vertexFile.close();
 			fragmentFile.close();
 
-			//convert stream into string 
+			//convert stream into string
 			vertexCode = vertexStream.str();
 			fragmentCode = fragmentStream.str();
 		}
@@ -52,7 +52,7 @@ namespace PXG
 		const char* vertexShaderSource = vertexCode.c_str();
 		const char* fragmentShaderSource = fragmentCode.c_str();
 
-		//generate vertex shader 
+		//generate vertex shader
 		unsigned int vertexShader, fragmentShader;
 		int success;
 		char infoLog[512];
@@ -119,7 +119,7 @@ namespace PXG
 
 		const char* vertexShaderSource = vertexSource;
 		const char* fragmentShaderSource = fragmentSource;
-		//generate vertex shader 
+		//generate vertex shader
 		unsigned int vertexShader, fragmentShader;
 		int success;
 		char infoLog[512];
@@ -185,12 +185,12 @@ namespace PXG
 	{
 	}
 
-	unsigned int Shader::GetShaderProgram()
+	unsigned int Shader::GetShaderProgram() const
 	{
 		return shaderID;
 	}
 
-	void Shader::Use()
+	void Shader::Use() const
 	{
 		glUseProgram(shaderID);
 	}
@@ -221,7 +221,7 @@ namespace PXG
 		glUniform1i(location, value);
 	}
 
-	void Shader::SetVec3(const std::string & name, Vector3 vec)
+	void Shader::SetVec3(const std::string & name, Vector3 vec) const
 	{
 		glUniform3f(glGetUniformLocation(shaderID, name.c_str()), vec.x, vec.y, vec.z);
 
@@ -232,16 +232,9 @@ namespace PXG
 		glUniform3f(location, vec.x,vec.y,vec.z);
 	}
 
-	void Shader::SetMat4(const std::string & name, Mat4 matrixValue)
+	void Shader::SetMat4(const std::string & name, Mat4 matrixValue) const
 	{
 		glUniformMatrix4fv(glGetUniformLocation(shaderID, name.c_str()), 1,
 			GL_FALSE, glm::value_ptr(matrixValue.ToGLM()));
 	}
-
-	
-
-	
-
-	
-
 }

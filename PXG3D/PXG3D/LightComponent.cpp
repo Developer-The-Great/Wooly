@@ -5,12 +5,7 @@
 #include "World.h"
 namespace PXG
 {
-	void LightComponent::Start()
-	{
-	}
-	void LightComponent::FixedUpdate(float tick)
-	{
-	}
+
 	LightComponent::LightComponent(Vector3 ambient, Vector3 diffuse, Vector3 specular) : Component()
 	{
 		this->ambient = ambient;
@@ -82,7 +77,7 @@ namespace PXG
 		this->intensity = intensity;
 	}
 
-	void LightComponent::SendPointUniform(Shader * shaderProgram, std::vector<int>& lightTypeCount)
+	void LightComponent::SendPointUniform(Shader * shaderProgram, std::vector<int>& lightTypeCount) const
 	{
 		Vector3 position = GetOwner()->GetTransform()->GetPosition();
 
@@ -105,7 +100,7 @@ namespace PXG
 		lightTypeCount.at((int)LightType::POINT_LIGHT)++;
 
 	}
-	void LightComponent::SendSpotUniform(Shader * shaderProgram, std::vector<int>& lightTypeCount)
+	void LightComponent::SendSpotUniform(Shader * shaderProgram, std::vector<int>& lightTypeCount) const
 	{
 		Vector3 position = GetOwner()->GetTransform()->GetPosition();
 
@@ -137,7 +132,7 @@ namespace PXG
 
 	}
 
-	void LightComponent::SendDirectionalUniform(Shader * shaderProgram, std::vector<int>& lightTypeCount)
+	void LightComponent::SendDirectionalUniform(Shader * shaderProgram, std::vector<int>& lightTypeCount) const
 	{
 		int lightCount = lightTypeCount.at((int)LightType::DIRECTIONAL_LIGHT);
 		std::string index = std::to_string(lightCount);
