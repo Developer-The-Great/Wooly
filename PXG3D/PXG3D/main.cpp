@@ -122,7 +122,7 @@ int main()
 		renderingEngine->RenderCurrentlySetWorld();
 
 		glDisable(GL_DEPTH_TEST);
-		renderingEngine->RenderDebugDrawingForSetWorld();
+		//renderingEngine->RenderDebugDrawingForSetWorld();
 
 		renderingEngine->RenderCanvas();
 
