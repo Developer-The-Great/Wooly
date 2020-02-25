@@ -18,6 +18,32 @@
 
 namespace PXG
 {
+
+	template <class JSON>
+	auto extractV3(JSON j)
+	{
+		if (j.size() < 3)
+		{
+			Debug::Log(Verbosity::Error, "encountered an object with invalid position, not enough elements");
+			throw std::runtime_error("Invalid conversion from array to V3");
+		}
+		
+		Vector3 result;
+		for (int i = 0; i < 3; ++i)
+		{
+			if (!j[i].is_number())
+			{
+				Debug::Log(Verbosity::Error, "encountered an object with invalid position, element was not a number!");
+				continue;
+			}
+			const auto dp = j[i].template get<float>();
+			result[i] = dp;
+		}
+		return result;
+	}
+
+
+	
 	class LevelLoader : public Component
 	{
 	public:
@@ -53,27 +79,7 @@ namespace PXG
 					continue;
 				}
 
-				Vector3 offset;
-
-				//check if the position field has enough entries
-				if (tile["position"].size() < 3)
-				{
-					Debug::Log(Verbosity::Error, "encountered an object with invalid position, not enough elements");
-					continue;
-				}
-
-
-				//load the position field and make sure they are numbers 
-				for (int i = 0; i < 3; ++i)
-				{
-					if (!tile["position"][i].is_number())
-					{
-						Debug::Log(Verbosity::Error, "encountered an object with invalid position, element was not a number!");
-						continue;
-					}
-					const auto dp = tile["position"][i].get<float>();
-					offset[i] = dp;
-				}
+				Vector3 offset = extractV3(tile["position"]);
 
 				Debug::Log("{}", offset.ToString());
 
@@ -112,42 +118,36 @@ namespace PXG
 				if (tile["meta-data"].is_object())
 				{
 					Debug::Log(Verbosity::Info, "encountered object with attached meta-data!");
+
 					for (auto[key, value] : tile["meta-data"].items())
 					{
 
-						if (key == "node")
+						//check if the meta-data is a node
+						if (key == "node" && value.is_object())
 						{
 							Debug::Log("found Node");
 							//create Node 
-							Node* newNode = new Node();
+							auto newNode = std::make_shared<Node>();
 							int weight = 1;
 							newNode->initNode(offset);
-							nodeGraph->AddNewNode(newNode);
+							nodeGraph->AddNewNode(newNode.get());
 
-							if (value.is_object())
+						
+							Debug::Log("Object in Node Meta Data");
+							for (auto[key, value] : value.items())
 							{
-								Debug::Log("Object in Node Meta Data");
-								for (auto[key, value] : value.items())
+								if (key == "connected_nodes" && value.is_array())
 								{
-									if (key == "connected_nodes" && value.is_array())
+									for (auto& connection : value)
 									{
-										for (auto& connection : value)
-										{
-											if(connection.is_array())
-											{
-												Vector3 connectionPos;
-												for (int i = 0; i < 3; i++)
-												{
-													const float dp = connection[i].get<float>();
-													connectionPos[i] = dp;
-												}
-												newNode->AddNewConnection(connectionPos);
-											}
-										}
+
+										Vector3 connectionPos = extractV3(connection);
+										newNode->AddNewConnection(connectionPos);
 									}
 								}
-								continue;
 							}
+							child->AddComponent(newNode);
+							continue;
 						}
 						if (!value.is_string())
 						{
@@ -155,7 +155,7 @@ namespace PXG
 							continue;
 						}
 						metaData->metaData[key] = value.get<std::string>();
-          }
+					}
 				}
 				metaData->offset = offset;
 				child->AddComponent(metaData);

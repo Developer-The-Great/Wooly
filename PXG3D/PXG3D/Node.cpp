@@ -26,7 +26,7 @@ namespace PXG
 		nodeWeight = newWeight;
 	}
 
-	std::vector<Node*>& Node::getConnectedNodes()
+	std::vector<Node*>& Node::GetConnectedNodes()
 	{
 		return connectedNodes;
 
