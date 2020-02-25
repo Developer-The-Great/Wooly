@@ -3,15 +3,5 @@
 
 namespace PXG
 {
-	class UIObject : GameObject
-	{
-	public:
-		UIObject();
-		~UIObject();
-		
-	private:
-
-	};
-
-
+	class UIObject : GameObject	{};
 }

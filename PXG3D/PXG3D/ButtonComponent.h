@@ -19,19 +19,11 @@ namespace PXG
 		};
 
 		ButtonComponent();
-		
-		~ButtonComponent() override;
 
-		virtual void Start() override;
+		virtual ~ButtonComponent() = default;
 
-		virtual void FixedUpdate(float tick) override;
-
-
-	private:
-		
-		buttonEvent onClickEvent = ON_CLICK;
+		void FixedUpdate(float tick) override;
 
 	};
-
 }
 

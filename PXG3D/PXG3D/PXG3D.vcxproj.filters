@@ -3,9 +3,6 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PXGGame.cpp" />
-    <ClCompile Include="AbstractMaterial.cpp">
-      <Filter>materials</Filter>
-    </ClCompile>
     <ClCompile Include="ButtonComponent.cpp">
       <Filter>components</Filter>
     </ClCompile>
@@ -49,15 +46,6 @@
       <Filter>components</Filter>
     </ClCompile>
     <ClCompile Include="World.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
-    <ClCompile Include="Vector3.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
-    <ClCompile Include="Utils.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
-    <ClCompile Include="UIObject.cpp">
       <Filter>core</Filter>
     </ClCompile>
     <ClCompile Include="Transform.cpp">
@@ -110,6 +98,15 @@
     </ClCompile>
     <ClCompile Include="SpecificOnClick.cpp">
       <Filter>game</Filter>
+    </ClCompile>
+    <ClCompile Include="Node.cpp">
+      <Filter>game</Filter>
+    </ClCompile>
+    <ClCompile Include="NodeGraph.cpp">
+      <Filter>game</Filter>
+    </ClCompile>
+    <ClCompile Include="AxisAngle.cpp" >
+      <Filter>core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -287,6 +284,11 @@
     </ClInclude>
     <ClInclude Include="CollisionCubeParams.h">
       <Filter>core</Filter>
+    <ClInclude Include="Node.h">
+      <Filter>game</Filter>
+    </ClInclude>
+    <ClInclude Include="NodeGraph.h">
+      <Filter>game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

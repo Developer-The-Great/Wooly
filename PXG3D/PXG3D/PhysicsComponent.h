@@ -29,15 +29,12 @@ namespace PXG
 		PhysicsComponent();
 
 		void SetPhysicsDrawingMaterial(std::shared_ptr<AbstractMaterial> newPhysicsDrawingMaterial);
-		
+
 		void DrawPhysicsRepresentation(Mat4 parentTransform, Mat4 view, Mat4 projection);
 
 		std::vector<std::shared_ptr<Mesh>> GetPhysicsMeshes();
 
 	private:
-
-		
-
 		std::shared_ptr<AbstractMaterial> physicsRenderingMaterial;
 
 		std::vector<std::shared_ptr<Mesh>> meshes;

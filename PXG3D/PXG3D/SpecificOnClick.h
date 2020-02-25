@@ -6,16 +6,7 @@ namespace PXG
 	class SpecificOnClick : public AbstractOnClick
 	{
 	public:
-		SpecificOnClick();
 		~SpecificOnClick();
 		virtual void Execute()override;
-	private:
-
-
-
-
 	};
-
-	
-
 }

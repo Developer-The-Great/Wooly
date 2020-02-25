@@ -4,8 +4,6 @@
 
 namespace PXG
 {
-
-
 	void subject_base::notify(const event_t e)
 	{
 		for (subscriber_base* view : m_views)
@@ -27,6 +25,4 @@ namespace PXG
 		if (m_iter > m_views.size()) m_iter = 0;
 		if (!m_views.empty()) m_views[m_iter++]->onNotify(this, e);
 	}
-
-	
 }

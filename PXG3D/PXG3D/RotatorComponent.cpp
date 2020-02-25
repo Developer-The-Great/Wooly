@@ -10,9 +10,6 @@ namespace PXG
 
 
 	}
-	void RotatorComponent::Start()
-	{
-	}
 	void RotatorComponent::FixedUpdate(float tick)
 	{
 		auto transform = GetOwnerTransform();

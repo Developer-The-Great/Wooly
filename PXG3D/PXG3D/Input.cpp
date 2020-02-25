@@ -21,7 +21,6 @@ Input & Input::GetInstance()
 
 int Input::GetTrackedKeyCount()
 {
-	
 	return GetInstance().inputStates.size();
 }
 
@@ -40,9 +39,7 @@ inline void Input::AddKeysToTrack(T key)
 
 void Input::key_callback(GLFWwindow * window, int key, int scancode, int action, int mods)
 {
-	
 	UpdateKey(key, action);
-		
 }
 
 void Input::mouse_button_callback(GLFWwindow * window, int button, int action, int mods)

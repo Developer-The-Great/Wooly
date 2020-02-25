@@ -31,10 +31,8 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-  <ImportGroup Label="ExtensionSettings">
-  </ImportGroup>
-  <ImportGroup Label="Shared">
-  </ImportGroup>
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="Shared" />
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
@@ -77,7 +75,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\deps\include\src\glad.c" />
-    <ClCompile Include="AbstractMaterial.cpp" />
     <ClCompile Include="ButtonComponent.cpp" />
     <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="Canvas.cpp" />
@@ -94,6 +91,8 @@
     <ClCompile Include="Mathf.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshComponent.cpp" />
+    <ClCompile Include="Node.cpp" />
+    <ClCompile Include="NodeGraph.cpp" />
     <ClCompile Include="PhysicsComponent.cpp" />
     <ClCompile Include="PhysicsEngine.cpp" />
     <ClCompile Include="PXGGame.cpp" />
@@ -109,9 +108,6 @@
     <ClCompile Include="TextureMaterial.cpp" />
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="Transform.cpp" />
-    <ClCompile Include="UIObject.cpp" />
-    <ClCompile Include="Utils.cpp" />
-    <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
@@ -139,6 +135,8 @@
     <ClInclude Include="ItemRegistry.h" />
     <ClInclude Include="KeyCode.h" />
     <ClInclude Include="LevelLoader.h" />
+    <ClInclude Include="Node.h" />
+    <ClInclude Include="NodeGraph.h" />
     <ClInclude Include="RasterizationMode.h" />
     <ClInclude Include="ScreenSize.h" />
     <ClInclude Include="SpecificOnClick.h" />
@@ -179,8 +177,8 @@
   <ItemGroup>
     <None Include="PXGColor.frag.glsl" />
     <None Include="PXGColor.vert.glsl" />
+    <ClCompile Include="AxisAngle.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets" />
 </Project>

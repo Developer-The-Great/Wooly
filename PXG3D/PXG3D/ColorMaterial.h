@@ -11,7 +11,7 @@ namespace PXG
 	public:
 
 		ColorMaterial(Vector3 color  = Vector3(1,0,0));
-	
+
 		virtual Shader* GetShader() override;
 
 		virtual void SendUniforms(std::weak_ptr<World> _world, Mat4 model, Mat4 view, Mat4 projection) override;

@@ -61,8 +61,8 @@ namespace PXG
 	{
 		glPolygonMode(GL_FRONT_AND_BACK, (int)newRasterizationMode);
 	}
-	
-	void Mesh::SetupMesh()
+
+	void Mesh::setupMesh()
 	{
 		glGenVertexArrays(1, &VAO);
 		glGenBuffers(1, &VBO);
@@ -70,7 +70,6 @@ namespace PXG
 
 		glBindVertexArray(VAO);
 
-		
 		glBindBuffer(GL_ARRAY_BUFFER, VBO);
 		glBufferData(GL_ARRAY_BUFFER, Vertices.size() * sizeof(Vertex), &Vertices[0], GL_STATIC_DRAW);
 

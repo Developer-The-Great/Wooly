@@ -19,8 +19,7 @@ namespace PXG
 		const std::string PXG_CONFIGS_PATH("assets/config/");
 
 		const std::string PXG_FONT_PATH("assets/fonts/");
-		
+
 	}
 }
 
-	

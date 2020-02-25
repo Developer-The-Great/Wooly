@@ -11,17 +11,12 @@ namespace PXG
 	{
 
 	public:
-		AbstractMaterial();
-		virtual ~AbstractMaterial();
+		AbstractMaterial() = default;
+		virtual ~AbstractMaterial() = default;
 
 		virtual Shader* GetShader() = 0;
 
 		virtual void SendUniforms(std::weak_ptr<World> _world,Mat4 model,Mat4 view,Mat4 projection) = 0;
 
-
-	private:
-
 	};
-
-
 }

@@ -35,11 +35,11 @@ int main()
 	//--------------------------- Initializing GLFW Stuff--------------------//
 
 	//TODO refactor glfw stuff
-	
+
 	PXG::PXGWindow::Init();
 
 	GLFWwindow* window = PXG::PXGWindow::MakeGLFWWindow(width, height, "PXG3D Game", NULL, NULL);
-	
+
 	if (window == nullptr)
 	{
 		Debug::Log(Verbosity::Error, "Failed to create window");
@@ -49,13 +49,13 @@ int main()
 
 	glfwMakeContextCurrent(window);
 
-	
+
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
 		Debug::Log(Verbosity::Error, "Failed to initialize glad");
 		return -1;
 	}
-	
+
 	//tell OpenGL the size of the rendering window
 	glViewport(0, 0, width, height);
 	//TODO LOW PRIORITY : refactor callbacks
@@ -73,7 +73,7 @@ int main()
 	std::unique_ptr<PXG::RenderingEngine> renderingEngine = std::make_unique<PXG::RenderingEngine>();
 	renderingEngine->SetWorld(gamePtr->GetWorld());
 	renderingEngine->SetCanvas(gamePtr->GetCanvas());
-	
+
 
 	//--------------------Initialize Physics Engine -------------------------//
 
@@ -83,7 +83,7 @@ int main()
 	//------------------- Initialize World -----------------------------------//
 
 	int frameTickStored = 6;
-	int estimatedInitialFPS = 60.0f;
+	int estimatedInitialFPS = 60;
 
 	std::shared_ptr<PXG::Time> time = std::make_shared<PXG::Time>(frameTickStored, estimatedInitialFPS);
 
@@ -111,7 +111,7 @@ int main()
 		Input::PollEvents();
 
 		physicsEngine->SetTickRemaining(time->GetAverageDeltaTime());
-		
+
 		while (physicsEngine->IsTicking())
 		{
 			float tick = physicsEngine->DecreaseRemainingTickTime();
@@ -119,11 +119,14 @@ int main()
 			gamePtr->FixedUpdate(tick);
 
 		}
-		glEnable(GL_DEPTH_TEST);
+		
 		renderingEngine->RenderCurrentlySetWorld();
 
 		glDisable(GL_DEPTH_TEST);
 		renderingEngine->RenderDebugDrawingForSetWorld();
+
+		renderingEngine->RenderDebugDrawingForSetWorld();
+		glDisable(GL_DEPTH_TEST);
 
 		renderingEngine->RenderCanvas();
 
@@ -132,7 +135,7 @@ int main()
 		Input::LateUpdateTrackedKeyStates();
 
 		time->UpdateAverageTime();
-		
+
 
 	}
 

@@ -25,10 +25,10 @@ namespace PXG {
 		vec4 sampled = vec4(1.0, 1.0, 1.0, texture(text, TexCoords).r);
 		color = vec4(textColor, 1.0) * sampled;
 
-	
+
 	})";
 
-	
+
 	const char* vertex_shader = R"(
 	#version 330 core
 	layout (location = 0) in vec4 vertex; // <vec2 pos, vec2 tex>
@@ -42,9 +42,6 @@ namespace PXG {
 	    TexCoords = vertex.zw;
 	})";
 
-	
-
-	
 
 class font_error : std::runtime_error
 {
@@ -54,7 +51,7 @@ public: font_error(std::string message) :std::runtime_error(message + "@" + PXG:
 
 PXG::Font::Font(std::string  filepath, int pensize)
 {
-	//check if the ft library is initialized 
+	//check if the ft library is initialized
 	if (m_library == nullptr)
 	{
 		m_library = new FT_Library;
@@ -74,7 +71,7 @@ PXG::Font::Font(std::string  filepath, int pensize)
 
 	const FT_Error error = FT_New_Face(*m_library, filepath.c_str(), 0, m_face);
 
-	
+
 	//const FT_Error error = FT_New_Memory_Face(*m_library, font_data.data(), font_data.size(), 0, m_face);
 
 	if (error)
@@ -127,7 +124,7 @@ PXG::Font::Font(std::string  filepath, int pensize)
 			texture,
 			glm::ivec2((*m_face)->glyph->bitmap.width, (*m_face)->glyph->bitmap.rows),
 			glm::ivec2((*m_face)->glyph->bitmap_left, (*m_face)->glyph->bitmap_top),
-			(*m_face)->glyph->advance.x
+			static_cast<GLuint>((*m_face)->glyph->advance.x)
 		};
 		m_characters.insert(std::pair<GLchar, Character>(c, character));
 	}
@@ -135,7 +132,7 @@ PXG::Font::Font(std::string  filepath, int pensize)
 	delete m_face;
 }
 
-//use a different shader for the font renderer 
+//use a different shader for the font renderer
 void FontRenderer::select_shader(Shader* sh)
 {
 	if (m_shader && m_is_default_shader) delete m_shader;
@@ -147,7 +144,7 @@ void FontRenderer::select_shader(Shader* sh)
 void FontRenderer::use_default_shader()
 {
 	m_is_default_shader = true;
-	
+
 	m_shader = new Shader(vertex_shader,fragment_shader,"__internal_font_shader",true);
 }
 
@@ -216,13 +213,13 @@ void FontRenderer::delete_queue()
 void FontRenderer::draw(const glm::mat4& projection, glm::vec3 color)
 {
 
-	
+
 	if (!m_shader) throw font_error("provided shader is invalid !");
 
 	//bind the shader
 	m_shader->Use();
 
-	//upload projection	
+	//upload projection
 	m_shader->SetMat4("projection", Mat4(projection));
 
 	//upload text color
@@ -265,7 +262,7 @@ void FontRenderer::draw(const glm::mat4& projection, glm::vec3 color)
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 		//draw all chars in one go
-		glDrawArrays(GL_TRIANGLES, 0, 6 * range_size);
+		glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(6 * range_size));
 
 	}
 
@@ -279,9 +276,9 @@ void FontRenderer::draw(const glm::mat4& projection, glm::vec3 color)
 }
 
 //ineffective method for imediate text drawing
-void FontRenderer::draw_text(glm::vec3 color, std::string text, glm::vec2 position, GLfloat scale, Font* fnt)
+void FontRenderer::draw_text(glm::vec3 color, std::string text, glm::vec2 position, GLfloat scale, Font* fnt) const
 {
-	// Activate corresponding render state	
+	// Activate corresponding render stateS
 	m_shader->Use();
 	glUniform3f(glGetUniformLocation(m_shader->GetShaderProgram(), "textColor"), color.r, color.g, color.b);
 	glActiveTexture(GL_TEXTURE0);

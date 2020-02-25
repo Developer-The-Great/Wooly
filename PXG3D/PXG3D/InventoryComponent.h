@@ -7,7 +7,6 @@ namespace PXG
 {
 	using item_identifier_t = uint32_t;
 
-	
 	class Inventory : public Component
 	{
 	public:
@@ -20,7 +19,6 @@ namespace PXG
 		std::vector<item_identifier_t> EnumerateUniqueItems();
 		uint8_t GetAmountOfItem(item_identifier_t item);
 
-		
 	private:
 
 		std::unordered_map<item_identifier_t, uint8_t> item_map;
@@ -54,7 +52,6 @@ namespace PXG
 			collection.push_back(key);
 		}
 		return collection;
-		
 	}
 
 	inline uint8_t Inventory::GetAmountOfItem(item_identifier_t item)

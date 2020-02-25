@@ -6,16 +6,9 @@
 
 namespace PXG
 {
-	void FreeMovementComponent::Start()
-	{
-
-
-	}
 
 	void FreeMovementComponent::FixedUpdate(float tick)
 	{
-
-
 		if (!owner.expired())
 		{
 			auto ownerPtr = owner.lock();
@@ -32,32 +25,32 @@ namespace PXG
 			{
 				transform->translate(Vector3(-speed, 0, 0));
 			}
-			
+
 			if (Input::GetKey(KeyCode::S))
 			{
 				transform->translate(Vector3(0, 0, speed));
 			}
-			
+
 			if (Input::GetKey(KeyCode::D))
 			{
 				transform->translate(Vector3(speed, 0, 0));
 			}
-			
+
 			if (Input::GetKey(KeyCode::Q))
 			{
 				transform->translate(Vector3(0, speed, 0));
 			}
-			
+
 			if (Input::GetKey(KeyCode::E))
 			{
 				transform->translate(Vector3(0, -speed, 0));
 			}
-			
+
 			if (Input::GetKey(KeyCode::Enter))
 			{
 				Debug::Log("position {0} ", transform->GetLocalPosition().ToString());
 			}
-				
+
 		}
 
 	}

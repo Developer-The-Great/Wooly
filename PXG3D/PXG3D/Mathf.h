@@ -57,9 +57,6 @@ namespace PXG
 		static float Sqrt(float x);
 
 		static Quaternion ToQuaternion(AxisAngle axisAngle);
-		
-
-
 	};
 
 }

@@ -2,13 +2,6 @@
 #include "TextComponent.h"
 namespace PXG
 {
-	TextComponent::TextComponent()
-	{
-	}
-
-	TextComponent::~TextComponent()
-	{
-	}
 	FontRenderer::render_queue render_queue;
 
 	void TextComponent::setString(std::string  string)
@@ -24,7 +17,7 @@ namespace PXG
 	}
 	void TextComponent::setRelativePosition(Vector2 position)
 	{
-		this->offSet = Vector2(position.x - ScreenSize::width / 2, position.y - ScreenSize::height / 2);
+		this->offSet = Vector2(position.x - ScreenSize::WIDTH / 2, position.y - ScreenSize::HEIGHT / 2);
 		updateText();
 	}
 	void TextComponent::FixedUpdate(float tick)
@@ -33,7 +26,6 @@ namespace PXG
 		{
 			updateText();
 		}
-
 	}
 	void TextComponent::SetFont(Font * font)
 	{
@@ -77,8 +69,5 @@ namespace PXG
 			}
 			frenderer->text(font, Text, CharSize, position.ToGLMVec2());
 		}
-	}
-	void TextComponent::Start()
-	{
 	}
 }

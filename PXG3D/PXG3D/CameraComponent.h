@@ -14,16 +14,12 @@ namespace PXG
 
 		~CameraComponent() override;
 
-		virtual void Start() override;
-
-		virtual void FixedUpdate(float tick) override;
-
-		Mat4 GetView();
-		Mat4 GetProjection();
+		Mat4 GetView() const;
+		Mat4 GetProjection() const;
 
 		virtual void SetOwner(std::shared_ptr<GameObject> owner) override;
 
-		int GetUseCount();
+		int GetUseCount() const;
 
 
 	private:

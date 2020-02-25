@@ -14,7 +14,6 @@ namespace PXG
 		DIFFUSE,
 		SPECULAR
 	};
-	
 	struct Texture
 	{
 		Texture(std::string path, TextureType type)
@@ -41,7 +40,7 @@ namespace PXG
 		std::string type;
 		std::string path;
 
-		//path 
+		//path
 		static int GenerateTextureID(std::string path,std::string directory)
 		{
 			return GenerateTexture(directory + '/' + path);

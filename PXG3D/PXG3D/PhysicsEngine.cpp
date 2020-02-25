@@ -14,7 +14,6 @@ namespace PXG
 {
 	void PhysicsEngine::AddPhysicsComponent(std::shared_ptr<PhysicsComponent> physicsComponent)
 	{
-
 	}
 
 	void PhysicsEngine::SetWorld(std::shared_ptr<World> world)
@@ -22,12 +21,12 @@ namespace PXG
 		this->world = world;
 	}
 
-	float PhysicsEngine::GetTickRate()
+	float PhysicsEngine::GetTickRate() const
 	{
 		return tickTime;
 	}
 
-	float PhysicsEngine::GetCurrentTickRemaining()
+	float PhysicsEngine::GetCurrentTickRemaining() const
 	{
 		return tickTimeRemaining;
 	}
@@ -63,7 +62,6 @@ namespace PXG
 			float decreasedTime = tickTimeRemaining;
 
 			tickTimeRemaining = 0;
-			
 			return  decreasedTime;
 		}
 	}
@@ -139,7 +137,7 @@ namespace PXG
 				mesh->Vertices.at(v2Index).position,
 				position,
 				direction,
-				objectTransform, 
+				objectTransform,
 				triangleHitInfo,
 				owner);
 
@@ -161,7 +159,6 @@ namespace PXG
 		glm::vec4 rayOrigin(rayPosition.ToGLMVec3(), 1);
 		glm::vec4 rayDir(-rayDirection.Normalized().ToGLMVec3(), 0);
 
-		
 		//transform ray into the triangle's model space
 		rayOrigin =  glm::inverse(objectTransform.ToGLM()) * rayOrigin;
 		rayDir = glm::normalize(glm::inverse(objectTransform.ToGLM()) * rayDir);
@@ -170,13 +167,12 @@ namespace PXG
 		Vector3 b(vec2.ToGLMVec3());
 		Vector3 c(vec3.ToGLMVec3());
 
-		
 		Vector3 ObjectSpaceNormal =  Mathf::Cross(a - b, c - b).Normalized()*-1;
+
 
 		auto transformedNormal = glm::transpose(glm::inverse(objectTransform.ToGLM())) * glm::vec4(ObjectSpaceNormal.ToGLMVec3(), 0);
 		transformedNormal = glm::normalize(transformedNormal);
 
-		
 		Result.Normal = glm::vec3(transformedNormal.x, transformedNormal.y, transformedNormal.z);
 
 		float normalDotDirection = Mathf::Dot(ObjectSpaceNormal, Vector3(rayDir.x, rayDir.y, rayDir.z));
@@ -219,10 +215,8 @@ namespace PXG
 		float v = (d20* d11 - d21 * d10) / denom;
 
 		//---- P is in triangle if u + v + w = 1 ------
-		
 		if (v < 0 || v > 1)
 		{
-			
 			Result.RayHit = false;
 			Result.T = t;
 			hitInfo = Result;
@@ -233,7 +227,6 @@ namespace PXG
 
 		if (w < 0 || w > 1)
 		{
-			
 			Result.RayHit = false;
 			Result.T = t;
 			hitInfo = Result;
@@ -262,7 +255,6 @@ namespace PXG
 
 	void PhysicsEngine::RecursiveGetMeshComponents(std::vector<std::shared_ptr<MeshComponent>>& MeshComponentList, std::shared_ptr<GameObject> gameObject)
 	{
-		
 		MeshComponentList.push_back(gameObject->GetMeshComponent());
 
 		for (auto const& child : gameObject->GetChildren())
@@ -336,13 +328,11 @@ namespace PXG
 		Vector3 up = transform->GetUp();
 		Vector3 right = transform->GetRight();
 
-		Vector3 topLeftPosition = position - (right * screenWidth / 2.0f) + (up * screenHeight / 2.0f);
+		Vector3 topLeftPosition = position - (right * float(screenWidth / 2.0f)) + (up * screenHeight / 2.0f);
 
 		topLeftPosition = topLeftPosition + right * (x / screenWidth)*screenWidth - up * (y / screenHeight)*screenHeight;
 
 		return topLeftPosition;
 	}
-	
-
 }
 

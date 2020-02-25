@@ -19,7 +19,6 @@ namespace PXG
 	Vector3 Transform::GetLocalPosition() const
 	{
 		return position;
-
 	}
 
 	void Transform::SetLocalPosition(Vector3 localPosition)
@@ -27,7 +26,7 @@ namespace PXG
 		position = localPosition;
 	}
 
-	Vector3 Transform::GetPosition()
+	Vector3 Transform::GetPosition() const
 	{
 		if (parentTransform)
 		{
@@ -53,7 +52,7 @@ namespace PXG
 		scale = newScale;
 	}
 
-	Quaternion Transform::GetRotation()
+	Quaternion Transform::GetRotation() const
 	{
 		if (parentTransform)
 		{
@@ -131,10 +130,6 @@ namespace PXG
 		return Vector3(result.x, result.y, result.z).Normalized();
 	}
 
-	/*inline void Transform::SetParent(Transform * transform)
-	{
-		parentTransform = transform;
-	}*/
 
 }
 
