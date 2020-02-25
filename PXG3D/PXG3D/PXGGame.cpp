@@ -26,21 +26,20 @@
 #include "LevelLoader.h"
 #include "RayCastShooter.h"
 #include "EnergyCounterComponent.h"
-
+#include "TriggerComponent.h"
 #include "SpecificOnClick.h"
 #include "Subject.h"
 #include "Subscriber.h"
 #include "NodeGraph.h"
 #include "ScreenSize.h"
+#include "TriggerComponent.h"
 namespace PXG
 {
+
+
 	PXGGame::PXGGame() : Game()
 	{
-
-
 	}
-
-	//FontRenderer::render_queue render_queue;
 
 	void PXGGame::Initialize()
 	{
@@ -53,23 +52,20 @@ namespace PXG
 			KeyCode::A, KeyCode::W, KeyCode::S, KeyCode::D, KeyCode::Q, KeyCode::E, KeyCode::K, KeyCode::J,
 			KeyCode::LeftMouse, KeyCode::RightMouse, KeyCode::MiddleMouse, KeyCode::Enter);
 
+
 		//---------------------------Initialize Textures---------------------------------------//
-
-
 		std::shared_ptr<ColorMaterial> bluetColorMat = std::make_shared<ColorMaterial>(Vector3(0, 0, 1));
 		std::shared_ptr<TextureMaterial> textureMaterial = std::make_shared<TextureMaterial>();
 
+
 		//--------------------------Initialize GameObjects and their Components--------------------------------//
-
-
 		auto camera				= std::make_shared<CameraComponent>();
 		auto movementComponent	= std::make_shared<FreeMovementComponent>();
 		auto energyCounter		= std::make_shared<EnergyCounterComponent>(frender, font);
 		auto raycaster			= std::make_shared<RayCastShooter>();
 
 		//--------------------------Initialize UI and their Components--------------------------------//
-
-		std::shared_ptr<TextComponent> textComp = std::make_shared<TextComponent>();
+	/*	std::shared_ptr<TextComponent> textComp = std::make_shared<TextComponent>();
 		std::shared_ptr<TextComponent> textComp2 = std::make_shared<TextComponent>();
 
 		textComp->InitText(frender);
@@ -80,24 +76,24 @@ namespace PXG
 		textComp2->InitText(frender);
 		textComp2->SetFont(font);
 		textComp2->setRelativePosition(Vector2(350, 150));
-		textComp2->setString("Hello World2");
+		textComp2->setString("Hello World2");*/
 
-		std::shared_ptr<ButtonComponent> buttonComp = std::make_shared<ButtonComponent>();
-		subscriber_base*  onClick = new SpecificOnClick();
-		//button with onclick component & text
-		GameObj button = canvas->createCanvasObject(Vector2(100, 100), Vector2(100, 100), "Button1", bluetColorMat);
-		button->SetWorld(canvas);
-		button->AddComponent(buttonComp);
-		buttonComp->attach(onClick);
-		button->AddComponent(textComp);
-		button->AddComponent(movementComponent);
-		//empty UI object with text
-		GameObj emptyUIObject = canvas->createEmptyCanvasObject();
-		emptyUIObject->SetWorld(canvas);
-		emptyUIObject->AddComponent(textComp2);
+		//std::shared_ptr<ButtonComponent> buttonComp = std::make_shared<ButtonComponent>();
+		//subscriber_base*  onClick = new SpecificOnClick();
+		////button with onclick component & text
+		//GameObj button = canvas->createCanvasObject(Vector2(100, 100), Vector2(100, 100), "Button1", bluetColorMat);
+		//button->SetWorld(canvas);
+		//button->AddComponent(buttonComp);
+		//buttonComp->attach(onClick);
+		//button->AddComponent(textComp);
+		//button->AddComponent(movementComponent);
+		////empty UI object with text
+		//GameObj emptyUIObject = canvas->createEmptyCanvasObject();
+		//emptyUIObject->SetWorld(canvas);
+		//emptyUIObject->AddComponent(textComp2);
+
 
 		//--------------------------SetUpUICanvas--------------------------------//
-
 		auto UICam = std::make_shared<CameraComponent>();
 		GameObj UICanvasCam = InstantiateUIObject();
 
@@ -109,8 +105,8 @@ namespace PXG
 		//half of game width and half of game height
 		UICanvasCam->GetTransform()->SetLocalPosition(Vector3(300, 200, 0));
 
-		//--------------------------SetUpCam--------------------------------//
 
+		//--------------------------SetUpCam--------------------------------//
 		GameObj cameraObj = Instantiate();
 		cameraObj->name = "cameraObj";
 
@@ -127,11 +123,7 @@ namespace PXG
 
 
 
-		//--------------------------- Map movement -----------------------------------//
-
-
 		//------------------------------ Player --------------------------------------//
-
 		GameObj Player = MakeChild("Player");
 
 		Player->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + "character.obj");
@@ -140,8 +132,8 @@ namespace PXG
 		Player->GetTransform()->Scale(glm::vec3{ 100 });
 		Player->GetMeshComponent()->SetMaterial(textureMaterial);
 
-		//--------------------------- Map movement -----------------------------------//
 
+		//--------------------------- Map movement -----------------------------------//
 		GameObj TileMap = MakeChild("TileMap");
 
 		std::shared_ptr<MapMovementComponent> mapMovement = std::make_shared<MapMovementComponent>();
@@ -158,14 +150,14 @@ namespace PXG
 
 
 		//--------------------------- Instantiate Cubes -----------------------------------//
-
 		energyCounter->subscribe(*mapMovement);
 		mapMovement->subscribe(*energyCounter);
 
 
 		//--------------------------- Instantiate Cubes -----------------------------------//
 		GameObj NodesObj = MakeChild("NodesObj");
-
+		GameObj TriggerHandler = MakeChild("TriggerHand");
+		auto triggerComp = std::make_shared<TriggerComponent>();
 		auto level_loader = std::make_shared<LevelLoader>();
 		TileMap->AddComponent(level_loader);
 
@@ -175,6 +167,7 @@ namespace PXG
 		std::ifstream level_config(config::PXG_CONFIGS_PATH + "level_data.json");
 		level_loader->LoadLevel(level_config, this, node_graph);
 		node_graph->generateConnections();
+
 
 	}
 

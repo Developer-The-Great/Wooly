@@ -157,6 +157,19 @@
             "model" : "grass.obj",
             "texture": "dirt_and_grass.png",
             "meta-data":{}
-        }      
+        }
+    ],
+    "OtherObjects":
+    [
+        {
+            "position": [4,1,4],
+            "model" : "Sheep2.obj",
+            "texture": "diffuse4.jpg",
+            "meta-data":
+            {
+                "behaviour": "followPlayer"
+            }
+        }
     ]
+
 }
