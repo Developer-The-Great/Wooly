@@ -282,6 +282,8 @@
     <ClInclude Include="Item.h">
       <Filter>game</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionCubeParams.h">
+      <Filter>core</Filter>
     <ClInclude Include="Node.h">
       <Filter>game</Filter>
     </ClInclude>

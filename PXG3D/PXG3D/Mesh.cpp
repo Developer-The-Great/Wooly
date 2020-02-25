@@ -11,7 +11,12 @@ namespace PXG
 		this->Textures = textures;
 		this->Indices = indices;
 		this->Vertices = vertices;
-		setupMesh();
+		SetupMesh();
+	}
+
+	Mesh::Mesh()
+	{
+
 	}
 
 	void Mesh::Draw(Shader* shader)

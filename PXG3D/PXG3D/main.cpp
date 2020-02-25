@@ -66,6 +66,7 @@ int main()
 	//--------------------Initialize Game-----------------------//
 
 	std::shared_ptr<PXG::PXGGame> gamePtr = std::make_shared<PXG::PXGGame>();
+	gamePtr->GetWorld()->SetPhysicsComponentDrawActive(false);
 
 	//--------------------Initialize Rendering Engine-----------------------//
 
@@ -121,9 +122,12 @@ int main()
 		
 		renderingEngine->RenderCurrentlySetWorld();
 
-		
-		//renderingEngine->RenderDebugDrawingForSetWorld();
 		glDisable(GL_DEPTH_TEST);
+		renderingEngine->RenderDebugDrawingForSetWorld();
+
+		renderingEngine->RenderDebugDrawingForSetWorld();
+		glDisable(GL_DEPTH_TEST);
+
 		renderingEngine->RenderCanvas();
 
 		glfwSwapBuffers(window);

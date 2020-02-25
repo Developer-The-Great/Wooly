@@ -39,5 +39,9 @@ namespace PXG
 	{
 		needToDrawPhysicsComponentMesh = newPhysicsComponentDrawState;
 	}
+	void World::SetPhysicsComponentDrawActive(bool newState)
+	{
+		needToDrawPhysicsComponentMesh = newState;
+	}
 }
 
