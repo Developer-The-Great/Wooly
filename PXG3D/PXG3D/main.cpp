@@ -1,5 +1,6 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <soloud/soloud.h>
 
 #define STB_IMAGE_IMPLEMENTATION
 //#include "stb_image.h"
@@ -26,6 +27,9 @@ constexpr int height = 600;
 
 int main()
 {
+	
+
+
 	Debug::SetDebugState(true);
 
 	Debug::Log(Verbosity::Info, "PXG is running");
@@ -66,6 +70,7 @@ int main()
 	//--------------------Initialize Game-----------------------//
 
 	std::shared_ptr<PXG::PXGGame> gamePtr = std::make_shared<PXG::PXGGame>();
+	gamePtr->GetWorld()->SetPhysicsComponentDrawActive(false);
 
 	//--------------------Initialize Rendering Engine-----------------------//
 
@@ -121,8 +126,6 @@ int main()
 		
 		renderingEngine->RenderCurrentlySetWorld();
 
-		
-		//renderingEngine->RenderDebugDrawingForSetWorld();
 		glDisable(GL_DEPTH_TEST);
 		renderingEngine->RenderCanvas();
 

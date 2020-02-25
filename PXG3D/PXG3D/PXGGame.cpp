@@ -1,21 +1,13 @@
 #include "PXGGame.h"
-#include "PhysicsEngine.h"
 #include "HitInfo.h"
 #include "FreeMovementComponent.h"
 #include "World.h"
 #include "Canvas.h"
-
 #include "FileConfig.h"
-
 #include "ColorMaterial.h"
 #include "TextureMaterial.h"
-#include "StandardLitMaterial.h"
-
-#include "LightComponent.h"
-
 #include "MapMovementComponent.h"
 #include "CameraComponent.h"
-#include "RotatorComponent.h"
 #include "Texture.h"
 #include "Input.h"
 #include "KeyCode.h"
@@ -31,6 +23,7 @@
 #include "Subject.h"
 #include "Subscriber.h"
 #include "NodeGraph.h"
+#include "PathFinder.hpp"
 #include "ScreenSize.h"
 #include "TriggerComponent.h"
 namespace PXG
@@ -164,10 +157,12 @@ namespace PXG
 		auto node_graph = std::make_shared<NodeGraph>();
 		NodesObj->AddComponent(node_graph);
 
+	
+		
+		
 		std::ifstream level_config(config::PXG_CONFIGS_PATH + "level_data.json");
 		level_loader->LoadLevel(level_config, this, node_graph);
 		node_graph->generateConnections();
-
 
 	}
 

@@ -1,11 +1,11 @@
 #pragma once
 #include <vector>
-#include "Debug.h"
-#include "Vector2.h"
 #include "Vector3.h"
+#include "Component.h"
+
 namespace PXG
 {
-	class Node
+	class Node : public Component
 	{
 	public:
 		Node();
@@ -13,11 +13,19 @@ namespace PXG
 		void initNode(Vector3 newPos, int weight=1);
 		int GetNodeWheight();
 		void SetNodeWeight(int newWeight);
-		std::vector<Node*>& getConnectedNodes();
+		std::vector<Node*>& GetConnectedNodes();
 		void AddNewConnection(Node* newNode);
 		void AddNewConnection(Vector3 otherNodePosition);
 		std::vector<Vector3>& getConnectionsPositions();
 		Vector3 getPos();
+
+		[[nodiscard]] std::shared_ptr<GameObject> GetGameObject() const
+		{
+			return GetOwner();
+		}
+
+		bool Processed = false;
+		
 
 	private:
 		void AddConnection(Node* newNode);

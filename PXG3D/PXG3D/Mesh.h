@@ -28,12 +28,13 @@ namespace PXG
 		static void SetRasterizationMode(RasterizationMode newRasterizationMode);
 
 		Mesh(std::vector<unsigned int> indices, std::vector<Vertex> vertices, std::vector<Texture> textures);
+		Mesh();
 
+		void SetupMesh();
 	private:
 
 		unsigned int VAO, VBO, EBO;
 
-		void setupMesh();
 
 	};
 
