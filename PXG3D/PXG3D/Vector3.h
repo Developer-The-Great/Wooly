@@ -32,7 +32,7 @@ namespace PXG
 			z = GLMVec3.z;
 		}
 
-		Vector3 Normalized()
+		Vector3 Normalized() const
 		{
 			return Vector3(glm::normalize(glm::vec3(x,y,z)));
 		}

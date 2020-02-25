@@ -9,6 +9,9 @@
 #include "FileConfig.h"
 #include "TextureMaterial.h"
 #include "PhysicsComponent.h"
+#include "CollisionCubeParams.h"
+
+
 namespace PXG
 {
 	class LevelLoader : public Component
@@ -83,7 +86,12 @@ namespace PXG
 				child->GetMeshComponent()->SetMaterial(material);
 
 				//create physics representation 
-				child->GetPhysicsComponent()->ConstructPhysicsRepresentationFromMeshComponent();
+
+				CollisionCubeParams cubeParams;
+				cubeParams.heightFromMin = 1;
+
+				child->GetPhysicsComponent()->ConstructCollisionCube(cubeParams);
+				//child->GetPhysicsComponent()->ConstructPhysicsRepresentationFromMeshComponent();
 
 				child->GetTransform()->Scale(glm::vec3{ Tile::WORLD_SCALE });
 				//check if there is a separate texture and load it

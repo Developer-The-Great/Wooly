@@ -26,6 +26,8 @@ namespace PXG
 		//TODO [LOW PRIORITY] also make a better name for this
 		void SetDrawPhysicsComponentMeshDraw(bool newPhysicsComponentDrawState);
 
+		static void SetPhysicsComponentDrawActive(bool newState);
+
 	protected:
 
 	private:

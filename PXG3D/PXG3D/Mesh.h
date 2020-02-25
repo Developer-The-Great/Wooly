@@ -29,7 +29,9 @@ namespace PXG
 
 		Mesh(std::vector<unsigned int> indices, std::vector<Vertex> vertices, std::vector<Texture> textures);
 
-		 
+		Mesh();
+
+		void SetupMesh();
 
 	private:
 
@@ -39,7 +41,7 @@ namespace PXG
 		
 
 
-		void setupMesh();
+		
 
 	};
 

@@ -68,36 +68,59 @@ namespace PXG
 		}
 	}
 
-	bool PhysicsEngine::DetailedRaycast(Vector3 position, Vector3 direction, HitInfo& hitInfo, std::shared_ptr<World> world)
+	bool PhysicsEngine::Raycast(const Vector3& position, const Vector3& direction, HitInfo& hitInfo, std::shared_ptr<World> world, bool usePhysicsComponent)
 	{
-		//
 		hitInfo.RayHit = false;
-		hitInfo.DistanceFromRayPosition = FLT_MAX;
 		hitInfo.T = FLT_MAX;
 
+		//[Will remove this when I am absolutely sure that recursive raycast does not break anything]//
 
-		//get all mesh Component af all objects
-		std::vector<std::shared_ptr<MeshComponent>> meshComponents;
-		RecursiveGetMeshComponents(meshComponents,world);
 
-		for (auto const& meshComponent : meshComponents)
-		{
-			auto meshes = meshComponent->GetMeshes();
-			auto gameObject = meshComponent->GetOwner();
+		////get all mesh Component af all objects
+		//std::vector<std::shared_ptr<MeshComponent>> meshComponents;
+		//RecursiveGetMeshComponents(meshComponents,world);
 
-			Mat4 worldTransform = gameObject->GetTransform()->GetWorldTransform();
+		//for (auto const& meshComponent : meshComponents)
+		//{
+		//	auto meshes = meshComponent->GetMeshes();
+		//	auto gameObject = meshComponent->GetOwner();
 
-			for (auto const& mesh : meshes)
-			{
-				RayToMeshIntersection(position, direction, hitInfo,mesh, worldTransform,gameObject);
-			}
-			
-		}
+		//	Mat4 worldTransform = gameObject->GetTransform()->GetWorldTransform();
+
+		//	for (auto const& mesh : meshes)
+		//	{
+		//		RayToMeshIntersection(position, direction, hitInfo,mesh, worldTransform,gameObject);
+		//	}
+		//	
+		//}
+
+		RecursiveGameObjectRaytrace(position, direction, hitInfo, world, Mat4(),usePhysicsComponent);
 
 		return hitInfo.RayHit;
 	}
 
-	void PhysicsEngine::RayToMeshIntersection(Vector3 position, Vector3 direction, HitInfo & hitInfo, std::shared_ptr<Mesh> mesh, Mat4 objectTransform, std::shared_ptr<GameObject> owner)
+	void PhysicsEngine::RecursiveGameObjectRaytrace(const Vector3& position, const Vector3& direction, HitInfo & hitInfo, std::shared_ptr<GameObject> gameObject, Mat4 parentTransform, bool isUsingPhysicsComponent)
+	{
+		//raycast mesh component of current object
+		auto meshes = isUsingPhysicsComponent? 
+			gameObject->GetPhysicsComponent()->GetPhysicsMeshes() : 
+		gameObject->GetMeshComponent()->GetMeshes();
+
+		Mat4 Transform = gameObject->GetTransform()->GetLocalTransform() * parentTransform;
+
+		for (const auto& mesh : meshes)
+		{
+			RayToMeshIntersection(position, direction, hitInfo, mesh, Transform, gameObject);
+		}
+		
+		//raytrace mesh component of children
+		for (const auto& child : gameObject->GetChildren())
+		{
+			RecursiveGameObjectRaytrace(position, direction, hitInfo, child, Transform, isUsingPhysicsComponent);
+		}
+	}
+
+	void PhysicsEngine::RayToMeshIntersection(const Vector3& position, const Vector3& direction, HitInfo & hitInfo, std::shared_ptr<Mesh> mesh, Mat4 objectTransform, std::shared_ptr<GameObject> owner)
 	{
 
 		for (int index = 0; index < mesh->Indices.size(); index+=3)
@@ -130,7 +153,7 @@ namespace PXG
 
 	}
 
-	void PhysicsEngine::RayTriangleIntersection(Vector3 vec1, Vector3 vec2, Vector3 vec3, Vector3 rayPosition, Vector3 rayDirection, Mat4 objectTransform, HitInfo& hitInfo, std::shared_ptr<GameObject> owner)
+	void PhysicsEngine::RayTriangleIntersection(Vector3 vec1, Vector3 vec2, Vector3 vec3, const Vector3& rayPosition, const Vector3& rayDirection, Mat4 objectTransform, HitInfo& hitInfo, std::shared_ptr<GameObject> owner)
 	{
 		//-----find a point where the ray intersects the plane where the triangle lies-------//
 		HitInfo Result;
@@ -237,7 +260,6 @@ namespace PXG
 
 	}
 
-
 	void PhysicsEngine::RecursiveGetMeshComponents(std::vector<std::shared_ptr<MeshComponent>>& MeshComponentList, std::shared_ptr<GameObject> gameObject)
 	{
 		
@@ -247,6 +269,63 @@ namespace PXG
 		{
 			RecursiveGetMeshComponents(MeshComponentList, child);
 		}
+	}
+
+	void PhysicsEngine::GetMinMaxPositionOfMeshes(Vector3 & min, Vector3 & max, std::vector< std::shared_ptr<Mesh>> meshes)
+	{
+		float minVal = FLT_MAX;
+		float maxVal = -FLT_MAX;
+
+		Vector3 minResult = Vector3(minVal,minVal,minVal);
+		Vector3 maxResult = Vector3(maxVal,maxVal,maxVal);
+
+		
+		for (const auto& mesh : meshes)
+		{
+			auto vertices = mesh->Vertices;
+		 
+			for (const auto& vertex : vertices)
+			{
+				Vector3 vertexPosition = vertex.position;
+
+				//check for minResult
+				if (vertexPosition.x < minResult.x)
+				{
+					minResult.x = vertexPosition.x;
+				}
+
+				if (vertexPosition.y < minResult.y)
+				{
+					minResult.y = vertexPosition.y;
+				}
+
+				if (vertexPosition.z < minResult.z)
+				{
+					minResult.z = vertexPosition.z;
+				}
+
+				//check for maxResult
+				if (vertexPosition.x > maxResult.x)
+				{
+					maxResult.x = vertexPosition.x;
+				}
+
+				if (vertexPosition.y > maxResult.y)
+				{
+					maxResult.y = vertexPosition.y;
+				}
+
+				if (vertexPosition.z > maxResult.z)
+				{
+					maxResult.z = vertexPosition.z;
+				}
+
+			}
+
+		}
+
+		min = minResult;
+		max = maxResult;
 	}
 
 	Vector3 PhysicsEngine::GetOrthographicCameraWorldPosition(float x, float y, float screenWidth, float screenHeight, std::shared_ptr<GameObject> object)

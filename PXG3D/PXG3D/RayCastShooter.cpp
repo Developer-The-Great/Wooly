@@ -32,7 +32,7 @@ namespace PXG
 
 		Vector3 position = PhysicsEngine::GetOrthographicCameraWorldPosition(x, y, 800.0f, 600.0f, GetOwner());
 
-		PhysicsEngine::DetailedRaycast(position, forward, info, GetOwner()->GetWorld().lock());
+		PhysicsEngine::Raycast(position, forward, info, GetOwner()->GetWorld().lock());
 		
 
 		if (info.RayHit) 

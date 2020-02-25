@@ -8,6 +8,7 @@ namespace PXG
 	struct Mat4;
 	class AbstractMaterial;
 	class Mesh;
+	struct CollisionCubeParams;
 	//struct Vector3;
 
 	class PhysicsComponent : public Component
@@ -21,14 +22,17 @@ namespace PXG
 		void ConstructPhysicsRepresentationFromMeshComponent();
 
 		//creates a physics representation by creating collision cube that expands all the vertices of a given mesh
-		void ConstructCollisionCube();
+		void ConstructCollisionCube(const CollisionCubeParams& CubeParams);
 
+		void ConstructCollisionCube();
 
 		PhysicsComponent();
 
 		void SetPhysicsDrawingMaterial(std::shared_ptr<AbstractMaterial> newPhysicsDrawingMaterial);
 		
 		void DrawPhysicsRepresentation(Mat4 parentTransform, Mat4 view, Mat4 projection);
+
+		std::vector<std::shared_ptr<Mesh>> GetPhysicsMeshes();
 
 	private:
 

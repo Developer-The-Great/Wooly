@@ -285,6 +285,9 @@
     <ClInclude Include="Item.h">
       <Filter>game</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionCubeParams.h">
+      <Filter>core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="PXGColor.frag.glsl" />
