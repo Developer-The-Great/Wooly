@@ -62,7 +62,7 @@ namespace PXG
 		glPolygonMode(GL_FRONT_AND_BACK, (int)newRasterizationMode);
 	}
 
-	void Mesh::setupMesh()
+	void Mesh::SetupMesh()
 	{
 		glGenVertexArrays(1, &VAO);
 		glGenBuffers(1, &VBO);

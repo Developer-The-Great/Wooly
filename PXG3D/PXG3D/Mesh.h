@@ -34,7 +34,7 @@ namespace PXG
 	private:
 
 		unsigned int VAO, VBO, EBO;
-		void setupMesh();
+
 
 	};
 

@@ -17,8 +17,6 @@ namespace PXG
 
 		void RenderCurrentlySetWorld() const;
 
-		void RenderDebugDrawingForSetWorld() const;
-
 		void RenderCanvas() const;
 
 		//void EnableDepthTest()
