@@ -105,8 +105,17 @@
     <ClCompile Include="NodeGraph.cpp">
       <Filter>game</Filter>
     </ClCompile>
-    <ClCompile Include="AxisAngle.cpp" >
+    <ClCompile Include="AxisAngle.cpp">
       <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="pfinder\AStar.cpp">
+      <Filter>3rd_party</Filter>
+    </ClCompile>
+    <ClCompile Include="pfinder\Dijkstra.cpp">
+      <Filter>3rd_party</Filter>
+    </ClCompile>
+    <ClCompile Include="pfinder\Node.cpp">
+      <Filter>3rd_party</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -287,6 +296,25 @@
     </ClInclude>
     <ClInclude Include="NodeGraph.h">
       <Filter>game</Filter>
+    </ClInclude>
+    <ClInclude Include="PXGEditor.h" />
+    <ClInclude Include="PathFinder.hpp">
+      <Filter>game</Filter>
+    </ClInclude>
+    <ClInclude Include="pfinder\AStar.h">
+      <Filter>3rd_party</Filter>
+    </ClInclude>
+    <ClInclude Include="pfinder\Dijkstra.h">
+      <Filter>3rd_party</Filter>
+    </ClInclude>
+    <ClInclude Include="pfinder\Node.h">
+      <Filter>3rd_party</Filter>
+    </ClInclude>
+    <ClInclude Include="pfinder\PathAlgorithm.h">
+      <Filter>3rd_party</Filter>
+    </ClInclude>
+    <ClInclude Include="pfinder\PathFinder.h">
+      <Filter>3rd_party</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

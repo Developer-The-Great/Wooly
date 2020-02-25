@@ -9,7 +9,7 @@ namespace PXG
 
 		void AddNewNode(Node* newNode);
 		void Clear();
-		std::vector<Node*> GetNodes();
+		std::vector<Node*>& GetNodes();
 		void generateConnections();
 	private:
 
@@ -17,10 +17,6 @@ namespace PXG
 
 		std::vector<Node*> nodes;
 		
-		virtual void Start() override;
-
-		virtual void FixedUpdate(float tick) override;
-
 	};
 
 	

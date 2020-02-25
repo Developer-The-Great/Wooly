@@ -1,21 +1,13 @@
 #include "PXGGame.h"
-#include "PhysicsEngine.h"
 #include "HitInfo.h"
 #include "FreeMovementComponent.h"
 #include "World.h"
 #include "Canvas.h"
-
 #include "FileConfig.h"
-
 #include "ColorMaterial.h"
 #include "TextureMaterial.h"
-#include "StandardLitMaterial.h"
-
-#include "LightComponent.h"
-
 #include "MapMovementComponent.h"
 #include "CameraComponent.h"
-#include "RotatorComponent.h"
 #include "Texture.h"
 #include "Input.h"
 #include "KeyCode.h"
@@ -31,7 +23,8 @@
 #include "Subject.h"
 #include "Subscriber.h"
 #include "NodeGraph.h"
-#include "ScreenSize.h"
+#include "PathFinder.hpp"
+
 namespace PXG
 {
 	PXGGame::PXGGame() : Game()
@@ -172,9 +165,33 @@ namespace PXG
 		auto node_graph = std::make_shared<NodeGraph>();
 		NodesObj->AddComponent(node_graph);
 
+	
+		
+		
 		std::ifstream level_config(config::PXG_CONFIGS_PATH + "level_data.json");
 		level_loader->LoadLevel(level_config, this, node_graph);
 		node_graph->generateConnections();
+
+		auto graph = node_graph->GetNodes();
+
+
+		auto* A = graph[0];
+		auto* B = graph[graph.size() - 1];
+
+		auto translated_graph = TranslateNodeGraph(graph);
+		
+
+		auto [presult ,path] = FindPath(translated_graph, A, B);
+
+		Debug::Log("SZ Nodes {}", path->size());
+		if(presult)
+		{
+			Debug::Log("Found Path");
+			for(auto* node : *path)
+			{
+				Debug::Log("via: {}", node->GetRealNode()->getPos().ToString());
+			}
+		}
 
 	}
 

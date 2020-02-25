@@ -9,7 +9,7 @@ namespace PXG
 	{
 		nodes.clear();
 	}
-	std::vector<Node*> NodeGraph::GetNodes()
+	std::vector<Node*>& NodeGraph::GetNodes()
 	{
 		return nodes;
 	}
@@ -36,13 +36,6 @@ namespace PXG
 		nodes.push_back(newNode);
 	}
 
-	void NodeGraph::Start()
-	{
-	}
-
-	void NodeGraph::FixedUpdate(float tick)
-	{
-	}
 	
 	void NodeGraph::AddNewNode(Node * newNode)
 	{
