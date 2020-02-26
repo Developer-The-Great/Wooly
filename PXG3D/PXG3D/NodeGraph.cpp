@@ -1,4 +1,3 @@
-#pragma once
 #include "NodeGraph.h"
 #include <algorithm>
 
