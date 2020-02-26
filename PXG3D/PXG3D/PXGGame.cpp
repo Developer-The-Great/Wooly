@@ -18,7 +18,7 @@
 #include "LevelLoader.h"
 #include "RayCastShooter.h"
 #include "EnergyCounterComponent.h"
-
+#include "NodeToPositionContainer.h"
 #include "SpecificOnClick.h"
 #include "Subject.h"
 #include "Subscriber.h"
@@ -185,11 +185,15 @@ namespace PXG
 		
 		
 		std::ifstream level_config(config::PXG_CONFIGS_PATH + "level_data.json");
-		level_loader->LoadLevel(level_config, this, node_graph);
-		node_graph->generateConnections();
+
+		std::vector<NodeToPositionContainer> nodeToPositionContainers;
+
+		level_loader->LoadLevel(level_config, this, node_graph, nodeToPositionContainers);
+		node_graph->generateConnections(nodeToPositionContainers);
 
 		auto graph = node_graph->GetNodes();
 
+		Debug::Log("nodes in graph {0}", graph.size());
 
 		auto* A = graph[0];
 		auto* B = graph[graph.size() - 1];
