@@ -11,10 +11,11 @@
 #include "PhysicsComponent.h"
 
 #include "CollisionCubeParams.h"
-
+#include "NodeToPositionContainer.h"
 
 
 #include "NodeGraph.h"
+#include <map>
 
 namespace PXG
 {
@@ -46,12 +47,13 @@ namespace PXG
 	
 	class LevelLoader : public Component
 	{
+
 	public:
 		void Start() override {}
 		void FixedUpdate(float tick) override {}
 
 
-		void LoadLevel(std::ifstream& file, Game* game, std::shared_ptr<NodeGraph> nodeGraph)
+		void LoadLevel(std::ifstream& file, Game* game, std::shared_ptr<NodeGraph> nodeGraph,std::vector<NodeToPositionContainer>& nodeToPositionContainer)
 		{
 			using json = nlohmann::json;
 
@@ -59,7 +61,10 @@ namespace PXG
 			file >> config;
 
 
+
 			auto material = std::make_shared<TextureMaterial>();
+
+			//--------------------------------------------- Iterate through tiles ------------------------------------//
 
 			for (auto& tile : config["tiles"])
 			{
@@ -113,6 +118,7 @@ namespace PXG
 
 				std::shared_ptr<TileMetaData> metaData = std::make_shared<TileMetaData>();
 
+				
 
 				//check if there is meta-data to add
 				if (tile["meta-data"].is_object())
@@ -132,23 +138,30 @@ namespace PXG
 							newNode->initNode(offset);
 							nodeGraph->AddNewNode(newNode.get());
 
-						
-							Debug::Log("Object in Node Meta Data");
+							NodeToPositionContainer container;
+							container.node = newNode;
+							container.x = offset.x;
+							container.y = offset.y;
+							container.z = offset.z;
+
+							nodeToPositionContainer.push_back(container);
+
 							for (auto[key, value] : value.items())
 							{
-								if (key == "connected_nodes" && value.is_array())
+								if (key == "ramp" && value.is_boolean())
 								{
-									for (auto& connection : value)
-									{
-
-										Vector3 connectionPos = extractV3(connection);
-										newNode->AddNewConnection(connectionPos);
+									bool isKey = value.get<bool>();
+									if(isKey) 
+									{  
+									
 									}
 								}
 							}
+
 							child->AddComponent(newNode);
 							continue;
 						}
+
 						if (!value.is_string())
 						{
 							Debug::Log(Verbosity::Error, "invalid meta-data in object , value was not string");
@@ -167,6 +180,27 @@ namespace PXG
 				//add the child to the map
 				GetOwner()->AddToChildren(child);
 			}
+
+			//------------------Connect all 
+
+			//for each node in nodes
+			for (const auto& node : nodeGraph->GetNodes())
+			{
+				//connect each node to each other
+
+
+
+
+			}
+				
+
+			//for each stairnode in nodes
+				//check if there is node in position below stair
+				//check if there is node in position above stair
+
+
+
+
 		}
 
 	};

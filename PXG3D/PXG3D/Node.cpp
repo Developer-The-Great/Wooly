@@ -1,17 +1,11 @@
 #pragma once
 #include "Node.h"
+#include "Mathf.h"
 namespace PXG
 {
-	Node::Node()
-	{
-	}
-
-	Node::~Node()
-	{
-	}
-
 	void Node::initNode(Vector3 newPos, int weight)
 	{
+		positionCheckFuncPtr = &Node::flatTileNodeCheck;
 		gridPos = newPos;
 		nodeWeight = weight;
 	}
@@ -83,6 +77,43 @@ namespace PXG
 	{
 		return gridPos;
 	}
+
+	bool Node::IsPositionValidConnection(int nodeX, int nodeY, int nodeZ, int otherNodeX, int otherNodeY, int otherNodeZ)
+	{
+		if (positionCheckFuncPtr)
+		{
+			return (this->*positionCheckFuncPtr)(nodeX,nodeY,nodeZ,otherNodeX,otherNodeY,otherNodeZ);
+		}
+		return false;
+	}
+
+	void Node::SetNodeAsRampNode()
+	{
+		positionCheckFuncPtr = &Node::rampNodeCheck;
+	}
+
+	bool Node::flatTileNodeCheck(int nodeX, int nodeY, int nodeZ, int otherNodeX, int otherNodeY, int otherNodeZ)
+	{
+		if (Mathf::Abs(otherNodeX - nodeX) == 1 && otherNodeZ == nodeZ)
+		{
+			return true;
+		}
+
+		if (Mathf::Abs(otherNodeZ - nodeZ) == 1 && otherNodeX == nodeX)
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	bool Node::rampNodeCheck(int nodeX, int nodeY, int nodeZ, int otherNodeX, int otherNodeY, int otherNodeZ)
+	{
+		Debug::Log(Verbosity::Error, "rampNodeCheck Not implemented!");
+		return false;
+	}
+
+
 
 	void Node::AddConnection(Node * newNode)
 	{
