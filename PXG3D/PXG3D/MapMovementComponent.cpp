@@ -1,4 +1,3 @@
-#pragma once 
 #include "MapMovementComponent.h"
 #include "Input.h"
 #include "GameObject.h"

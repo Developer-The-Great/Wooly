@@ -19,14 +19,17 @@
 #include "RayCastShooter.h"
 #include "EnergyCounterComponent.h"
 #include "TriggerComponent.h"
+#include "NodeToPositionContainer.h"
 #include "SpecificOnClick.h"
 #include "Subject.h"
 #include "Subscriber.h"
 #include "NodeGraph.h"
-//#include "PathFinder.hpp"
 #include "ScreenSize.h"
 #include "TriggerComponent.h"
 #include "RayCastHitHandler.h"
+#include "AudioClip.hpp"
+#include "AudioEngine.hpp"
+#include "AudioSource.h"
 namespace PXG
 {
 
@@ -37,6 +40,12 @@ namespace PXG
 
 	void PXGGame::Initialize()
 	{
+		AudioClip clip = AudioEngine::GetInstance().createClip("Menu_Music.wav");
+		AudioEngine::GetInstance().Loop(true, clip);
+
+		
+
+		
 		font = new Font(config::PXG_FONT_PATH + "Roboto-Regular.ttf",20);
 		std::ifstream item_config(config::PXG_CONFIGS_PATH + "item_config.json");
 
@@ -125,14 +134,17 @@ namespace PXG
 
 
 		//------------------------------ Player --------------------------------------//
+
 		GameObj Player = MakeChild("Player");
 
 		Player->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + "character.obj");
 		Player->GetMeshComponent()->AddTextureToMeshAt({ config::PXG_INDEPENDENT_TEXTURES_PATH + "texture.png",TextureType::DIFFUSE }, 0);
 		Player->GetTransform()->SetLocalPosition({ 0,100,0 });
 		Player->GetTransform()->Scale(glm::vec3{ 100 });
+		Player->AddComponent(asource);
 		Player->GetMeshComponent()->SetMaterial(textureMaterial);
 
+		//--------------------------- Map movement -----------------------------------//
 
 		//--------------------------- Map movement -----------------------------------//
 		GameObj TileMap = MakeChild("TileMap");
@@ -171,14 +183,9 @@ namespace PXG
 		std::ifstream level_config(config::PXG_CONFIGS_PATH + "level_data.json");
 		level_loader->LoadLevel(level_config, this, node_graph);
 		node_graph->generateConnections();
-		rayCasthandler->setNodeGraph(node_graph);
-		rayCasthandler->setMapMovement(mapMovement);
 
-	/*	auto graph = node_graph->GetNodes();
-		auto startNode = graph[0];
-		auto endNode = graph[1];
+		auto graph = node_graph->GetNodes();
 
-		auto translatedGraph = TranslateNodeGraph(graph);
 
 		auto result = FindPath(translatedGraph, startNode, endNode);*/
 

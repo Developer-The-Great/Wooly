@@ -1,4 +1,3 @@
-#pragma once
 #include "SpecificOnClick.h"
 
 namespace PXG
