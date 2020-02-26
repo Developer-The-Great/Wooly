@@ -81,6 +81,7 @@
     <ClCompile Include="ColorMaterial.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Debug.cpp" />
+    <ClCompile Include="FollowPlayerComponent.cpp" />
     <ClCompile Include="font.cpp" />
     <ClCompile Include="FreeMovementComponent.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -100,8 +101,10 @@
     <ClCompile Include="PhysicsEngine.cpp" />
     <ClCompile Include="PXGGame.cpp" />
     <ClCompile Include="PXGWindow.cpp" />
+    <ClCompile Include="RayCastHitHandler.cpp" />
     <ClCompile Include="RayCastShooter.cpp" />
     <ClCompile Include="RenderingEngine.cpp" />
+    <ClCompile Include="RockPushComponent.cpp" />
     <ClCompile Include="RotatorComponent.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="SpecificOnClick.cpp" />
@@ -112,9 +115,11 @@
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="TriggerComponent.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AbstractEventComponent.h" />
     <ClInclude Include="AbstractMaterial.h" />
     <ClInclude Include="AbstractOnClick.h" />
     <ClInclude Include="AxisAngle.h" />
@@ -127,6 +132,7 @@
     <ClInclude Include="EnergyCounterComponent.h" />
     <ClInclude Include="FileConfig.h" />
     <ClInclude Include="Debug.h" />
+    <ClInclude Include="FollowPlayerComponent.h" />
     <ClInclude Include="font.h" />
     <ClInclude Include="FreeMovementComponent.h" />
     <ClInclude Include="GameObject.h" />
@@ -148,6 +154,8 @@
     <ClInclude Include="pfinder\PathFinder.h" />
     <ClInclude Include="PXGEditor.h" />
     <ClInclude Include="RasterizationMode.h" />
+    <ClInclude Include="RayCastHitHandler.h" />
+    <ClInclude Include="RockPushComponent.h" />
     <ClInclude Include="ScreenSize.h" />
     <ClInclude Include="SpecificOnClick.h" />
     <ClInclude Include="stb_image.h" />
@@ -177,6 +185,7 @@
     <ClInclude Include="Tile.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="Transform.h" />
+    <ClInclude Include="TriggerComponent.h" />
     <ClInclude Include="UIObject.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Vector2.h" />
@@ -188,6 +197,9 @@
     <None Include="PXGColor.frag.glsl" />
     <None Include="PXGColor.vert.glsl" />
     <ClCompile Include="AxisAngle.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="assimp-vc141-mtd.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

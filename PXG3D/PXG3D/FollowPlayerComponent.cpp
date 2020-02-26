@@ -1,4 +1,3 @@
-#pragma once 
 #include"FollowPlayerComponent.h"
 namespace PXG
 {
@@ -14,12 +13,12 @@ namespace PXG
 	{
 		if (following)
 		{
-			Debug::Log("Following");
+		//	Debug::Log("Following");
 			//Do player follow stuff
 		}
 		else
 		{
-			Debug::Log("Not Following");
+		//	Debug::Log("Not Following");
 
 		}
 	}

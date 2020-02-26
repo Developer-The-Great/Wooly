@@ -18,9 +18,13 @@ namespace PXG
 			float mouseX = Input::GetMouseX();
 			float mouseY = Input::GetMouseY();
 			mouseY = -mouseY + 600;
-
-			if (mouseX > position.x && mouseX < position.x + scale.x &&
-				mouseY > position.y &&mouseY < position.y + scale.z)
+		
+			Vector3 pScale = this->GetOwnerTransform()->getScale();
+			float leftBorder = position.x - pScale.x + 100;
+			float botborder = position.y- pScale.z + 100;
+			if (mouseX > leftBorder
+				&& mouseX < leftBorder+ scale.x &&
+				mouseY > botborder &&mouseY < botborder + scale.z)
 			{
 				notify(ON_CLICK);
 			}

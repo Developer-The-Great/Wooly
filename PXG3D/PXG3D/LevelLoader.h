@@ -226,7 +226,7 @@ namespace PXG
 				child->GetMeshComponent()->SetMaterial(material);
 
 				//create physics representation 
-				child->GetPhysicsComponent()->ConstructPhysicsRepresentationFromMeshComponent();
+				//child->GetPhysicsComponent()->ConstructPhysicsRepresentationFromMeshComponent();
 
 				child->GetTransform()->Scale(glm::vec3{ Tile::WORLD_SCALE });
 				//check if there is a separate texture and load it

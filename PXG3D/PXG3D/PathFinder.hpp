@@ -112,7 +112,7 @@ namespace PXG {
 		return translated_graph;
 	}
 
-	std::pair < bool,std::shared_ptr<std::vector<PathFindingNode*>>> FindPath(std::vector<PathFindingNode>& translated_graph,::PXG::Node* start,::PXG::Node* end)
+	inline std::pair < bool,std::shared_ptr<std::vector<PathFindingNode*>>> FindPath(std::vector<PathFindingNode>& translated_graph,::PXG::Node* start,::PXG::Node* end)
 	{
 		//auto translated_graph = TranslateNodeGraph(graph);
 

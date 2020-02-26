@@ -33,9 +33,9 @@ namespace PXG
 			}
 
 			//check if we are looking at a ray-cast-shooter
-			if(shooter != nullptr && shooter == subject_base || shooter == nullptr && (shooter = dynamic_cast<RayCastShooter*>(subject_base)) != nullptr)
+			if (shooter != nullptr && shooter == subject_base || shooter == nullptr && (shooter = dynamic_cast<RayCastShooter*>(subject_base)) != nullptr)
 			{
-				switch(event)
+				switch (event)
 				{
 				case RayCastShooter::ON_RAYCAST_HIT:
 				{
@@ -46,14 +46,14 @@ namespace PXG
 
 					Debug::Log("retrieved Meta-Inf via raycast!");
 
-					auto delta = offset-metadata->GetOffset() ;
+					auto delta = offset - metadata->GetOffset();
 					//delta.x = -delta.x;
 
 					auto pusher = [&](int dp, MovementCommands pos, MovementCommands neg)
 					{
 						if (dp > 0)
 						{
-							for (; dp!= 0; --dp)
+							for (; dp != 0; --dp)
 							{
 								commandQueue.push_front(pos);
 							}
@@ -72,7 +72,7 @@ namespace PXG
 					pusher(delta.z, FORWARD, BACKWARD);
 
 					Debug::Log("Movement delta: {}", delta.ToString());
-					for(auto& elem : commandQueue)
+					for (auto& elem : commandQueue)
 					{
 						switch (elem) {
 						case FORWARD:	Debug::Log("Forward"); break;
@@ -81,7 +81,8 @@ namespace PXG
 						case DOWN:		Debug::Log("Down"); break;
 						case LEFT:		Debug::Log("Left"); break;
 						case RIGHT:		Debug::Log("Right"); break;
-						default: ; }
+						default:;
+						}
 					}
 					//move(delta);
 					offset = metadata->GetOffset();
@@ -92,17 +93,17 @@ namespace PXG
 			}
 		}
 
+		Vector3 getOffset() const { return offset; };
 
 		void Start() override;
 		void FixedUpdate(float tick) override;
 		void SetMap(std::shared_ptr<GameObject> newMap);
 		void Reset() const;
-
 	private:
 		void move(PXG::Vector3 direction);
 		std::shared_ptr<GameObject> map;
 
-		Vector3 offset = {0,0,0};
+		Vector3 offset = { 0,0,0 };
 
 
 		enum MovementCommands

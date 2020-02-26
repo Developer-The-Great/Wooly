@@ -1,4 +1,3 @@
-#pragma once 
 #include "TriggerComponent.h"
 #include "AbstractEventComponent.h"
 namespace PXG

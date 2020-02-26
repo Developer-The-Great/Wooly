@@ -23,9 +23,10 @@
 #include "Subject.h"
 #include "Subscriber.h"
 #include "NodeGraph.h"
-#include "PathFinder.hpp"
+//#include "PathFinder.hpp"
 #include "ScreenSize.h"
 #include "TriggerComponent.h"
+#include "RayCastHitHandler.h"
 namespace PXG
 {
 
@@ -56,34 +57,40 @@ namespace PXG
 		auto movementComponent	= std::make_shared<FreeMovementComponent>();
 		auto energyCounter		= std::make_shared<EnergyCounterComponent>(frender, font);
 		auto raycaster			= std::make_shared<RayCastShooter>();
+		auto rayCasthandler		= std::make_shared<RayCastHitHandler>();
 
 		//--------------------------Initialize UI and their Components--------------------------------//
-	/*	std::shared_ptr<TextComponent> textComp = std::make_shared<TextComponent>();
+		std::shared_ptr<TextComponent> textComp = std::make_shared<TextComponent>();
 		std::shared_ptr<TextComponent> textComp2 = std::make_shared<TextComponent>();
 
-		textComp->InitText(frender);
-		textComp->SetFont(font);
-		textComp->setRelativePosition(Vector2(50, 50));
-		textComp->setString("Hello World");
+		std::shared_ptr<ButtonComponent> buttonComp = std::make_shared<ButtonComponent>();
+		subscriber_base*  onClick = new SpecificOnClick();
+		//button with onclick component & text
+		GameObj button = canvas->createCanvasObject(Vector2(200, 100), Vector2(50, 50), "Button1", bluetColorMat);
+		button->SetWorld(canvas);
+		button->AddComponent(buttonComp);
+		buttonComp->attach(onClick);
+		button->AddComponent(textComp);
+		button->AddComponent(movementComponent);
+		//empty UI object with text
+		GameObj emptyUIObject = canvas->createEmptyCanvasObject();
+		emptyUIObject->SetWorld(canvas);
+		//emptyUIObject->AddComponent(textComp2);
 
-		textComp2->InitText(frender);
+
+
+		//textComp->InitText(frender);
+		//textComp->SetFont(font);
+
+		//textComp->setRelativePosition(Vector2(0, 0));
+		//textComp->setString("Hello World");
+
+	/*	textComp2->InitText(frender);
 		textComp2->SetFont(font);
 		textComp2->setRelativePosition(Vector2(350, 150));
 		textComp2->setString("Hello World2");*/
 
-		//std::shared_ptr<ButtonComponent> buttonComp = std::make_shared<ButtonComponent>();
-		//subscriber_base*  onClick = new SpecificOnClick();
-		////button with onclick component & text
-		//GameObj button = canvas->createCanvasObject(Vector2(100, 100), Vector2(100, 100), "Button1", bluetColorMat);
-		//button->SetWorld(canvas);
-		//button->AddComponent(buttonComp);
-		//buttonComp->attach(onClick);
-		//button->AddComponent(textComp);
-		//button->AddComponent(movementComponent);
-		////empty UI object with text
-		//GameObj emptyUIObject = canvas->createEmptyCanvasObject();
-		//emptyUIObject->SetWorld(canvas);
-		//emptyUIObject->AddComponent(textComp2);
+		
 
 
 		//--------------------------SetUpUICanvas--------------------------------//
@@ -106,11 +113,12 @@ namespace PXG
 		cameraObj->AddComponent(camera);
 		cameraObj->AddComponent(movementComponent);
 		cameraObj->AddComponent(raycaster);
+		cameraObj->AddComponent(rayCasthandler);
 		cameraObj->AddComponent(energyCounter);
 
 		world->AddToChildren(cameraObj);
 
-		cameraObj->GetTransform()->SetLocalPosition(Vector3(600, 300, 600));
+		cameraObj->GetTransform()->SetLocalPosition(Vector3(600, 450, 600));
 		cameraObj->GetTransform()->rotate(Vector3(1, 0, 0), -20.0f);
 		cameraObj->GetTransform()->rotate(Vector3(0, 1, 0), 45);
 
@@ -131,8 +139,8 @@ namespace PXG
 
 		std::shared_ptr<MapMovementComponent> mapMovement = std::make_shared<MapMovementComponent>();
 
-		mapMovement->subscribe(*raycaster);
-
+		//mapMovement->subscribe(*raycaster);
+		rayCasthandler->subscribe(*raycaster);
 		mapMovement->SetMap(TileMap);
 
 		GameObj movementHandler = Instantiate();
@@ -163,6 +171,17 @@ namespace PXG
 		std::ifstream level_config(config::PXG_CONFIGS_PATH + "level_data.json");
 		level_loader->LoadLevel(level_config, this, node_graph);
 		node_graph->generateConnections();
+		rayCasthandler->setNodeGraph(node_graph);
+		rayCasthandler->setMapMovement(mapMovement);
+
+	/*	auto graph = node_graph->GetNodes();
+		auto startNode = graph[0];
+		auto endNode = graph[1];
+
+		auto translatedGraph = TranslateNodeGraph(graph);
+
+		auto result = FindPath(translatedGraph, startNode, endNode);*/
+
 
 	}
 

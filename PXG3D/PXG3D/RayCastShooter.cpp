@@ -38,7 +38,7 @@ namespace PXG
 			lastHit = info;
 			notify(ON_RAYCAST_HIT);
 		}	else {
-			Debug::Log("oof ");
+			Debug::Log("oof ");	
 		}
 	}
 }
