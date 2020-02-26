@@ -24,6 +24,9 @@
 #include "Subscriber.h"
 #include "NodeGraph.h"
 #include "PathFinder.hpp"
+#include "AudioClip.hpp"
+#include "AudioEngine.hpp"
+#include "AudioSource.h"
 
 namespace PXG
 {
@@ -37,6 +40,12 @@ namespace PXG
 
 	void PXGGame::Initialize()
 	{
+		AudioClip clip = AudioEngine::GetInstance().createClip("Menu_Music.wav");
+		AudioEngine::GetInstance().Loop(true, clip);
+
+		
+
+		
 		font = new Font(config::PXG_FONT_PATH + "Roboto-Regular.ttf",20);
 		std::ifstream item_config(config::PXG_CONFIGS_PATH + "item_config.json");
 
@@ -125,14 +134,21 @@ namespace PXG
 
 		//------------------------------ Player --------------------------------------//
 
+		auto asource = std::make_shared<PXG::AudioSourceComponent>(clip);
+
+		
 		GameObj Player = MakeChild("Player");
 
 		Player->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + "character.obj");
 		Player->GetMeshComponent()->AddTextureToMeshAt({ config::PXG_INDEPENDENT_TEXTURES_PATH + "texture.png",TextureType::DIFFUSE }, 0);
 		Player->GetTransform()->SetLocalPosition({ 0,100,0 });
 		Player->GetTransform()->Scale(glm::vec3{ 100 });
+		Player->AddComponent(asource);
 		Player->GetMeshComponent()->SetMaterial(textureMaterial);
 
+
+		Player->GetComponent<AudioSourceComponent>()->Play();
+		
 		//--------------------------- Map movement -----------------------------------//
 
 		GameObj TileMap = MakeChild("TileMap");

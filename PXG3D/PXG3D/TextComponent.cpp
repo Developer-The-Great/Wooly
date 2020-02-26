@@ -1,4 +1,3 @@
-#pragma once
 #include "TextComponent.h"
 namespace PXG
 {
