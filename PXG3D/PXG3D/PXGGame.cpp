@@ -43,10 +43,10 @@ namespace PXG
 		AudioClip clip = AudioEngine::GetInstance().createClip("Menu_Music.wav");
 		AudioEngine::GetInstance().Loop(true, clip);
 
-		
 
-		
-		font = new Font(config::PXG_FONT_PATH + "Roboto-Regular.ttf",20);
+
+
+		font = new Font(config::PXG_FONT_PATH + "Roboto-Regular.ttf", 20);
 		std::ifstream item_config(config::PXG_CONFIGS_PATH + "item_config.json");
 
 		ItemRegistry::LoadConfig(&item_config);
@@ -62,11 +62,11 @@ namespace PXG
 
 
 		//--------------------------Initialize GameObjects and their Components--------------------------------//
-		auto camera				= std::make_shared<CameraComponent>();
-		auto movementComponent	= std::make_shared<FreeMovementComponent>();
-		auto energyCounter		= std::make_shared<EnergyCounterComponent>(frender, font);
-		auto raycaster			= std::make_shared<RayCastShooter>();
-		auto rayCasthandler		= std::make_shared<RayCastHitHandler>();
+		auto camera = std::make_shared<CameraComponent>();
+		auto movementComponent = std::make_shared<FreeMovementComponent>();
+		auto energyCounter = std::make_shared<EnergyCounterComponent>(frender, font);
+		auto raycaster = std::make_shared<RayCastShooter>();
+		auto rayCasthandler = std::make_shared<RayCastHitHandler>();
 
 		//--------------------------Initialize UI and their Components--------------------------------//
 		std::shared_ptr<TextComponent> textComp = std::make_shared<TextComponent>();
@@ -99,7 +99,7 @@ namespace PXG
 		textComp2->setRelativePosition(Vector2(350, 150));
 		textComp2->setString("Hello World2");*/
 
-		
+
 
 
 		//--------------------------SetUpUICanvas--------------------------------//
@@ -135,9 +135,10 @@ namespace PXG
 
 		//------------------------------ Player --------------------------------------//
 
+		auto asource = std::make_shared<PXG::AudioSourceComponent>(clip);
 		GameObj Player = MakeChild("Player");
 
-		Player->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + "character.obj");
+		Player->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + "Timmy.obj");
 		Player->GetMeshComponent()->AddTextureToMeshAt({ config::PXG_INDEPENDENT_TEXTURES_PATH + "texture.png",TextureType::DIFFUSE }, 0);
 		Player->GetTransform()->SetLocalPosition({ 0,100,0 });
 		Player->GetTransform()->Scale(glm::vec3{ 100 });
@@ -177,17 +178,20 @@ namespace PXG
 		auto node_graph = std::make_shared<NodeGraph>();
 		NodesObj->AddComponent(node_graph);
 
-	
-		
-		
+
+		std::vector<NodeToPositionContainer> nodeToPositionContainer;
+
 		std::ifstream level_config(config::PXG_CONFIGS_PATH + "level_data.json");
-		level_loader->LoadLevel(level_config, this, node_graph);
-		node_graph->generateConnections();
+		level_loader->LoadLevel(level_config, this, node_graph, nodeToPositionContainer);
+		rayCasthandler->setMapMovement(mapMovement);
+		node_graph->generateConnections(nodeToPositionContainer);
 
-		auto graph = node_graph->GetNodes();
+		rayCasthandler->setNodeGraph(node_graph);
+		/*
+				auto graph = node_graph->GetNodes();
 
 
-		auto result = FindPath(translatedGraph, startNode, endNode);*/
+				auto result = FindPath(translatedGraph, startNode, endNode);*/
 
 
 	}

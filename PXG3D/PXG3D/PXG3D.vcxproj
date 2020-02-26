@@ -96,7 +96,6 @@
     <ClCompile Include="Mathf.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshComponent.cpp" />
-    <ClCompile Include="Node.cpp" />
     <ClCompile Include="NodeGraph.cpp" />
     <ClCompile Include="pfinder\AStar.cpp" />
     <ClCompile Include="pfinder\Dijkstra.cpp" />
@@ -104,6 +103,7 @@
     <ClCompile Include="PhysicsComponent.cpp" />
     <ClCompile Include="PhysicsEngine.cpp" />
     <ClCompile Include="PXGGame.cpp" />
+    <ClCompile Include="PXGNode.cpp" />
     <ClCompile Include="PXGWindow.cpp" />
     <ClCompile Include="RayCastHitHandler.cpp" />
     <ClCompile Include="RayCastShooter.cpp" />
@@ -151,8 +151,8 @@
     <ClInclude Include="ItemRegistry.h" />
     <ClInclude Include="KeyCode.h" />
     <ClInclude Include="LevelLoader.h" />
-    <ClInclude Include="Node.h" />
     <ClInclude Include="NodeGraph.h" />
+    <ClInclude Include="NodeToPositionContainer.h" />
     <ClInclude Include="PathFinder.hpp" />
     <ClInclude Include="pfinder\AStar.h" />
     <ClInclude Include="pfinder\Dijkstra.h" />
@@ -160,6 +160,7 @@
     <ClInclude Include="pfinder\PathAlgorithm.h" />
     <ClInclude Include="pfinder\PathFinder.h" />
     <ClInclude Include="PXGEditor.h" />
+    <ClInclude Include="PXGNode.h" />
     <ClInclude Include="RasterizationMode.h" />
     <ClInclude Include="RayCastHitHandler.h" />
     <ClInclude Include="RockPushComponent.h" />

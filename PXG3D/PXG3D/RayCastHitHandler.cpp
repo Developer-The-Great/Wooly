@@ -18,24 +18,48 @@ namespace PXG
 			{
 			case RayCastShooter::ON_RAYCAST_HIT:
 			{
+				//getting ray cast info
 				Debug::Log("getting ray Cast");
 				HitInfo info = raycaster->GetLastHit();
-
+				auto hitObject = info.GameObjectHit;
+				//check if target has a node
 				if (info.GameObjectHit->GetComponent<Node>())
 				{
 					Debug::Log("found attached node");
+					//make sure nodegraph exists
 					if (nodeGraph != nullptr)
 					{
 						Vector3 playerPos = mapMovement->getOffset();
-						Debug::Log("PLayer position:");
-						Debug::Log(playerPos.ToString());
-						for (auto it : nodeGraph->GetNodes())
+						//look for current player node
+						for (auto startNode : nodeGraph->GetNodes())
 						{
-							if (playerPos == it->getPos())
+							if (playerPos == startNode->getPos())
 							{
 								Debug::Log("found playerNode");
-								Debug::Log(std::to_string(info.GameObjectHit->GetComponent<Node>()->GetConnectedNodes().capacity()));
+								//gen path
+								auto result = FindPath(translatedGraph, startNode, hitObject->GetComponent<Node>().get());
+								if (result.first)
+								{
+									if (result.second->size() == 1)
+									{
+										if (hitObject->HasComponent<TriggerComponent>())
+										{
+											Debug::Log("ray cast target has trigger");
 
+										}
+										else
+										{
+											Debug::Log("ray cast target has no trigger");
+
+										}
+									}
+									Debug::Log("found path");
+								}
+								else
+								{
+									Debug::Log("no path found");
+
+								}
 							}
 						}
 						//	auto result = FindPath()

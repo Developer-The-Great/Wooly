@@ -1,7 +1,7 @@
 #pragma once
 #include "Component.h"
 #include "Game.h"
-#include "Node.h"
+#include "PXGNode.h"
 #include "FollowPlayerComponent.h"
 #include <vector>
 

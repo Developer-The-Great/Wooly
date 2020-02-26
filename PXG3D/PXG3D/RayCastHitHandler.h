@@ -6,6 +6,7 @@
 #include "PathFinder.hpp"
 #include <vector>
 #include "MapMovementComponent.h"
+#include "TriggerComponent.h"
 namespace PXG
 {
 	class RayCastHitHandler : public Component, public subscriber_base

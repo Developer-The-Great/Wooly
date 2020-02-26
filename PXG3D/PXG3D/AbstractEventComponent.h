@@ -1,6 +1,6 @@
 #pragma once
 #include "Component.h"
-#include "Node.h"
+#include "PXGNode.h"
 namespace PXG
 {
 	class AbstractEventComponent : public Component

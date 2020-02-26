@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Node.h"
+#include "PXGNode.h"
 #include <memory>
 
 namespace PXG

@@ -1,4 +1,4 @@
-#pragma once
+
 #include "RockPushComponent.h"
 namespace PXG
 {

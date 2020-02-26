@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include "memory"
-#include "Node.h"
+#include "PXGNode.h"
 
 #include "pfinder/AStar.h"
 #include "pfinder/PathFinder.h"

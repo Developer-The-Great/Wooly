@@ -2,7 +2,7 @@
 #include"Component.h"
 #include "Debug.h"
 #include "AbstractEventComponent.h"
-#include "Node.h"
+#include "PXGNode.h"
 namespace PXG
 {
 	class FollowPlayerComponent : public AbstractEventComponent
