@@ -1,4 +1,4 @@
-#pragma oncemmmmm
+#pragma once
 #include <soloud/soloud.h>
 #include <memory>
 
