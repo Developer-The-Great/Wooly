@@ -93,7 +93,6 @@ namespace PXG
 
 		std::deque<MovementCommands> commandQueue;
 
-		// Geerbt über subscriber_base
 		virtual void onNotify(subject_base * subject_base, subject_base::event_t event) override;
 	};
 }
