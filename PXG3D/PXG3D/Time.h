@@ -1,7 +1,7 @@
 #pragma once
 
 #include <list>
-#include <GLFW/glfw3.h>
+
 
 namespace PXG
 {
@@ -10,7 +10,8 @@ namespace PXG
 	public:
 
 		Time(int ,float );
-		float GetTime();
+
+		static float GetTime();
 
 		float GetAverageDeltaTime() const;
 
