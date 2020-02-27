@@ -19,7 +19,7 @@ namespace PXG
 		this->offSet = Vector2(position.x - ScreenSize::WIDTH / 2, position.y - ScreenSize::HEIGHT / 2);
 		Vector3 pScale = this->GetOwnerTransform()->getScale();
 		offSet.x = offSet.x - pScale.x + 100;
-		offSet.y = offSet.y - pScale.z + 100;		
+		offSet.y = offSet.y - pScale.z + 100;
 		updateText();
 	}
 	void TextComponent::FixedUpdate(float tick)

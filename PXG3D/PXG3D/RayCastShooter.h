@@ -4,7 +4,6 @@
 #include <future>
 #include "HitInfo.h"
 #include "Subject.h"
-
 namespace PXG
 {
 	class RayCastShooter :public Component, public subject_base

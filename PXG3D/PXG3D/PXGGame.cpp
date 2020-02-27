@@ -18,36 +18,36 @@
 #include "LevelLoader.h"
 #include "RayCastShooter.h"
 #include "EnergyCounterComponent.h"
+#include "TriggerComponent.h"
 #include "NodeToPositionContainer.h"
 #include "SpecificOnClick.h"
 #include "Subject.h"
 #include "Subscriber.h"
 #include "NodeGraph.h"
-#include "PathFinder.hpp"
+#include "ScreenSize.h"
+#include "RayCastHitHandler.h"
 #include "AudioClip.hpp"
 #include "AudioEngine.hpp"
 #include "AudioSource.h"
-#include "JumperComponent.h"
 
+#include "JumperComponent.h"
 namespace PXG
 {
+
+
 	PXGGame::PXGGame() : Game()
 	{
-
-
 	}
-
-	//FontRenderer::render_queue render_queue;
 
 	void PXGGame::Initialize()
 	{
 		AudioClip clip = AudioEngine::GetInstance().createClip("Menu_Music.wav");
 		AudioEngine::GetInstance().Loop(true, clip);
 
-		
 
-		
-		font = new Font(config::PXG_FONT_PATH + "Roboto-Regular.ttf",20);
+
+
+		font = new Font(config::PXG_FONT_PATH + "Roboto-Regular.ttf", 20);
 		std::ifstream item_config(config::PXG_CONFIGS_PATH + "item_config.json");
 
 		ItemRegistry::LoadConfig(&item_config);
@@ -56,51 +56,40 @@ namespace PXG
 			KeyCode::A, KeyCode::W, KeyCode::S, KeyCode::D, KeyCode::Q, KeyCode::E, KeyCode::K, KeyCode::J, KeyCode::Z,
 			KeyCode::LeftMouse, KeyCode::RightMouse, KeyCode::MiddleMouse, KeyCode::Enter);
 
+
 		//---------------------------Initialize Textures---------------------------------------//
-
-
 		std::shared_ptr<ColorMaterial> bluetColorMat = std::make_shared<ColorMaterial>(Vector3(0, 0, 1));
 		std::shared_ptr<TextureMaterial> textureMaterial = std::make_shared<TextureMaterial>();
 
+
 		//--------------------------Initialize GameObjects and their Components--------------------------------//
-
-
-		auto camera				= std::make_shared<CameraComponent>();
-		auto movementComponent	= std::make_shared<FreeMovementComponent>();
-		auto energyCounter		= std::make_shared<EnergyCounterComponent>(frender, font);
-		auto raycaster			= std::make_shared<RayCastShooter>();
+		auto camera = std::make_shared<CameraComponent>();
+		auto movementComponent = std::make_shared<FreeMovementComponent>();
+		auto energyCounter = std::make_shared<EnergyCounterComponent>(frender, font);
+		auto raycaster = std::make_shared<RayCastShooter>();
+		auto rayCasthandler = std::make_shared<RayCastHitHandler>();
 
 		//--------------------------Initialize UI and their Components--------------------------------//
-		/*
-		std::shared_ptr<TextComponent> textComp = std::make_shared<TextComponent>();
-		std::shared_ptr<TextComponent> textComp2 = std::make_shared<TextComponent>();
+		//std::shared_ptr<TextComponent> textComp = std::make_shared<TextComponent>();
+		//std::shared_ptr<TextComponent> textComp2 = std::make_shared<TextComponent>();
 
-		textComp->InitText(frender);
-		textComp->SetFont(font);
-		textComp->setRelativePosition(Vector2(50, 50));
-		textComp->setString("Hello World");
+		//std::shared_ptr<ButtonComponent> buttonComp = std::make_shared<ButtonComponent>();
+		//subscriber_base*  onClick = new SpecificOnClick();
+		////button with onclick component & text
+		//GameObj button = canvas->createCanvasObject(Vector2(200, 100), Vector2(50, 50), "Button1", bluetColorMat);
+		//button->SetWorld(canvas);
+		//button->AddComponent(buttonComp);
+		//buttonComp->attach(onClick);
+		//button->AddComponent(textComp);
+		//button->AddComponent(movementComponent);
+		////empty UI object with text
+		//GameObj emptyUIObject = canvas->createEmptyCanvasObject();
+		//emptyUIObject->SetWorld(canvas);
+		//emptyUIObject->AddComponent(textComp2);
 
-		textComp2->InitText(frender);
-		textComp2->SetFont(font);
-		textComp2->setRelativePosition(Vector2(350, 150));
-		textComp2->setString("Hello World2");
 
-		std::shared_ptr<ButtonComponent> buttonComp = std::make_shared<ButtonComponent>();
-		subscriber_base*  onClick = new SpecificOnClick();
-		//button with onclick component & text
-		GameObj button = canvas->createCanvasObject(Vector2(100, 100), Vector2(100, 100), "Button1", bluetColorMat);
-		button->SetWorld(canvas);
-		button->AddComponent(buttonComp);
-		buttonComp->attach(onClick);
-		button->AddComponent(textComp);
-		button->AddComponent(movementComponent);
-		//empty UI object with text
-		GameObj emptyUIObject = canvas->createEmptyCanvasObject();
-		emptyUIObject->SetWorld(canvas);
-		emptyUIObject->AddComponent(textComp2);
-		*/
+
 		//--------------------------SetUpUICanvas--------------------------------//
-
 		auto UICam = std::make_shared<CameraComponent>();
 		GameObj UICanvasCam = InstantiateUIObject();
 
@@ -112,25 +101,23 @@ namespace PXG
 		//half of game width and half of game height
 		UICanvasCam->GetTransform()->SetLocalPosition(Vector3(300, 200, 0));
 
-		//--------------------------SetUpCam--------------------------------//
 
+		//--------------------------SetUpCam--------------------------------//
 		GameObj cameraObj = Instantiate();
 		cameraObj->name = "cameraObj";
 
 		cameraObj->AddComponent(camera);
 		cameraObj->AddComponent(movementComponent);
 		cameraObj->AddComponent(raycaster);
+		cameraObj->AddComponent(rayCasthandler);
 		cameraObj->AddComponent(energyCounter);
 
 		world->AddToChildren(cameraObj);
 
-		cameraObj->GetTransform()->SetLocalPosition(Vector3(600, 300, 600));
+		cameraObj->GetTransform()->SetLocalPosition(Vector3(600, 450, 600));
 		cameraObj->GetTransform()->rotate(Vector3(1, 0, 0), -20.0f);
 		cameraObj->GetTransform()->rotate(Vector3(0, 1, 0), 45);
 
-
-
-		//--------------------------- Map movement -----------------------------------//
 
 
 		//------------------------------ Player --------------------------------------//
@@ -140,25 +127,23 @@ namespace PXG
 		
 		GameObj Player = MakeChild("Player");
 
-		Player->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + "character.obj");
-		Player->GetMeshComponent()->AddTextureToMeshAt({ config::PXG_INDEPENDENT_TEXTURES_PATH + "texture.png",TextureType::DIFFUSE }, 0);
+		Player->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + "Timmy.obj");
+		Player->GetMeshComponent()->AddTextureToMeshAt({ config::PXG_INDEPENDENT_TEXTURES_PATH + "TimmyTexture.png",TextureType::DIFFUSE }, 0);
 		Player->GetTransform()->SetLocalPosition({ 0,100,0 });
 		Player->GetTransform()->Scale(glm::vec3{ 100 });
 		Player->AddComponent(asource);
 		Player->AddComponent(jumper);
 		Player->GetMeshComponent()->SetMaterial(textureMaterial);
 
-
-		Player->GetComponent<AudioSourceComponent>()->Play();
-		
 		//--------------------------- Map movement -----------------------------------//
 
+		//--------------------------- Map movement -----------------------------------//
 		GameObj TileMap = MakeChild("TileMap");
 
 		std::shared_ptr<MapMovementComponent> mapMovement = std::make_shared<MapMovementComponent>();
 
-		mapMovement->subscribe(*raycaster);
-
+		//mapMovement->subscribe(*raycaster);
+		rayCasthandler->subscribe(*raycaster);
 		mapMovement->SetMap(TileMap);
 
 		GameObj movementHandler = Instantiate();
@@ -169,52 +154,30 @@ namespace PXG
 
 
 		//--------------------------- Instantiate Cubes -----------------------------------//
-
 		energyCounter->subscribe(*mapMovement);
 		mapMovement->subscribe(*energyCounter);
 
 
 		//--------------------------- Instantiate Cubes -----------------------------------//
 		GameObj NodesObj = MakeChild("NodesObj");
-
+		GameObj TriggerHandler = MakeChild("TriggerHand");
+		auto triggerComp = std::make_shared<TriggerComponent>();
 		auto level_loader = std::make_shared<LevelLoader>();
 		TileMap->AddComponent(level_loader);
 
 		auto node_graph = std::make_shared<NodeGraph>();
 		NodesObj->AddComponent(node_graph);
 
-	
-		
-		
+
+		std::vector<NodeToPositionContainer> nodeToPositionContainer;
+
 		std::ifstream level_config(config::PXG_CONFIGS_PATH + "level_data.json");
+		level_loader->LoadLevel(level_config, this, node_graph, nodeToPositionContainer,mapMovement);
+		rayCasthandler->setMapMovement(mapMovement);
+		node_graph->generateConnections(nodeToPositionContainer);
 
-		std::vector<NodeToPositionContainer> nodeToPositionContainers;
-
-		level_loader->LoadLevel(level_config, this, node_graph, nodeToPositionContainers);
-		node_graph->generateConnections(nodeToPositionContainers);
-
-		auto graph = node_graph->GetNodes();
-
-		Debug::Log("nodes in graph {0}", graph.size());
-
-		//auto* A = graph[0];
-		//auto* B = graph[graph.size() - 1];
-
-		//auto translated_graph = TranslateNodeGraph(graph);
+		rayCasthandler->setNodeGraph(node_graph);
 		
-
-		//auto [presult ,path] = FindPath(translated_graph, A, B);
-		/*
-		Debug::Log("SZ Nodes {}", path->size());
-		if(presult)
-		{
-			Debug::Log("Found Path");
-			for(auto* node : *path)
-			{
-				Debug::Log("via: {}", node->GetRealNode()->getPos().ToString());
-			}
-		}
-		*/
 
 	}
 

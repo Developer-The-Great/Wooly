@@ -30,7 +30,6 @@ namespace PXG
 
 		void SetNodeAsRampNode();
 
-
 	private:
 		bool flatTileNodeCheck(int nodeX, int nodeY, int nodeZ, int otherNodeX, int otherNodeY, int otherNodeZ);
 		bool rampNodeCheck(int nodeX, int nodeY, int nodeZ, int otherNodeX, int otherNodeY, int otherNodeZ);

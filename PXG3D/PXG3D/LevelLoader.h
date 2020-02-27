@@ -12,11 +12,14 @@
 
 #include "CollisionCubeParams.h"
 #include "NodeToPositionContainer.h"
-
-
+#include "World.h"
+#include "GameObject.h"
 #include "NodeGraph.h"
+#include "FollowPlayerComponent.h"
+#include "TriggerComponent.h"
+#include "RockPushComponent.h"
 #include <map>
-
+#include <memory>
 namespace PXG
 {
 
@@ -53,7 +56,8 @@ namespace PXG
 		void FixedUpdate(float tick) override {}
 
 
-		void LoadLevel(std::ifstream& file, Game* game, std::shared_ptr<NodeGraph> nodeGraph,std::vector<NodeToPositionContainer>& nodeToPositionContainer)
+		void LoadLevel(std::ifstream& file, Game* game, std::shared_ptr<NodeGraph> nodeGraph,std::vector<NodeToPositionContainer>& nodeToPositionContainer,
+			std::shared_ptr<MapMovementComponent> mapMovement)
 		{
 			using json = nlohmann::json;
 
@@ -180,27 +184,130 @@ namespace PXG
 				//add the child to the map
 				GetOwner()->AddToChildren(child);
 			}
+			Debug::Log("-----------------------------------------------------------");
+			Debug::Log("finished loading tiles");
+			Debug::Log("-----------------------------------------------------------");
+			Debug::Log("loading other objects");
 
-			//------------------Connect all 
-
-			//for each node in nodes
-			for (const auto& node : nodeGraph->GetNodes())
+			for (auto& otherObjects : config["OtherObjects"])
 			{
-				//connect each node to each other
+				//check if we are dealing with an object
+				if (!otherObjects.is_object())
+				{
+					Debug::Log(Verbosity::Warning, "encountered non object type in tile-map, skipping!");
+					continue;
+				}
+				//check if the object has the required fields
+				if (!otherObjects["position"].is_array() || !otherObjects["model"].is_string())
+				{
+					Debug::Log(Verbosity::Error, "encountered object with invalid data!, abort loading");
+					continue;
+				}
+				Vector3 offset;
+				//check if the position field has enough entries
+				if (otherObjects["position"].size() < 3)
+				{
+					Debug::Log(Verbosity::Error, "encountered an object with invalid position, not enough elements");
+					continue;
+				}
+				//load the position field and make sure they are numbers 
+				for (int i = 0; i < 3; ++i)
+				{
+					if (!otherObjects["position"][i].is_number())
+					{
+						Debug::Log(Verbosity::Error, "encountered an object with invalid position, element was not a number!");
+						continue;
+					}
+					const auto dp = otherObjects["position"][i].get<float>();
+					offset[i] = dp;
+				}
+				Debug::Log("{}", offset.ToString());
 
 
+				//create a game-object
+				GameObj child = game->Instantiate();
 
+
+				//set the position
+				child->SetLocalPosition((offset * Tile::SIZE) - Tile::CENTER_OFFSET);
+
+				//load the model
+				child->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + otherObjects["model"].get<std::string>());
+				child->GetMeshComponent()->SetMaterial(material);
+
+				//create physics representation 
+				//child->GetPhysicsComponent()->ConstructPhysicsRepresentationFromMeshComponent();
+
+				child->GetTransform()->Scale(glm::vec3{ Tile::WORLD_SCALE });
+				//check if there is a separate texture and load it
+				if (otherObjects["texture"].is_string())
+				{
+					child->GetMeshComponent()->AddTextureToMeshAt(Texture{ config::PXG_INDEPENDENT_TEXTURES_PATH + otherObjects["texture"].get<std::string>(),TextureType::DIFFUSE }, 0);
+
+				}
+				std::shared_ptr<TileMetaData> metaData = std::make_shared<TileMetaData>();
+				//check if there is meta-data to add
+				if (otherObjects["meta-data"].is_object())
+				{
+					Debug::Log(Verbosity::Info, "encountered object with attached meta-data!");
+					for (auto[key, value] : otherObjects["meta-data"].items())
+					{
+						//check if other objects have behaviour 
+						//creates components to the according to the behaviours name 
+						if (key == "behaviour")
+						{
+							for (auto node : nodeGraph->GetNodes())
+							{
+								Vector3 pos = Vector3(offset.x, offset.y - 1, offset.z);
+								if(pos==node->getPos())
+								{
+									Debug::Log("found node below object with behaviour");
+									node->SetNodeWeight(2000);
+								}
+							}
+							nodeGraph->AddNewInteractiveObj(child);
+							if (value.is_string())
+							{
+								auto triggerComp = std::make_shared<TriggerComponent>();
+								child->AddComponent(triggerComp);
+								Vector3 nodePos = Vector3(offset.x, offset.y - 1, offset.z);
+								triggerComp->SetNodePos(nodePos);
+								triggerComp->SetNodeGraph(nodeGraph);
+								triggerComp->subscribe(*mapMovement);
+								if (value == "followPlayer")
+								{
+									auto followPlayer = std::make_shared<FollowPlayerComponent>();
+									child->AddComponent(followPlayer);
+									triggerComp->SetComponent(followPlayer);
+								}
+								if (value == "movable")
+								{
+									auto rockPush = std::make_shared < RockPushComponent>();
+									child->AddComponent(rockPush);
+									triggerComp->SetComponent(rockPush);
+								}
+								if (value == "attackSheep")
+								{
+
+								}
+								if (value == "trigger")
+								{
+
+								}
+							}
+						}
+						metaData->metaData[key] = value.get<std::string>();
+					}
+				}
+				metaData->offset = offset;
+				child->AddComponent(metaData);
+				mapMovement->AddOtherObjectToMove(child);
+
+				GetOwner()->GetWorld().lock()->AddToChildren(child);
+				//add the child to the map
+				//GetOwner()->AddToChildren(child);
 
 			}
-				
-
-			//for each stairnode in nodes
-				//check if there is node in position below stair
-				//check if there is node in position above stair
-
-
-
-
 		}
 
 	};

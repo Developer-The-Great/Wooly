@@ -45,7 +45,17 @@ namespace PXG
 			component->SetOwner(shared_from_this());
 		}
 
+		template<class T,
+				typename = std::enable_if_t<std::is_base_of_v<Component,T>>>
+		bool HasComponent()
+		{
+			return HasComponent(typeid(T));
+		}
 
+		bool HasComponent(std::type_index idx)
+		{
+			return componentTable.find(idx) != componentTable.end();
+		}
 
 		template <class T,
 				 typename = std::enable_if_t<std::is_base_of_v<Component,T>>>
