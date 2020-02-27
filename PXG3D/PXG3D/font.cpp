@@ -178,7 +178,7 @@ void FontRenderer::text(Font* fnt, std::string tx, float scale, glm::vec2 positi
 			}, [](const GLfloat* f) { delete[] f; });
 
 		//inset the buffers into the render_queue
-		m_renderQueue.insert(std::make_pair(ch.TextureID, vertices));
+		m_renderQueue.insert(std::make_pair(ch.TextureID, std::shared_ptr<GLfloat>(vertices, [](GLfloat* d) { delete d; })));
 
 		//advance by one
 		position.x += (ch.Advance >> 6)* scale;

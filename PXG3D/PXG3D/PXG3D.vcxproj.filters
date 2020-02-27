@@ -48,6 +48,7 @@
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="imgui\examples\imgui_impl_opengl3.cpp" />
     <ClCompile Include="imgui\examples\imgui_impl_glfw.cpp" />
+    <ClCompile Include="AudioSource.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractMaterial.h" />
@@ -116,7 +117,6 @@
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="World.h" />
-    <ClInclude Include="PXGNode.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
     <ClInclude Include="imgui\imgui_internal.h" />
@@ -125,9 +125,10 @@
     <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="imgui\examples\imgui_impl_opengl3.h" />
     <ClInclude Include="imgui\examples\imgui_impl_glfw.h" />
+    <ClInclude Include="AudioEngine.hpp" />
+    <ClInclude Include="AudioSource.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="PXGColor.frag.glsl" />
     <None Include="PXGColor.vert.glsl" />
   </ItemGroup>
 </Project>

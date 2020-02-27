@@ -3,6 +3,8 @@
 #include "Component.h"
 namespace PXG
 {
+	struct NodeToPositionContainer;
+
 	class NodeGraph : public Component
 	{
 	public:
@@ -10,7 +12,7 @@ namespace PXG
 		void AddNewNode(Node* newNode);
 		void Clear();
 		std::vector<Node*>& GetNodes();
-		void generateConnections();
+		void generateConnections(std::vector<NodeToPositionContainer>& nodeToPositionContainers);
 	private:
 
 		void AddNode(Node* newNode);
