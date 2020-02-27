@@ -34,51 +34,55 @@ namespace PXG
 					Debug::Log("player pos:");
 					Debug::Log(playerPos.ToString());
 					//look for current player node
-					
+
 					for (auto startNode : nodeGraph->GetNodes())
 					{
-						Debug::Log("node pos:");
-						Debug::Log(startNode->getPos().ToString());
+
 						//compare position of player with map movement
 						if (playerPos == startNode->getPos())
 						{
-							Debug::Log("found player node");
-						
 							Debug::Log("target Node");
 							Debug::Log(endNode->getPos().ToString());
-							Debug::Log("Connecntions of target:");
-							for (auto otherNode : endNode->GetConnectedNodes())
-							{
-								Debug::Log(otherNode->getPos().ToString());
-							}
+
 							//gen path
 							auto result = FindPath(translatedGraph, startNode, endNode);
+							Debug::Log("pathLength");
+							Debug::Log(std::to_string(result.second->size()));
 							//check if path is found
 							if (result.first)
 							{
 								//check if node is interactable  and trigger; path length ==2 -> node is next to player position 
 								if (result.second->size() == 2 && endNode->GetNodeWheight() >= 2000)
 								{
+									Debug::Log("found interactive node");
 									//find gameobject at node position
 									for (auto otherObject : nodeGraph->GetObjects())
 									{
-										Vector3 comparePos = otherObject->GetTransform()->GetPosition();
-										//scale position to unit length
-										comparePos = comparePos * 0.01f;
-										comparePos.y -= 1;
-										//if has trigger and position is same raise the trigger
-										if (comparePos == endNode->getPos() && otherObject->HasComponent<TriggerComponent>())
+										if (otherObject->HasComponent<TriggerComponent>())
 										{
-											auto trigger = otherObject->GetComponent < TriggerComponent>();
-											trigger->raiseTrigger(startNode, endNode);
-											break;
+											Vector3 comparePos = otherObject->GetComponent<TriggerComponent>()->getNodePos();
+											Debug::Log("compare pos");
+											Debug::Log(comparePos.ToString());
+											//if has trigger and position is same raise the trigger
+											if (comparePos == endNode->getPos())
+											{
+												Debug::Log("triggering node");
+												auto trigger = otherObject->GetComponent < TriggerComponent>();
+												trigger->raiseTrigger(startNode, endNode);
+												break;
+											}
 										}
 									}
 								}
 								//move 
 								else
 								{
-									mapMovement->Move(translatePath(result.second.get()));
+									Debug::Log("end node wheight:");
+									Debug::Log(std::to_string(endNode->GetNodeWheight()));
+									if (!(endNode->GetNodeWheight() >= 2000))
+									{
+										mapMovement->Move(translatePath(result.second.get()));
+									}
 									break;
 								}
 							}

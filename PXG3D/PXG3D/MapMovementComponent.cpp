@@ -96,7 +96,7 @@ namespace PXG
 			}
 		}
 		notify(ON_MOVE);
-
+		oldOffset = offset;
 
 	}
 

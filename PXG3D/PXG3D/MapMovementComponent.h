@@ -75,6 +75,7 @@ namespace PXG
 		}
 
 		Vector3 getOffset() const { return offset; };
+		Vector3 getOldOffset() const { return oldOffset; };
 		void Start() override;
 		void FixedUpdate(float tick) override;
 		void SetMap(std::shared_ptr<GameObject> newMap);
@@ -85,6 +86,7 @@ namespace PXG
 		std::shared_ptr<GameObject> map;
 
 		Vector3 offset = { 0,0,0 };
+		Vector3 oldOffset = { 0,0,0 };
 
 
 		std::vector<std::shared_ptr<GameObject>> otherObjectsToMove;

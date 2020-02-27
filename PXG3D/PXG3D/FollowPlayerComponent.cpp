@@ -13,13 +13,9 @@ namespace PXG
 	{
 		if (following)
 		{
-		//	Debug::Log("Following");
-			//Do player follow stuff
 		}
 		else
 		{
-			//Debug::Log("Not Following");
-
 		}
 	}
 

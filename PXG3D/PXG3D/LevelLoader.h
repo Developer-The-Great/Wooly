@@ -270,7 +270,10 @@ namespace PXG
 							{
 								auto triggerComp = std::make_shared<TriggerComponent>();
 								child->AddComponent(triggerComp);
-
+								Vector3 nodePos = Vector3(offset.x, offset.y - 1, offset.z);
+								triggerComp->SetNodePos(nodePos);
+								triggerComp->SetNodeGraph(nodeGraph);
+								triggerComp->subscribe(*mapMovement);
 								if (value == "followPlayer")
 								{
 									auto followPlayer = std::make_shared<FollowPlayerComponent>();
