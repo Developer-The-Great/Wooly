@@ -61,7 +61,7 @@ namespace PXG
 		auto raycaster			= std::make_shared<RayCastShooter>();
 
 		//--------------------------Initialize UI and their Components--------------------------------//
-
+		/*
 		std::shared_ptr<TextComponent> textComp = std::make_shared<TextComponent>();
 		std::shared_ptr<TextComponent> textComp2 = std::make_shared<TextComponent>();
 
@@ -88,7 +88,7 @@ namespace PXG
 		GameObj emptyUIObject = canvas->createEmptyCanvasObject();
 		emptyUIObject->SetWorld(canvas);
 		emptyUIObject->AddComponent(textComp2);
-
+		*/
 		//--------------------------SetUpUICanvas--------------------------------//
 
 		auto UICam = std::make_shared<CameraComponent>();
@@ -175,14 +175,14 @@ namespace PXG
 		auto graph = node_graph->GetNodes();
 
 
-		auto* A = graph[0];
-		auto* B = graph[graph.size() - 1];
+		//auto* A = graph[0];
+		//auto* B = graph[graph.size() - 1];
 
-		auto translated_graph = TranslateNodeGraph(graph);
+		//auto translated_graph = TranslateNodeGraph(graph);
 		
 
-		auto [presult ,path] = FindPath(translated_graph, A, B);
-
+		//auto [presult ,path] = FindPath(translated_graph, A, B);
+		/*
 		Debug::Log("SZ Nodes {}", path->size());
 		if(presult)
 		{
@@ -192,6 +192,7 @@ namespace PXG
 				Debug::Log("via: {}", node->GetRealNode()->getPos().ToString());
 			}
 		}
+		*/
 
 	}
 

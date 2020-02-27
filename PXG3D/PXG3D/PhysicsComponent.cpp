@@ -235,19 +235,19 @@ namespace PXG
 
 			Vertex backwardFaceTriangle1V2;
 			backwardFaceTriangle1V2.position = lowerV1;
-			backwardFaceTriangle1V2.normal = forwardNormal;
+			backwardFaceTriangle1V2.normal = backNormal;
 
 			Vertex backwardFaceTriangle2V0;
 			backwardFaceTriangle2V0.position = upperV0;
-			backwardFaceTriangle2V0.normal = topNormal;
+			backwardFaceTriangle2V0.normal = backNormal;
 
 			Vertex backwardFaceTriangle2V1;
 			backwardFaceTriangle2V1.position = lowerV0;
-			backwardFaceTriangle2V1.normal = topNormal;
+			backwardFaceTriangle2V1.normal = backNormal;
 
 			Vertex backwardFaceTriangle2V2;
 			backwardFaceTriangle2V2.position = lowerV1;
-			backwardFaceTriangle2V2.normal = topNormal;
+			backwardFaceTriangle2V2.normal = backNormal;
 
 			collisionCube->Vertices.push_back(backwardFaceTriangle1V0);
 			collisionCube->Vertices.push_back(backwardFaceTriangle1V1);
@@ -267,7 +267,7 @@ namespace PXG
 		{
 			//right face 
 			Vertex rightFaceTriangle1V0;
-			rightFaceTriangle1V0.position = upperV3;
+			rightFaceTriangle1V0.position = upperV1;
 			rightFaceTriangle1V0.normal = rightNormal;
 
 			Vertex rightFaceTriangle1V1;
@@ -275,20 +275,20 @@ namespace PXG
 			rightFaceTriangle1V1.normal = rightNormal;
 
 			Vertex rightFaceTriangle1V2;
-			rightFaceTriangle1V2.position = upperV1;
+			rightFaceTriangle1V2.position = upperV3;
 			rightFaceTriangle1V2.normal = rightNormal;
 
 			Vertex rightFaceTriangle2V0;
 			rightFaceTriangle2V0.position = upperV1;
-			rightFaceTriangle2V0.normal = topNormal;
+			rightFaceTriangle2V0.normal = rightNormal;
 
 			Vertex rightFaceTriangle2V1;
 			rightFaceTriangle2V1.position = lowerV1;
-			rightFaceTriangle2V1.normal = topNormal;
+			rightFaceTriangle2V1.normal = rightNormal;
 
 			Vertex rightFaceTriangle2V2;
 			rightFaceTriangle2V2.position = lowerV3;
-			rightFaceTriangle2V2.normal = topNormal;
+			rightFaceTriangle2V2.normal = rightNormal;
 
 			collisionCube->Vertices.push_back(rightFaceTriangle1V0);
 			collisionCube->Vertices.push_back(rightFaceTriangle1V1);
@@ -303,27 +303,27 @@ namespace PXG
 			//left face 
 			Vertex leftFaceTriangle1V0;
 			leftFaceTriangle1V0.position = upperV0;
-			leftFaceTriangle1V0.normal = rightNormal;
+			leftFaceTriangle1V0.normal = leftNormal;
 
 			Vertex leftFaceTriangle1V1;
 			leftFaceTriangle1V1.position = upperV2;
-			leftFaceTriangle1V1.normal = rightNormal;
+			leftFaceTriangle1V1.normal = leftNormal;
 
 			Vertex leftFaceTriangle1V2;
 			leftFaceTriangle1V2.position = lowerV2;
-			leftFaceTriangle1V2.normal = rightNormal;
+			leftFaceTriangle1V2.normal = leftNormal;
 
 			Vertex leftFaceTriangle2V0;
 			leftFaceTriangle2V0.position = upperV0;
-			leftFaceTriangle2V0.normal = topNormal;
+			leftFaceTriangle2V0.normal = leftNormal;
 
 			Vertex leftFaceTriangle2V1;
 			leftFaceTriangle2V1.position = lowerV0;
-			leftFaceTriangle2V1.normal = topNormal;
+			leftFaceTriangle2V1.normal = leftNormal;
 
 			Vertex leftFaceTriangle2V2;
 			leftFaceTriangle2V2.position = lowerV2;
-			leftFaceTriangle2V2.normal = topNormal;
+			leftFaceTriangle2V2.normal = leftNormal;
 
 			collisionCube->Vertices.push_back(leftFaceTriangle1V0);
 			collisionCube->Vertices.push_back(leftFaceTriangle1V1);

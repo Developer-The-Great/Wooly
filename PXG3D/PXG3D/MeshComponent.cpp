@@ -23,7 +23,14 @@ namespace PXG
 
 		if(auto iter = cache.find(name); iter != cache.end())
 		{
-			std::copy(iter->second.begin(), iter->second.end(), std::back_inserter(meshes));
+			meshes.reserve(iter->second.size());
+
+			for(auto &M : iter->second)
+			{
+				auto m = std::make_shared<Mesh>(*M);
+				meshes.emplace_back(m);
+			}
+			
 		}
 		else{
 			directory = name.substr(0, name.find_last_of('/'));;
@@ -226,4 +233,10 @@ namespace PXG
 		return meshes;
 	}
 
+
+	void MeshComponent::ClearTextures(int i)
+	{
+		meshes.at(i)->Textures.clear();
+		
+	}
 }

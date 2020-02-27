@@ -64,7 +64,7 @@ class FontRenderer
 {
 public:
 
-	typedef std::multimap<GLuint, GLfloat*> render_queue;
+	typedef std::multimap<GLuint, std::shared_ptr<GLfloat>> render_queue;
 
 	FontRenderer(bool provideShader = true)
 	{
