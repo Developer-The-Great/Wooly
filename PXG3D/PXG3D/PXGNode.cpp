@@ -1,4 +1,5 @@
-#include "Node.h"
+#pragma once
+#include "PXGNode.h"
 #include "Mathf.h"
 namespace PXG
 {

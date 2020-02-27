@@ -8,6 +8,7 @@ namespace PXG
 	//std::string Mesh::textureSpecularStr = "texture_specular";
 	Mesh::Mesh(std::vector<unsigned int> indices, std::vector<Vertex> vertices, std::vector<Texture> textures)
 	{
+		
 		this->Textures = textures;
 		this->Indices = indices;
 		this->Vertices = vertices;
