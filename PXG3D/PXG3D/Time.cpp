@@ -1,5 +1,6 @@
 #include "Time.h"
 #include "Debug.h"
+#include <GLFW/glfw3.h>
 
 namespace PXG
 {

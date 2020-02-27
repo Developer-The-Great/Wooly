@@ -27,6 +27,7 @@
 #include "AudioClip.hpp"
 #include "AudioEngine.hpp"
 #include "AudioSource.h"
+#include "JumperComponent.h"
 
 namespace PXG
 {
@@ -52,7 +53,7 @@ namespace PXG
 		ItemRegistry::LoadConfig(&item_config);
 
 		Input::AddKeysToTrack(
-			KeyCode::A, KeyCode::W, KeyCode::S, KeyCode::D, KeyCode::Q, KeyCode::E, KeyCode::K, KeyCode::J,
+			KeyCode::A, KeyCode::W, KeyCode::S, KeyCode::D, KeyCode::Q, KeyCode::E, KeyCode::K, KeyCode::J, KeyCode::Z,
 			KeyCode::LeftMouse, KeyCode::RightMouse, KeyCode::MiddleMouse, KeyCode::Enter);
 
 		//---------------------------Initialize Textures---------------------------------------//
@@ -135,7 +136,7 @@ namespace PXG
 		//------------------------------ Player --------------------------------------//
 
 		auto asource = std::make_shared<PXG::AudioSourceComponent>(clip);
-
+		auto jumper = std::make_shared<JumperComponent>();
 		
 		GameObj Player = MakeChild("Player");
 
@@ -144,6 +145,7 @@ namespace PXG
 		Player->GetTransform()->SetLocalPosition({ 0,100,0 });
 		Player->GetTransform()->Scale(glm::vec3{ 100 });
 		Player->AddComponent(asource);
+		Player->AddComponent(jumper);
 		Player->GetMeshComponent()->SetMaterial(textureMaterial);
 
 
