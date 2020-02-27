@@ -2,6 +2,17 @@
 #include <GLFW/glfw3.h>
 #include <soloud/soloud.h>
 
+
+#define IS_EDITOR 0
+
+#if defined(IS_EDITOR) && IS_EDITOR == 1
+#define GAME_INSTANCE PXGEditor
+#else
+#define GAME_INSTANCE PXGGame
+#endif
+
+
+
 #define STB_IMAGE_IMPLEMENTATION
 //#include "stb_image.h"
 
@@ -21,6 +32,11 @@
 #include "World.h"
 #include "Canvas.h"
 #include "KeyCode.h"
+#include "PXGEditor.h"
+
+#include "imgui/imgui.h"
+#include "imgui/examples/imgui_impl_glfw.h"
+#include "imgui/examples/imgui_impl_opengl3.h"
 
 constexpr int width = 800;
 constexpr int height = 600;
@@ -60,6 +76,8 @@ int main()
 		return -1;
 	}
 
+	
+
 	//tell OpenGL the size of the rendering window
 	glViewport(0, 0, width, height);
 	//TODO LOW PRIORITY : refactor callbacks
@@ -69,8 +87,8 @@ int main()
 
 	//--------------------Initialize Game-----------------------//
 
-	std::shared_ptr<PXG::PXGGame> gamePtr = std::make_shared<PXG::PXGGame>();
-	gamePtr->GetWorld()->SetPhysicsComponentDrawActive(false);
+	auto gamePtr = std::make_shared<PXG:: GAME_INSTANCE >();
+	gamePtr->GetWorld()->SetPhysicsComponentDrawActive(true);
 
 	//--------------------Initialize Rendering Engine-----------------------//
 
@@ -102,12 +120,22 @@ int main()
 	//-------------------------------------- GAME LOOP ------------------------------------//
 	glEnable(GL_DEPTH_TEST);
 
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+
+	ImGui_ImplGlfw_InitForOpenGL(window, true);
+	ImGui_ImplOpenGL3_Init("#version 330");
+	
 	while (!glfwWindowShouldClose(window))
 	{
 
 		glClearColor(0.4f, 0.5f, 0.8f, 1.0f);
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();
 
 		//track current time
 		time->UpdateTimePassed();
@@ -118,16 +146,25 @@ int main()
 
 		while (physicsEngine->IsTicking())
 		{
+			
+			
 			float tick = physicsEngine->DecreaseRemainingTickTime();
 			//fixed update on game
 			gamePtr->FixedUpdate(tick);
 
+			
 		}
+
+		gamePtr->Update();
 		
 		renderingEngine->RenderCurrentlySetWorld();
 
 		glDisable(GL_DEPTH_TEST);
 		renderingEngine->RenderCanvas();
+		
+		ImGui::Render();
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
 
 		glfwSwapBuffers(window);
 
@@ -138,8 +175,8 @@ int main()
 
 	}
 
-
-
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplGlfw_Shutdown();
 
 	return 0;
 }

@@ -29,6 +29,8 @@
 #include "AudioClip.hpp"
 #include "AudioEngine.hpp"
 #include "AudioSource.h"
+
+#include "JumperComponent.h"
 namespace PXG
 {
 
@@ -51,7 +53,7 @@ namespace PXG
 		ItemRegistry::LoadConfig(&item_config);
 
 		Input::AddKeysToTrack(
-			KeyCode::A, KeyCode::W, KeyCode::S, KeyCode::D, KeyCode::Q, KeyCode::E, KeyCode::K, KeyCode::J,
+			KeyCode::A, KeyCode::W, KeyCode::S, KeyCode::D, KeyCode::Q, KeyCode::E, KeyCode::K, KeyCode::J, KeyCode::Z,
 			KeyCode::LeftMouse, KeyCode::RightMouse, KeyCode::MiddleMouse, KeyCode::Enter);
 
 
@@ -84,20 +86,6 @@ namespace PXG
 		//GameObj emptyUIObject = canvas->createEmptyCanvasObject();
 		//emptyUIObject->SetWorld(canvas);
 		//emptyUIObject->AddComponent(textComp2);
-
-
-
-		//textComp->InitText(frender);
-		//textComp->SetFont(font);
-
-		//textComp->setRelativePosition(Vector2(0, 0));
-		//textComp->setString("Hello World");
-
-	/*	textComp2->InitText(frender);
-		textComp2->SetFont(font);
-		textComp2->setRelativePosition(Vector2(350, 150));
-		textComp2->setString("Hello World2");*/
-
 
 
 
@@ -135,6 +123,8 @@ namespace PXG
 		//------------------------------ Player --------------------------------------//
 
 		auto asource = std::make_shared<PXG::AudioSourceComponent>(clip);
+		auto jumper = std::make_shared<JumperComponent>();
+		
 		GameObj Player = MakeChild("Player");
 
 		Player->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + "Timmy.obj");
@@ -142,6 +132,7 @@ namespace PXG
 		Player->GetTransform()->SetLocalPosition({ 0,100,0 });
 		Player->GetTransform()->Scale(glm::vec3{ 100 });
 		Player->AddComponent(asource);
+		Player->AddComponent(jumper);
 		Player->GetMeshComponent()->SetMaterial(textureMaterial);
 
 		//--------------------------- Map movement -----------------------------------//
@@ -186,12 +177,7 @@ namespace PXG
 		node_graph->generateConnections(nodeToPositionContainer);
 
 		rayCasthandler->setNodeGraph(node_graph);
-		/*
-				auto graph = node_graph->GetNodes();
-
-
-				auto result = FindPath(translatedGraph, startNode, endNode);*/
-
+		
 
 	}
 

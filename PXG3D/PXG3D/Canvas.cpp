@@ -13,7 +13,6 @@ namespace PXG
 		newGameObject->GetTransform()->Scale(Vector3(dimensions.x, 0, dimensions.y));
 		newGameObject->GetTransform()->SetLocalPosition(Vector3(position.x, position.y, -100));
 		newGameObject->GetTransform()->rotate(glm::vec3(1, 0, 0), 90);
-		this->AddToChildren(newGameObject);
 		return newGameObject;
 	}
 

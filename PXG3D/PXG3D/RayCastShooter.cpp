@@ -35,6 +35,7 @@ namespace PXG
 		if (info.RayHit)
 		{
 			Debug::Log("raycast hit {0} ", info.GameObjectHit->name);
+			Debug::Log("normal found ", info.Normal.ToString());
 			lastHit = info;
 			notify(ON_RAYCAST_HIT);
 		}	else {

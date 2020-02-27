@@ -76,6 +76,7 @@ namespace PXG {
 		
 	};
 	static inline PathFinder<PathFindingNode> finder;
+	static inline uint32_t LastPathWeight = 0;
 
 	
 	inline PathFindingNode* FindNode(std::vector<PathFindingNode>& graph, ::PXG::Node* node)
@@ -108,7 +109,7 @@ namespace PXG {
 				node.AddChild(*FindNode(translated_graph, connection));
 			}
 		}
-
+		
 		return translated_graph;
 	}
 
@@ -130,6 +131,29 @@ namespace PXG {
 		
 		bool result = finder.findPath<AStar>(*path);
 
+		uint32_t overall_weight{0};
+		bool impossible{false}, blocked{false};
+		
+		for(auto* node: *path)
+		{
+			if(!blocked)
+				if (is_blocked(node->GetRealNode())) blocked = true;
+			if(!impossible)
+				if (is_impossible(node->GetRealNode())) impossible = true;
+
+			if (impossible)
+				break;
+		}
+
+		if (blocked && !impossible)
+			overall_weight = BLOCKED_REALM(path->size());
+		else if (impossible)
+			overall_weight = IMPOSSIBLE_REALM(path->size());
+		else
+			overall_weight = PATH_REALM(path->size());
+
+		LastPathWeight = overall_weight;
+		
 		return std::pair(result, path);		
 	}
 

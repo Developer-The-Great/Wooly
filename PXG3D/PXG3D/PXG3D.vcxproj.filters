@@ -44,6 +44,14 @@
     <ClCompile Include="FollowPlayerComponent.cpp" />
     <ClCompile Include="pfinder\Node.cpp" />
     <ClCompile Include="RayCastHitHandler.cpp" />
+    <ClCompile Include="PXGEditor.cpp" />
+    <ClCompile Include="PXGNode.cpp" />
+    <ClCompile Include="imgui\imgui.cpp" />
+    <ClCompile Include="imgui\imgui_demo.cpp" />
+    <ClCompile Include="imgui\imgui_draw.cpp" />
+    <ClCompile Include="imgui\imgui_widgets.cpp" />
+    <ClCompile Include="imgui\examples\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="imgui\examples\imgui_impl_glfw.cpp" />
     <ClCompile Include="AudioSource.cpp" />
     <ClCompile Include="PXGNode.cpp" />
     <ClCompile Include="AbstractEventComponent.cpp" />
@@ -84,7 +92,6 @@
     <ClInclude Include="ScreenSize.h" />
     <ClInclude Include="SpecificOnClick.h" />
     <ClInclude Include="stb_image.h" />
-    <ClInclude Include="SurroundingObjectEnumeratorComponent.h" />
     <ClInclude Include="Subject.h" />
     <ClInclude Include="Subscriber.h" />
     <ClInclude Include="TextComponent.h" />
@@ -122,13 +129,20 @@
     <ClInclude Include="AbstractEventComponent.h" />
     <ClInclude Include="RayCastHitHandler.h" />
     <ClInclude Include="AudioClip.hpp" />
+    <ClInclude Include="imgui\imconfig.h" />
+    <ClInclude Include="imgui\imgui.h" />
+    <ClInclude Include="imgui\imgui_internal.h" />
+    <ClInclude Include="imgui\imstb_rectpack.h" />
+    <ClInclude Include="imgui\imstb_textedit.h" />
+    <ClInclude Include="imgui\imstb_truetype.h" />
+    <ClInclude Include="imgui\examples\imgui_impl_opengl3.h" />
+    <ClInclude Include="imgui\examples\imgui_impl_glfw.h" />
     <ClInclude Include="AudioEngine.hpp" />
     <ClInclude Include="AudioSource.h" />
     <ClInclude Include="NodeToPositionContainer.h" />
     <ClInclude Include="PXGNode.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="PXGColor.frag.glsl" />
     <None Include="PXGColor.vert.glsl" />
   </ItemGroup>
   <ItemGroup>

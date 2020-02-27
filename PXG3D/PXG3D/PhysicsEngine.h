@@ -25,6 +25,8 @@ namespace PXG
 
 		float GetTickRate() const;
 
+		
+
 		float GetCurrentTickRemaining() const;
 
 		void SetTickRemaining(float tick);
@@ -32,6 +34,10 @@ namespace PXG
 		bool IsTicking();
 
 		float DecreaseRemainingTickTime();
+
+		static double GetGravity();
+
+		static void SetGravity(double newGravity);
 
 		//cast a ray from a position to a direction. Uses the meshes of the mesh Component for intersection
 		static bool Raycast(const Vector3& position,const Vector3& direction,HitInfo& hitInfo,std::shared_ptr<World> world,bool usePhysicsComponent = true);
@@ -61,6 +67,8 @@ namespace PXG
 		static void RayTriangleIntersection(Vector3 v1,Vector3 v2,Vector3 v3 , const Vector3& rayPosition, const Vector3& rayDirection, Mat4 objectTransform, HitInfo& hitInfo, std::shared_ptr<GameObject> owner);
 
 		const float tickTime = 0.02f;
+
+		static double gravity;
 
 		float tickTimeRemaining;
 

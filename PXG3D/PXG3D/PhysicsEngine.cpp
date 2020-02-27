@@ -10,8 +10,12 @@
 #include "GameObject.h"
 #include "Math.h"
 #include "CameraComponent.h"
+
 namespace PXG
 {
+
+	double PhysicsEngine::gravity = -2.45;
+
 	void PhysicsEngine::AddPhysicsComponent(std::shared_ptr<PhysicsComponent> physicsComponent)
 	{
 	}
@@ -64,6 +68,17 @@ namespace PXG
 			tickTimeRemaining = 0;
 			return  decreasedTime;
 		}
+	}
+
+	double PhysicsEngine::GetGravity()
+	{
+		return gravity;
+	}
+
+	void PhysicsEngine::SetGravity(double newGravity)
+	{
+		gravity = newGravity;
+
 	}
 
 	bool PhysicsEngine::Raycast(const Vector3& position, const Vector3& direction, HitInfo& hitInfo, std::shared_ptr<World> world, bool usePhysicsComponent)
