@@ -19,6 +19,16 @@ namespace PXG
 	{
 	public:
 
+		Mesh(const Mesh& other)
+		{
+			std::copy(other.Indices.begin(), other.Indices.end(), std::back_inserter(Indices));
+			std::copy(other.Vertices.begin(), other.Vertices.end(), std::back_inserter(Vertices));
+			std::copy(other.Textures.begin(), other.Textures.end(), std::back_inserter(Textures));
+
+			SetupMesh();
+		}
+
+		
 		std::vector<unsigned int> Indices;
 		std::vector<Vertex> Vertices;
 		std::vector<Texture> Textures;

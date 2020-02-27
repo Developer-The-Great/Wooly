@@ -167,7 +167,7 @@ void FontRenderer::text(Font* fnt, std::string tx, float scale, glm::vec2 positi
 		const GLfloat h = ch.Size.y * scale;
 
 		//prepare vertex buffers
-		GLfloat* vertices = new GLfloat[6 * 4]{
+		std::shared_ptr<GLfloat> vertices = std::shared_ptr<GLfloat>(new GLfloat[6 * 4]{
 				xpos,     ypos + h,   0.0, 0.0 ,
 				xpos,     ypos,       0.0, 1.0 ,
 				xpos + w, ypos,       1.0, 1.0 ,
@@ -175,10 +175,10 @@ void FontRenderer::text(Font* fnt, std::string tx, float scale, glm::vec2 positi
 				xpos,     ypos + h,   0.0, 0.0 ,
 				xpos + w, ypos,       1.0, 1.0 ,
 				xpos + w, ypos + h,   1.0, 0.0
-		};
+			}, [](const GLfloat* f) { delete[] f; });
 
 		//inset the buffers into the render_queue
-		m_renderQueue.insert(std::make_pair(ch.TextureID, std::shared_ptr<GLfloat>(vertices, [](GLfloat* d) { delete d; })));
+		m_renderQueue.insert(std::make_pair(ch.TextureID, vertices));
 
 		//advance by one
 		position.x += (ch.Advance >> 6)* scale;

@@ -13,7 +13,7 @@ namespace PXG
 
 	TextureMaterial::~TextureMaterial()
 	{
-		Debug::Log("Texture Material Destroyed");
+		//Debug::Log("Texture Material Destroyed");
 	}
 
 	Shader * TextureMaterial::GetShader()
