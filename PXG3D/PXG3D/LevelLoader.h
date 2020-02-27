@@ -12,13 +12,14 @@
 
 #include "CollisionCubeParams.h"
 #include "NodeToPositionContainer.h"
-
-
+#include "World.h"
+#include "GameObject.h"
 #include "NodeGraph.h"
 #include "FollowPlayerComponent.h"
 #include "TriggerComponent.h"
 #include "RockPushComponent.h"
 #include <map>
+#include <memory>
 namespace PXG
 {
 
@@ -55,7 +56,8 @@ namespace PXG
 		void FixedUpdate(float tick) override {}
 
 
-		void LoadLevel(std::ifstream& file, Game* game, std::shared_ptr<NodeGraph> nodeGraph,std::vector<NodeToPositionContainer>& nodeToPositionContainer)
+		void LoadLevel(std::ifstream& file, Game* game, std::shared_ptr<NodeGraph> nodeGraph,std::vector<NodeToPositionContainer>& nodeToPositionContainer,
+			std::shared_ptr<MapMovementComponent> mapMovement)
 		{
 			using json = nlohmann::json;
 
@@ -182,6 +184,11 @@ namespace PXG
 				//add the child to the map
 				GetOwner()->AddToChildren(child);
 			}
+			Debug::Log("-----------------------------------------------------------");
+			Debug::Log("finished loading tiles");
+			Debug::Log("-----------------------------------------------------------");
+			Debug::Log("loading other objects");
+
 			for (auto& otherObjects : config["OtherObjects"])
 			{
 				//check if we are dealing with an object
@@ -249,6 +256,16 @@ namespace PXG
 						//creates components to the according to the behaviours name 
 						if (key == "behaviour")
 						{
+							for (auto node : nodeGraph->GetNodes())
+							{
+								Vector3 pos = Vector3(offset.x, offset.y - 1, offset.z);
+								if(pos==node->getPos())
+								{
+									Debug::Log("found node below object with behaviour");
+									node->SetNodeWeight(2000);
+								}
+							}
+							nodeGraph->AddNewInteractiveObj(child);
 							if (value.is_string())
 							{
 								auto triggerComp = std::make_shared<TriggerComponent>();
@@ -258,13 +275,13 @@ namespace PXG
 								{
 									auto followPlayer = std::make_shared<FollowPlayerComponent>();
 									child->AddComponent(followPlayer);
-									triggerComp->AddComponent(followPlayer);
+									triggerComp->SetComponent(followPlayer);
 								}
 								if (value == "movable")
 								{
 									auto rockPush = std::make_shared < RockPushComponent>();
 									child->AddComponent(rockPush);
-									triggerComp->AddComponent(rockPush);
+									triggerComp->SetComponent(rockPush);
 								}
 								if (value == "attackSheep")
 								{
@@ -276,45 +293,17 @@ namespace PXG
 								}
 							}
 						}
-
-
-						//	if (value.is_object())
-						//	{
-						//		Debug::Log("Object in Node Meta Data");
-						//		for (auto[key, value] : value.items())
-						//		{
-						//			if (key == "connected_nodes" && value.is_array())
-						//			{
-						//				for (auto& connection : value)
-						//				{
-						//					if (connection.is_array())
-						//					{
-						//						Vector3 connectionPos;
-						//						for (int i = 0; i < 3; i++)
-						//						{
-						//							const float dp = connection[i].get<float>();
-						//							connectionPos[i] = dp;
-						//						}
-						//						newNode->AddNewConnection(connectionPos);
-						//					}
-						//				}
-						//			}
-						//		}
-						//		continue;
-						//	}
-						//}
-						//if (!value.is_string())
-						//{
-						//	Debug::Log(Verbosity::Error, "invalid meta-data in object , value was not string");
-						//	continue;
-						//}
 						metaData->metaData[key] = value.get<std::string>();
 					}
 				}
 				metaData->offset = offset;
 				child->AddComponent(metaData);
+				mapMovement->AddOtherObjectToMove(child);
+
+				GetOwner()->GetWorld().lock()->AddToChildren(child);
 				//add the child to the map
-				GetOwner()->AddToChildren(child);
+				//GetOwner()->AddToChildren(child);
+
 			}
 		}
 

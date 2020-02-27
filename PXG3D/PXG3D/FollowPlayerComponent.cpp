@@ -18,15 +18,14 @@ namespace PXG
 		}
 		else
 		{
-		//	Debug::Log("Not Following");
+			//Debug::Log("Not Following");
 
 		}
 	}
 
 	void FollowPlayerComponent::Execute(Node * currentNode, Node * targetNode)
 	{
-		if (following) following = false;
-		else following = true;
+		ChangeMove();
 		Debug::Log("Execute");
 
 

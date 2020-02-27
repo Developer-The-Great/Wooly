@@ -22,6 +22,7 @@ namespace PXG
 		std::shared_ptr<NodeGraph> nodeGraph;
 		std::vector<PathFindingNode> translatedGraph;
 		std::shared_ptr<MapMovementComponent> mapMovement;
+		std::vector<Node*>* translatePath(std::vector<PathFindingNode*>* oldPath);
 	};
 
 }

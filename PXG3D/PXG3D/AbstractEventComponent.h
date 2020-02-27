@@ -8,8 +8,10 @@ namespace PXG
 	public:
 
 		virtual void Execute(Node* currentNode, Node* targetNode) = 0;
+		void ChangeMove();
+		bool isMoving() { return move; }
 	private:
-
+		bool move = false;
 	};
 
 

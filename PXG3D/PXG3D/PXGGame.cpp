@@ -25,7 +25,6 @@
 #include "Subscriber.h"
 #include "NodeGraph.h"
 #include "ScreenSize.h"
-#include "TriggerComponent.h"
 #include "RayCastHitHandler.h"
 #include "AudioClip.hpp"
 #include "AudioEngine.hpp"
@@ -69,21 +68,21 @@ namespace PXG
 		auto rayCasthandler = std::make_shared<RayCastHitHandler>();
 
 		//--------------------------Initialize UI and their Components--------------------------------//
-		std::shared_ptr<TextComponent> textComp = std::make_shared<TextComponent>();
-		std::shared_ptr<TextComponent> textComp2 = std::make_shared<TextComponent>();
+		//std::shared_ptr<TextComponent> textComp = std::make_shared<TextComponent>();
+		//std::shared_ptr<TextComponent> textComp2 = std::make_shared<TextComponent>();
 
-		std::shared_ptr<ButtonComponent> buttonComp = std::make_shared<ButtonComponent>();
-		subscriber_base*  onClick = new SpecificOnClick();
-		//button with onclick component & text
-		GameObj button = canvas->createCanvasObject(Vector2(200, 100), Vector2(50, 50), "Button1", bluetColorMat);
-		button->SetWorld(canvas);
-		button->AddComponent(buttonComp);
-		buttonComp->attach(onClick);
-		button->AddComponent(textComp);
-		button->AddComponent(movementComponent);
-		//empty UI object with text
-		GameObj emptyUIObject = canvas->createEmptyCanvasObject();
-		emptyUIObject->SetWorld(canvas);
+		//std::shared_ptr<ButtonComponent> buttonComp = std::make_shared<ButtonComponent>();
+		//subscriber_base*  onClick = new SpecificOnClick();
+		////button with onclick component & text
+		//GameObj button = canvas->createCanvasObject(Vector2(200, 100), Vector2(50, 50), "Button1", bluetColorMat);
+		//button->SetWorld(canvas);
+		//button->AddComponent(buttonComp);
+		//buttonComp->attach(onClick);
+		//button->AddComponent(textComp);
+		//button->AddComponent(movementComponent);
+		////empty UI object with text
+		//GameObj emptyUIObject = canvas->createEmptyCanvasObject();
+		//emptyUIObject->SetWorld(canvas);
 		//emptyUIObject->AddComponent(textComp2);
 
 
@@ -139,7 +138,7 @@ namespace PXG
 		GameObj Player = MakeChild("Player");
 
 		Player->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + "Timmy.obj");
-		Player->GetMeshComponent()->AddTextureToMeshAt({ config::PXG_INDEPENDENT_TEXTURES_PATH + "texture.png",TextureType::DIFFUSE }, 0);
+		Player->GetMeshComponent()->AddTextureToMeshAt({ config::PXG_INDEPENDENT_TEXTURES_PATH + "TimmyTexture.png",TextureType::DIFFUSE }, 0);
 		Player->GetTransform()->SetLocalPosition({ 0,100,0 });
 		Player->GetTransform()->Scale(glm::vec3{ 100 });
 		Player->AddComponent(asource);
@@ -182,7 +181,7 @@ namespace PXG
 		std::vector<NodeToPositionContainer> nodeToPositionContainer;
 
 		std::ifstream level_config(config::PXG_CONFIGS_PATH + "level_data.json");
-		level_loader->LoadLevel(level_config, this, node_graph, nodeToPositionContainer);
+		level_loader->LoadLevel(level_config, this, node_graph, nodeToPositionContainer,mapMovement);
 		rayCasthandler->setMapMovement(mapMovement);
 		node_graph->generateConnections(nodeToPositionContainer);
 

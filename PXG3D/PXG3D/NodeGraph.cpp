@@ -13,23 +13,12 @@ namespace PXG
 	{
 		return nodes;
 	}
+	std::vector<std::shared_ptr<GameObject>>& NodeGraph::GetObjects()
+	{
+		return interactiveObjects;
+	}
 	void NodeGraph::generateConnections(std::vector<NodeToPositionContainer>& nodeToPositionContainers)
 	{
-		/*for (Node* OuterNode : nodes)
-		{
-			for (Node* InnerNode : nodes) {
-
-				auto match = std::find_if(OuterNode->getConnectionsPositions().begin(), OuterNode->getConnectionsPositions().end(), [&](auto pos) {
-					return pos == InnerNode->getPos();
-				});
-
-				if (match != OuterNode->getConnectionsPositions().end())
-				{
-					OuterNode->AddNewConnection(InnerNode);
-				}
-			}
-		}*/
-
 		//for each node 
 		for (int i = 0; i < nodes.size()-1; i++)
 		{
@@ -47,27 +36,11 @@ namespace PXG
 
 				if (secondContainerValidConnection)
 				{
-
-
 					firstContainer.node->AddNewConnection(secondContainer.node.get());
 					secondContainer.node->AddNewConnection(firstContainer.node.get());
 				}
-
-				
 			}
 		}
-
-			//find node at left 
-
-			//find node at right 
-
-			//find node at forward
-
-			//find node at backward
-			
-
-
-
 	}
 	void NodeGraph::AddNode(Node * newNode)
 	{
@@ -94,6 +67,26 @@ namespace PXG
 			AddNode(newNode);
 		}
 
+	}
+
+	void NodeGraph::AddNewInteractiveObj(std::shared_ptr<GameObject > newObj)
+	{
+		if (!interactiveObjects.empty())
+		{
+			if (std::find(interactiveObjects.begin(), interactiveObjects.end(), newObj) != interactiveObjects.end())
+			{
+				Debug::Log("NodeGraph already contains interactive obj trying to add");
+			}
+			else
+			{
+				Debug::Log("New interactive obj added");
+				interactiveObjects.push_back(newObj);
+			}
+		}
+		else
+		{
+			interactiveObjects.push_back(newObj);
+		}
 	}
 
 }

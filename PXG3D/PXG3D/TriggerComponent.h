@@ -11,14 +11,14 @@ namespace PXG
 	{
 	public:
 		//triggers all stored components
-		void raiseTrigger(GameObj target, Node* currentNode, Node* targetNode);
+		void raiseTrigger( Node* currentNode, Node* targetNode);
 		//add new components to execute
-		void AddComponent(std::shared_ptr<AbstractEventComponent> newComponent);
-
+		void SetComponent(std::shared_ptr<AbstractEventComponent> newComponent);
+		std::shared_ptr<AbstractEventComponent> GetComponent();
 
 	private:
 
-		std::vector< std::shared_ptr<AbstractEventComponent>> components;
+	std::shared_ptr<AbstractEventComponent> component;
 	};
 }
 

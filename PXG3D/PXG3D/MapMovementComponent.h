@@ -5,107 +5,16 @@
 #include "Subscriber.h"
 #include "RayCastShooter.h"
 #include "TileMetaData.h"
+#include "PXGNode.h"
 #include <queue>
-
+#include "GameObject.h"
+#include "AbstractEventComponent.h"
 namespace PXG
 {
 
 	class MapMovementComponent : public Component, public subscriber_base, public subject_base
 	{
 	public:
-
-		enum event : event_t
-		{
-			ON_MOVE
-		};
-
-
-		void onNotify(subject_base* subject_base, subject_base::event_t event) override
-		{
-			static RayCastShooter* shooter = nullptr;
-
-
-			if (event == 0xDEAD)
-			{
-				Reset();
-				commandQueue.clear();
-				offset = Vector3{ 0,0,0 };
-			}
-
-			//check if we are looking at a ray-cast-shooter
-			if (shooter != nullptr && shooter == subject_base || shooter == nullptr && (shooter = dynamic_cast<RayCastShooter*>(subject_base)) != nullptr)
-			{
-				switch (event)
-				{
-				case RayCastShooter::ON_RAYCAST_HIT:
-				{
-					const HitInfo& info = shooter->GetLastHit();
-					auto metadata = info.GameObjectHit->GetComponent<TileMetaData>();
-
-					if (!metadata) return;
-
-					Debug::Log("retrieved Meta-Inf via raycast!");
-
-					auto delta = offset - metadata->GetOffset();
-					//delta.x = -delta.x;
-
-					auto pusher = [&](int dp, MovementCommands pos, MovementCommands neg)
-					{
-						if (dp > 0)
-						{
-							for (; dp != 0; --dp)
-							{
-								commandQueue.push_front(pos);
-							}
-						}
-						if (dp < 0)
-						{
-							for (; dp != 0; ++dp)
-							{
-								commandQueue.push_front(neg);
-							}
-						}
-					};
-
-					pusher(delta.x, LEFT, RIGHT);
-					pusher(delta.y, UP, DOWN);
-					pusher(delta.z, FORWARD, BACKWARD);
-
-					Debug::Log("Movement delta: {}", delta.ToString());
-					for (auto& elem : commandQueue)
-					{
-						switch (elem) {
-						case FORWARD:	Debug::Log("Forward"); break;
-						case BACKWARD:	Debug::Log("Backward"); break;
-						case UP:		Debug::Log("Up"); break;
-						case DOWN:		Debug::Log("Down"); break;
-						case LEFT:		Debug::Log("Left"); break;
-						case RIGHT:		Debug::Log("Right"); break;
-						default:;
-						}
-					}
-					//move(delta);
-					offset = metadata->GetOffset();
-					break;
-				}
-				default:break;
-				}
-			}
-		}
-
-		Vector3 getOffset() const { return offset; };
-
-		void Start() override;
-		void FixedUpdate(float tick) override;
-		void SetMap(std::shared_ptr<GameObject> newMap);
-		void Reset() const;
-	private:
-		void move(PXG::Vector3 direction);
-		std::shared_ptr<GameObject> map;
-
-		Vector3 offset = { 0,0,0 };
-
-
 		enum MovementCommands
 		{
 			FORWARD,
@@ -115,7 +24,74 @@ namespace PXG
 			LEFT,
 			RIGHT
 		};
+		enum event : event_t
+		{
+			ON_MOVE
+		};
+		void interpretDelta(int delta, MovementCommands a, MovementCommands b)
+		{
+
+			auto pusher = [&](int dp, MovementCommands pos, MovementCommands neg)
+			{
+				if (dp > 0)
+				{
+					for (; dp != 0; --dp)
+					{
+						commandQueue.push_front(pos);
+					}
+				}
+				if (dp < 0)
+				{
+					for (; dp != 0; ++dp)
+					{
+						commandQueue.push_front(neg);
+					}
+				}
+			};
+			pusher(delta, a, b);
+
+
+		}
+		void Move(std::vector<Node*>* path)
+		{
+			Debug::Log("moving map");
+			Node* oldNode = *path->begin();
+			Vector3 startPos = oldNode->getPos();
+			Vector3 endPos;
+			for (auto Node : *path)
+			{
+				Debug::Log("iterating nodes");
+				endPos = Node->getPos();
+				Vector3 delta = startPos - endPos;
+				offset = offset - delta;
+				interpretDelta(delta.x, LEFT, RIGHT);
+				interpretDelta(delta.y, UP, DOWN);
+				interpretDelta(delta.z, FORWARD, BACKWARD);
+				startPos = endPos;
+
+			}
+			Debug::Log("new offset:");
+			Debug::Log(offset.ToString());
+		}
+
+		Vector3 getOffset() const { return offset; };
+		void Start() override;
+		void FixedUpdate(float tick) override;
+		void SetMap(std::shared_ptr<GameObject> newMap);
+		void Reset() const;
+		void AddOtherObjectToMove(std::shared_ptr<GameObject> newObject);
+	private:
+		void move(PXG::Vector3 direction);
+		std::shared_ptr<GameObject> map;
+
+		Vector3 offset = { 0,0,0 };
+
+
+		std::vector<std::shared_ptr<GameObject>> otherObjectsToMove;
 
 		std::deque<MovementCommands> commandQueue;
+
+		// Geerbt über subscriber_base
+		virtual void onNotify(subject_base * subject_base, subject_base::event_t event) override;
 	};
 }

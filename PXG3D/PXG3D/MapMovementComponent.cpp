@@ -4,7 +4,7 @@
 #include "KeyCode.h"
 #include "Debug.h"
 #include "Tile.h"
-
+#include "TriggerComponent.h"
 namespace PXG
 {
 
@@ -64,17 +64,44 @@ namespace PXG
 		mapTransform->SetLocalPosition({ 0,0,0 });
 	}
 
+	void MapMovementComponent::AddOtherObjectToMove(std::shared_ptr<GameObject> newObject)
+	{
+		otherObjectsToMove.push_back(newObject);
+	}
+
 	void MapMovementComponent::move(PXG::Vector3 direction)
 	{
 
 		std::vector<std::shared_ptr<GameObject>> tiles = map->GetChildren();
+
 		int i = 0;
 		Transform* mapTransform = map->GetTransform();
 		direction = direction * 100;
 		mapTransform->SetLocalPosition(mapTransform->GetPosition() + direction);
+		//move other objects than tiles 
+		//iterate over objects if it has eventcomponent check if it should be moving
+		for (auto otherObj : otherObjectsToMove)
+		{
+			if(otherObj->HasComponent<TriggerComponent>())
+			{
+				//second get component gets abstractEventComponent
+				if(!otherObj->GetComponent<TriggerComponent>()->GetComponent()->isMoving())
+				{
+					otherObj->SetLocalPosition(otherObj->GetTransform()->GetPosition() + direction);
+				}
+			}
+			else
+			{
+				otherObj->SetLocalPosition(otherObj->GetTransform()->GetPosition() + direction);
+			}
+		}
 		notify(ON_MOVE);
 
 
+	}
+
+	void MapMovementComponent::onNotify(subject_base * subject_base, subject_base::event_t event)
+	{
 	}
 
 

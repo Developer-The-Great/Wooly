@@ -46,6 +46,7 @@
     <ClCompile Include="RayCastHitHandler.cpp" />
     <ClCompile Include="AudioSource.cpp" />
     <ClCompile Include="PXGNode.cpp" />
+    <ClCompile Include="AbstractEventComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractMaterial.h" />
