@@ -16,7 +16,7 @@ namespace PXG
 
 	GameObject::~GameObject()
 	{
-		Debug::Log(Verbosity::Info, "GameObject Destroyed");
+		//Debug::Log(Verbosity::Info, "GameObject Destroyed");
 	}
 
 	void GameObject::Start()

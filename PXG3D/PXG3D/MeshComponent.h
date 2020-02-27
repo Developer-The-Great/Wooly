@@ -23,7 +23,12 @@ namespace PXG
 		void SetMaterial(std::shared_ptr<AbstractMaterial> material);
 
 		std::shared_ptr<MeshComponent> CloneMeshComponent();
+		void Clear()
+		{
+			meshes.clear();
+		}
 
+		void ClearTextures(int i);
 		MeshComponent();
 
 		void Draw(Mat4 parentTransform, Mat4 view, Mat4 projection);
@@ -36,7 +41,7 @@ namespace PXG
 		//TODO decrease coupling with assimp
 
 		static std::unordered_map<std::string, std::vector< std::shared_ptr<Mesh>>> cache;
-
+		
 		std::string directory;
 
 		void processNode(const aiScene* scene, aiNode *node);

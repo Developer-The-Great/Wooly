@@ -29,7 +29,7 @@ namespace PXG
 		bool IsPositionValidConnection(int nodeX,int nodeY,int nodeZ,int otherNodeX,int otherNodeY,int otherNodeZ);
 
 		void SetNodeAsRampNode();
-		
+
 
 	private:
 		bool flatTileNodeCheck(int nodeX, int nodeY, int nodeZ, int otherNodeX, int otherNodeY, int otherNodeZ);

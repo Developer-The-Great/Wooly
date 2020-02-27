@@ -18,7 +18,6 @@
     <ClCompile Include="Mathf.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshComponent.cpp" />
-    <ClCompile Include="Node.cpp" />
     <ClCompile Include="NodeGraph.cpp" />
     <ClCompile Include="pfinder\AStar.cpp" />
     <ClCompile Include="pfinder\Dijkstra.cpp" />
@@ -41,6 +40,14 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="World.cpp" />
     <ClCompile Include="AxisAngle.cpp" />
+    <ClCompile Include="PXGEditor.cpp" />
+    <ClCompile Include="PXGNode.cpp" />
+    <ClCompile Include="imgui\imgui.cpp" />
+    <ClCompile Include="imgui\imgui_demo.cpp" />
+    <ClCompile Include="imgui\imgui_draw.cpp" />
+    <ClCompile Include="imgui\imgui_widgets.cpp" />
+    <ClCompile Include="imgui\examples\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="imgui\examples\imgui_impl_glfw.cpp" />
     <ClCompile Include="AudioSource.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -67,7 +74,6 @@
     <ClInclude Include="ItemRegistry.h" />
     <ClInclude Include="KeyCode.h" />
     <ClInclude Include="LevelLoader.h" />
-    <ClInclude Include="Node.h" />
     <ClInclude Include="NodeGraph.h" />
     <ClInclude Include="PathFinder.hpp" />
     <ClInclude Include="pfinder\AStar.h" />
@@ -80,7 +86,6 @@
     <ClInclude Include="ScreenSize.h" />
     <ClInclude Include="SpecificOnClick.h" />
     <ClInclude Include="stb_image.h" />
-    <ClInclude Include="SurroundingObjectEnumeratorComponent.h" />
     <ClInclude Include="Subject.h" />
     <ClInclude Include="Subscriber.h" />
     <ClInclude Include="TextComponent.h" />
@@ -112,12 +117,18 @@
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="World.h" />
+    <ClInclude Include="imgui\imconfig.h" />
+    <ClInclude Include="imgui\imgui.h" />
+    <ClInclude Include="imgui\imgui_internal.h" />
+    <ClInclude Include="imgui\imstb_rectpack.h" />
+    <ClInclude Include="imgui\imstb_textedit.h" />
+    <ClInclude Include="imgui\imstb_truetype.h" />
+    <ClInclude Include="imgui\examples\imgui_impl_opengl3.h" />
+    <ClInclude Include="imgui\examples\imgui_impl_glfw.h" />
     <ClInclude Include="AudioEngine.hpp" />
-    <ClInclude Include="AudioClip.hpp" />
     <ClInclude Include="AudioSource.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="PXGColor.frag.glsl" />
     <None Include="PXGColor.vert.glsl" />
   </ItemGroup>
 </Project>

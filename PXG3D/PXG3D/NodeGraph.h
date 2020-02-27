@@ -1,5 +1,5 @@
 #pragma once
-#include "Node.h"
+#include "PXGNode.h"
 #include "Component.h"
 namespace PXG
 {
