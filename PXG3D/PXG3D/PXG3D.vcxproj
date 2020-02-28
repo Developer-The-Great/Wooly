@@ -78,6 +78,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\deps\include\src\glad.c" />
+    <ClCompile Include="AbstractCommand.cpp" />
     <ClCompile Include="AbstractEventComponent.cpp" />
     <ClCompile Include="AudioSource.cpp" />
     <ClCompile Include="ButtonComponent.cpp" />
@@ -98,13 +99,15 @@
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="JumperComponent.cpp" />
+    <ClCompile Include="LerpedMoverComponent.cpp" />
+    <ClCompile Include="LerpMovementCommand.cpp" />
     <ClCompile Include="LightComponent.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MapMovementComponent.cpp" />
     <ClCompile Include="Mathf.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshComponent.cpp" />
-    <ClCompile Include="PXGNode.cpp" />
+    <ClCompile Include="AbstractMovementCommand.cpp" />
     <ClCompile Include="NodeGraph.cpp" />
     <ClCompile Include="pfinder\AStar.cpp" />
     <ClCompile Include="pfinder\Dijkstra.cpp" />
@@ -113,6 +116,7 @@
     <ClCompile Include="PhysicsEngine.cpp" />
     <ClCompile Include="PXGEditor.cpp" />
     <ClCompile Include="PXGGame.cpp" />
+    <ClCompile Include="PXGNode.cpp" />
     <ClCompile Include="PXGWindow.cpp" />
     <ClCompile Include="RayCastHitHandler.cpp" />
     <ClCompile Include="RayCastShooter.cpp" />
@@ -132,6 +136,7 @@
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AbstractCommand.h" />
     <ClInclude Include="AbstractEventComponent.h" />
     <ClInclude Include="AbstractMaterial.h" />
     <ClInclude Include="AbstractOnClick.h" />
@@ -168,7 +173,10 @@
     <ClInclude Include="ItemRegistry.h" />
     <ClInclude Include="JumperComponent.h" />
     <ClInclude Include="KeyCode.h" />
+    <ClInclude Include="LerpedMoverComponent.h" />
+    <ClInclude Include="LerpMovementCommand.h" />
     <ClInclude Include="LevelLoader.h" />
+    <ClInclude Include="AbstractMovementCommand.h" />
     <ClInclude Include="NodeGraph.h" />
     <ClInclude Include="NodeToPositionContainer.h" />
     <ClInclude Include="PathFinder.hpp" />

@@ -228,6 +228,11 @@ namespace PXG
 		meshes.at(i)->Textures.push_back(texture);
 	}
 
+	int MeshComponent::GetMeshCount() const
+	{
+		return meshes.size();
+	}
+
 	std::vector<std::shared_ptr<Mesh>> MeshComponent::GetMeshes() const
 	{
 		return meshes;
