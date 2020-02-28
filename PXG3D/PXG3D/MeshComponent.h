@@ -35,6 +35,9 @@ namespace PXG
 
 		void AddTextureToMeshAt(Texture texture, int i);
 
+		int GetMeshCount() const;
+
+
 		std::vector<std::shared_ptr<Mesh>> GetMeshes() const;
 
 	protected:

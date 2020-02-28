@@ -99,13 +99,15 @@
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="JumperComponent.cpp" />
+    <ClCompile Include="LerpedMoverComponent.cpp" />
+    <ClCompile Include="LerpMovementCommand.cpp" />
     <ClCompile Include="LightComponent.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MapMovementComponent.cpp" />
     <ClCompile Include="Mathf.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshComponent.cpp" />
-    <ClCompile Include="PXGNode.cpp" />
+    <ClCompile Include="AbstractMovementCommand.cpp" />
     <ClCompile Include="NodeGraph.cpp" />
     <ClCompile Include="pfinder\AStar.cpp" />
     <ClCompile Include="pfinder\Dijkstra.cpp" />
@@ -114,6 +116,7 @@
     <ClCompile Include="PhysicsEngine.cpp" />
     <ClCompile Include="PXGEditor.cpp" />
     <ClCompile Include="PXGGame.cpp" />
+    <ClCompile Include="PXGNode.cpp" />
     <ClCompile Include="PXGWindow.cpp" />
     <ClCompile Include="RayCastHitHandler.cpp" />
     <ClCompile Include="RayCastShooter.cpp" />
@@ -170,7 +173,10 @@
     <ClInclude Include="ItemRegistry.h" />
     <ClInclude Include="JumperComponent.h" />
     <ClInclude Include="KeyCode.h" />
+    <ClInclude Include="LerpedMoverComponent.h" />
+    <ClInclude Include="LerpMovementCommand.h" />
     <ClInclude Include="LevelLoader.h" />
+    <ClInclude Include="AbstractMovementCommand.h" />
     <ClInclude Include="NodeGraph.h" />
     <ClInclude Include="NodeToPositionContainer.h" />
     <ClInclude Include="PathFinder.hpp" />

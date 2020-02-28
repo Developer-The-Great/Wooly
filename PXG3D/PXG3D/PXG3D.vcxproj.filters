@@ -45,7 +45,6 @@
     <ClCompile Include="pfinder\Node.cpp" />
     <ClCompile Include="RayCastHitHandler.cpp" />
     <ClCompile Include="PXGEditor.cpp" />
-    <ClCompile Include="PXGNode.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_demo.cpp" />
     <ClCompile Include="imgui\imgui_draw.cpp" />
@@ -53,6 +52,11 @@
     <ClCompile Include="imgui\examples\imgui_impl_opengl3.cpp" />
     <ClCompile Include="imgui\examples\imgui_impl_glfw.cpp" />
     <ClCompile Include="AudioSource.cpp" />
+    <ClCompile Include="LerpedMoverComponent.cpp" />
+    <ClCompile Include="AbstractCommand.cpp" />
+    <ClCompile Include="AbstractMovementCommand.cpp" />
+    <ClCompile Include="LerpMovementCommand.cpp" />
+    <ClCompile Include="JumperComponent.cpp" />
     <ClCompile Include="PXGNode.cpp" />
     <ClCompile Include="AbstractEventComponent.cpp" />
     <ClCompile Include="JumperComponent.cpp" />
@@ -128,7 +132,6 @@
     <ClInclude Include="RockPushComponent.h" />
     <ClInclude Include="TriggerComponent.h" />
     <ClInclude Include="FollowPlayerComponent.h" />
-    <ClInclude Include="AbstractEventComponent.h" />
     <ClInclude Include="RayCastHitHandler.h" />
     <ClInclude Include="AudioClip.hpp" />
     <ClInclude Include="imgui\imconfig.h" />
@@ -141,10 +144,16 @@
     <ClInclude Include="imgui\examples\imgui_impl_glfw.h" />
     <ClInclude Include="AudioEngine.hpp" />
     <ClInclude Include="AudioSource.h" />
+    <ClInclude Include="LerpedMoverComponent.h" />
+    <ClInclude Include="AbstractCommand.h" />
+    <ClInclude Include="AbstractMovementCommand.h" />
+    <ClInclude Include="LerpMovementCommand.h" />
+    <ClInclude Include="JumperComponent.h" />
     <ClInclude Include="NodeToPositionContainer.h" />
     <ClInclude Include="PXGNode.h" />
     <ClInclude Include="JumperComponent.h" />
     <ClInclude Include="AbstractCommand.h" />
+    <ClInclude Include="AbstractEventComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PXGColor.vert.glsl" />
