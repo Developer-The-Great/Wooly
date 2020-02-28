@@ -14,7 +14,7 @@
 namespace PXG
 {
 
-	double PhysicsEngine::gravity = -9.85;
+	double PhysicsEngine::gravity = -19.85;
 
 	void PhysicsEngine::AddPhysicsComponent(std::shared_ptr<PhysicsComponent> physicsComponent)
 	{

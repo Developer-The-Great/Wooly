@@ -41,9 +41,9 @@ namespace PXG
 
 	void PXGGame::Initialize()
 	{
-		AudioClip clip = AudioEngine::GetInstance().createClip("Menu_Music.wav");
+		AudioClip clip = AudioEngine::GetInstance().createClip("ImportantSoundFile.wav");
 		AudioEngine::GetInstance().Loop(true, clip);
-
+		//AudioEngine::GetInstance().Play(clip);
 
 
 
@@ -123,8 +123,7 @@ namespace PXG
 		//------------------------------ Player --------------------------------------//
 
 		auto asource = std::make_shared<PXG::AudioSourceComponent>(clip);
-		auto jumper = std::make_shared<JumperComponent>();
-		
+
 		GameObj Player = MakeChild("Player");
 
 		Player->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + "Timmy.obj");
@@ -132,7 +131,6 @@ namespace PXG
 		Player->GetTransform()->SetLocalPosition({ 0,100,0 });
 		Player->GetTransform()->Scale(glm::vec3{ 100 });
 		Player->AddComponent(asource);
-		Player->AddComponent(jumper);
 		Player->GetMeshComponent()->SetMaterial(textureMaterial);
 
 		//--------------------------- Map movement -----------------------------------//
@@ -141,6 +139,9 @@ namespace PXG
 		GameObj TileMap = MakeChild("TileMap");
 
 		std::shared_ptr<MapMovementComponent> mapMovement = std::make_shared<MapMovementComponent>();
+		auto jumper = std::make_shared<JumperComponent>();
+		mapMovement->attach(jumper.get());
+		Player->AddComponent(jumper);
 
 		//mapMovement->subscribe(*raycaster);
 		rayCasthandler->subscribe(*raycaster);
@@ -172,12 +173,12 @@ namespace PXG
 		std::vector<NodeToPositionContainer> nodeToPositionContainer;
 
 		std::ifstream level_config(config::PXG_CONFIGS_PATH + "level_data.json");
-		level_loader->LoadLevel(level_config, this, node_graph, nodeToPositionContainer,mapMovement);
+		level_loader->LoadLevel(level_config, this, node_graph, nodeToPositionContainer, mapMovement);
 		rayCasthandler->setMapMovement(mapMovement);
 		node_graph->generateConnections(nodeToPositionContainer);
 
 		rayCasthandler->setNodeGraph(node_graph);
-		
+
 
 	}
 

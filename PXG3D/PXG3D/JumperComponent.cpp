@@ -6,6 +6,7 @@
 #include "GameObject.h"
 #include "Input.h"
 #include "KeyCode.h"
+#include "MapMovementComponent.h"
 
 namespace PXG
 {
@@ -13,9 +14,7 @@ namespace PXG
 	{
 		if (Input::GetKeyDown(KeyCode::Z))
 		{
-			currentSpeed = speed;
-			Jump();
-			initialheight = GetOwner()->GetTransform()->GetLocalPosition().y;
+			
 
 		}
 	
@@ -75,6 +74,16 @@ namespace PXG
 			airTime = 2* airTimeGiven;
 		}
 
+	}
+	void JumperComponent::onNotify(subject_base * subject_base, subject_base::event_t event)
+	{
+
+		if(event==MapMovementComponent::ON_MOVE_START)
+		{
+			currentSpeed = speed;
+			Jump();
+			initialheight = GetOwner()->GetTransform()->GetLocalPosition().y;
+		}
 	}
 }
 
