@@ -79,6 +79,7 @@
   <ItemGroup>
     <ClCompile Include="..\deps\include\src\glad.c" />
     <ClCompile Include="AbstractCommand.cpp" />
+    <ClCompile Include="AbstractEventComponent.cpp" />
     <ClCompile Include="AudioSource.cpp" />
     <ClCompile Include="ButtonComponent.cpp" />
     <ClCompile Include="CameraComponent.cpp" />
@@ -107,7 +108,6 @@
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshComponent.cpp" />
     <ClCompile Include="AbstractMovementCommand.cpp" />
-    <ClCompile Include="Node.cpp" />
     <ClCompile Include="NodeGraph.cpp" />
     <ClCompile Include="pfinder\AStar.cpp" />
     <ClCompile Include="pfinder\Dijkstra.cpp" />
@@ -116,6 +116,7 @@
     <ClCompile Include="PhysicsEngine.cpp" />
     <ClCompile Include="PXGEditor.cpp" />
     <ClCompile Include="PXGGame.cpp" />
+    <ClCompile Include="PXGNode.cpp" />
     <ClCompile Include="PXGWindow.cpp" />
     <ClCompile Include="RayCastHitHandler.cpp" />
     <ClCompile Include="RayCastShooter.cpp" />
@@ -136,6 +137,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractCommand.h" />
+    <ClInclude Include="AbstractEventComponent.h" />
     <ClInclude Include="AbstractMaterial.h" />
     <ClInclude Include="AbstractOnClick.h" />
     <ClInclude Include="AudioClip.hpp" />
@@ -175,7 +177,6 @@
     <ClInclude Include="LerpMovementCommand.h" />
     <ClInclude Include="LevelLoader.h" />
     <ClInclude Include="AbstractMovementCommand.h" />
-    <ClInclude Include="Node.h" />
     <ClInclude Include="NodeGraph.h" />
     <ClInclude Include="NodeToPositionContainer.h" />
     <ClInclude Include="PathFinder.hpp" />

@@ -27,9 +27,9 @@ namespace PXG
 			Debug::Log("speed {0} ", currentSpeed);
 
 
-			GetOwner()->GetTransform()->translate(Vector3(0, currentSpeed, 0));
+			GetOwner()->GetTransform()->translate(Vector3(0, currentSpeed * tick * 10, 0));
 
-			currentSpeed += PhysicsEngine::GetGravity() ;
+			currentSpeed += PhysicsEngine::GetGravity() * tick * 10;
 
 
 			if (currentSpeed < 0)
