@@ -23,10 +23,10 @@ namespace PXG
 
 		float initialheight = 100.0f;
 
-		double speed = 40.0f;
+		double speed = 18.0f;
 		float currentSpeed;
 
-		float jumpHeight = 40.0f;
+		float jumpHeight = 10.0f;
 
 		float airTimeGiven = 1.5f;
 		float airTime;
