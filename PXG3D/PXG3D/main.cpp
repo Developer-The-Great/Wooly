@@ -88,7 +88,7 @@ int main()
 	//--------------------Initialize Game-----------------------//
 
 	auto gamePtr = std::make_shared<PXG:: GAME_INSTANCE >();
-	gamePtr->GetWorld()->SetPhysicsComponentDrawActive(true);
+	gamePtr->GetWorld()->SetPhysicsComponentDrawActive(false);
 
 	//--------------------Initialize Rendering Engine-----------------------//
 

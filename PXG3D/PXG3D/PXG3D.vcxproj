@@ -97,6 +97,7 @@
     <ClCompile Include="imgui\imgui_draw.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="JumperComponent.cpp" />
     <ClCompile Include="LightComponent.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MapMovementComponent.cpp" />
@@ -165,6 +166,7 @@
     <ClInclude Include="InventoryComponent.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="ItemRegistry.h" />
+    <ClInclude Include="JumperComponent.h" />
     <ClInclude Include="KeyCode.h" />
     <ClInclude Include="LevelLoader.h" />
     <ClInclude Include="NodeGraph.h" />
