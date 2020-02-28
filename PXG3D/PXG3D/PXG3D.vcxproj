@@ -112,7 +112,6 @@
     <ClCompile Include="PhysicsEngine.cpp" />
     <ClCompile Include="PXGEditor.cpp" />
     <ClCompile Include="PXGGame.cpp" />
-    <ClCompile Include="PXGNode.cpp" />
     <ClCompile Include="PXGWindow.cpp" />
     <ClCompile Include="RayCastHitHandler.cpp" />
     <ClCompile Include="RayCastShooter.cpp" />
@@ -168,7 +167,6 @@
     <ClInclude Include="ItemRegistry.h" />
     <ClInclude Include="KeyCode.h" />
     <ClInclude Include="LevelLoader.h" />
-    <ClInclude Include="PXGNode.h" />
     <ClInclude Include="NodeGraph.h" />
     <ClInclude Include="NodeToPositionContainer.h" />
     <ClInclude Include="PathFinder.hpp" />
