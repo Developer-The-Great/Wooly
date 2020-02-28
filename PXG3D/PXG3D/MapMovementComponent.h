@@ -26,7 +26,9 @@ namespace PXG
 		};
 		enum event : event_t
 		{
-			ON_MOVE
+			ON_MOVE,
+			ON_MOVE_START,
+			ON_MOVE_FINISHED
 		};
 		void interpretDelta(int delta, MovementCommands a, MovementCommands b)
 		{
@@ -82,7 +84,7 @@ namespace PXG
 		void Reset() const;
 		void AddOtherObjectToMove(std::shared_ptr<GameObject> newObject);
 	private:
-		void move(PXG::Vector3 direction);
+		bool move(PXG::Vector3 direction, bool restart, float factor);
 		std::shared_ptr<GameObject> map;
 
 		Vector3 offset = { 0,0,0 };
@@ -92,7 +94,6 @@ namespace PXG
 		std::vector<std::shared_ptr<GameObject>> otherObjectsToMove;
 
 		std::deque<MovementCommands> commandQueue;
-
 		virtual void onNotify(subject_base * subject_base, subject_base::event_t event) override;
 	};
 }

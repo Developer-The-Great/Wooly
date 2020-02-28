@@ -78,6 +78,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\deps\include\src\glad.c" />
+    <ClCompile Include="AbstractCommand.cpp" />
     <ClCompile Include="AbstractEventComponent.cpp" />
     <ClCompile Include="AudioSource.cpp" />
     <ClCompile Include="ButtonComponent.cpp" />
@@ -132,6 +133,7 @@
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AbstractCommand.h" />
     <ClInclude Include="AbstractEventComponent.h" />
     <ClInclude Include="AbstractMaterial.h" />
     <ClInclude Include="AbstractOnClick.h" />

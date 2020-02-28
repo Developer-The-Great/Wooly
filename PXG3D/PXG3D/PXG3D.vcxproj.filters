@@ -56,6 +56,7 @@
     <ClCompile Include="PXGNode.cpp" />
     <ClCompile Include="AbstractEventComponent.cpp" />
     <ClCompile Include="JumperComponent.cpp" />
+    <ClCompile Include="AbstractCommand.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractMaterial.h" />
@@ -143,6 +144,7 @@
     <ClInclude Include="NodeToPositionContainer.h" />
     <ClInclude Include="PXGNode.h" />
     <ClInclude Include="JumperComponent.h" />
+    <ClInclude Include="AbstractCommand.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PXGColor.vert.glsl" />

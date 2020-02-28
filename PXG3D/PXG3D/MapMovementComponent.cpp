@@ -9,6 +9,7 @@ namespace PXG
 {
 
 
+
 	void MapMovementComponent::Start()
 	{
 	}
@@ -16,40 +17,36 @@ namespace PXG
 	void MapMovementComponent::FixedUpdate(float tick)
 	{
 		static float timer = 0;
-		timer += tick;
-
-		if(timer > 0.5f)
+		if (!commandQueue.empty())
 		{
-			if(!commandQueue.empty())
+			timer += tick * 5;
+
+			const auto back = commandQueue.back();
+			static bool restart = true;
+
+			if(restart)
 			{
-				auto back = commandQueue.back();
-				commandQueue.pop_back();
-
-				switch(back)
-				{
-				case FORWARD:	move({  0, 0, 1 }); break;
-				case BACKWARD:  move({  0 ,0,-1 }); break;
-				case UP:		move({  0, 1, 0 }); break;
-				case DOWN:		move({  0,-1, 0 }); break;
-				case LEFT:		move({  1, 0, 0 }); break;
-				case RIGHT:		move({ -1, 0, 0 }); break;
-				default: ;
-				}
-
-
+				notify(ON_MOVE_START);
 			}
-			timer = 0;
-		}
-
-
-
-		if (Input::GetKeyDown(KeyCode::K))
-		{
-			move(PXG::Vector3(1, 0, 0));
-		}
-		if (Input::GetKeyDown(KeyCode::J))
-		{
-			move(PXG::Vector3(-1, 0, 0));
+			
+			bool result = false;
+			switch (back)
+			{
+			case FORWARD:	result = move({ 0, 0, 1 }, restart, timer); break;
+			case BACKWARD:  result = move({ 0 ,0,-1 }, restart, timer); break;
+			case UP:		result = move({ 0, 1, 0 }, restart, timer); break;
+			case DOWN:		result = move({ 0,-1, 0 }, restart, timer); break;
+			case LEFT:		result = move({ 1, 0, 0 }, restart, timer); break;
+			case RIGHT:		result = move({ -1, 0, 0 }, restart, timer); break;
+			default:;
+			}
+			restart = result;
+			if (result) {
+				restart = true;
+				timer = 0;
+				commandQueue.pop_back();
+				notify(ON_MOVE_FINISHED);
+			}
 		}
 	}
 
@@ -69,38 +66,46 @@ namespace PXG
 		otherObjectsToMove.push_back(newObject);
 	}
 
-	void MapMovementComponent::move(PXG::Vector3 direction)
+	bool MapMovementComponent::move(PXG::Vector3 direction, bool restart, float factor)
 	{
+		if (factor > 1)
+			factor = 1;
 
-		std::vector<std::shared_ptr<GameObject>> tiles = map->GetChildren();
 
-		int i = 0;
+		static Vector3 mapIntialPosition = map->GetTransform()->GetPosition();
+		if (restart)
+		{
+			mapIntialPosition = map->GetTransform()->GetPosition();
+		}
+
+
 		Transform* mapTransform = map->GetTransform();
 		direction = direction * 100;
-		mapTransform->SetLocalPosition(mapTransform->GetPosition() + direction);
+		mapTransform->SetLocalPosition(Mathf::Lerp(mapIntialPosition, mapIntialPosition + direction, factor));
 		//move other objects than tiles 
 		//iterate over objects if it has eventcomponent check if it should be moving
 		for (auto otherObj : otherObjectsToMove)
 		{
-			if(otherObj->HasComponent<TriggerComponent>())
+			static std::unordered_map<std::shared_ptr<GameObject>, Vector3> initialPositions;
+			if (restart)
 			{
-				//second get component gets abstractEventComponent
-				if(!otherObj->GetComponent<TriggerComponent>()->GetComponent()->isMoving())
-				{
-					otherObj->SetLocalPosition(otherObj->GetTransform()->GetPosition() + direction);
-				}
+				initialPositions[otherObj] = otherObj->GetTransform()->GetPosition();
 			}
-			else
+
+			if (!otherObj->HasComponent<TriggerComponent>() || !otherObj->GetComponent<TriggerComponent>()->GetComponent()->isMoving())
 			{
-				otherObj->SetLocalPosition(otherObj->GetTransform()->GetPosition() + direction);
+				otherObj->SetLocalPosition(Mathf::Lerp(initialPositions[otherObj], initialPositions[otherObj] + direction, factor));
 			}
+
 		}
 		notify(ON_MOVE);
 		oldOffset = offset;
 
+		if (factor == 1) return true;
+		return false;
 	}
 
-	void MapMovementComponent::onNotify(subject_base * subject_base, subject_base::event_t event)
+	void MapMovementComponent::onNotify(subject_base* subject_base, subject_base::event_t event)
 	{
 	}
 
