@@ -1,12 +1,12 @@
 #pragma once
 #include "Component.h"
-
+#include "Subscriber.h"
 namespace PXG
 {
 	struct Vector3;
 
 	class JumperComponent :
-		public Component
+		public Component, public subscriber_base
 	{
 	public:
 
@@ -33,8 +33,7 @@ namespace PXG
 
 		bool isJumping = false;;
 
-
-
+		virtual void onNotify(subject_base * subject_base, subject_base::event_t event) override;
 
 	};
 }
