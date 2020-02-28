@@ -53,8 +53,10 @@
     <ClCompile Include="imgui\examples\imgui_impl_opengl3.cpp" />
     <ClCompile Include="imgui\examples\imgui_impl_glfw.cpp" />
     <ClCompile Include="AudioSource.cpp" />
-    <ClCompile Include="PXGNode.cpp" />
-    <ClCompile Include="AbstractEventComponent.cpp" />
+    <ClCompile Include="LerpedMoverComponent.cpp" />
+    <ClCompile Include="AbstractCommand.cpp" />
+    <ClCompile Include="AbstractMovementCommand.cpp" />
+    <ClCompile Include="LerpMovementCommand.cpp" />
     <ClCompile Include="JumperComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -140,8 +142,10 @@
     <ClInclude Include="imgui\examples\imgui_impl_glfw.h" />
     <ClInclude Include="AudioEngine.hpp" />
     <ClInclude Include="AudioSource.h" />
-    <ClInclude Include="NodeToPositionContainer.h" />
-    <ClInclude Include="PXGNode.h" />
+    <ClInclude Include="LerpedMoverComponent.h" />
+    <ClInclude Include="AbstractCommand.h" />
+    <ClInclude Include="AbstractMovementCommand.h" />
+    <ClInclude Include="LerpMovementCommand.h" />
     <ClInclude Include="JumperComponent.h" />
   </ItemGroup>
   <ItemGroup>
