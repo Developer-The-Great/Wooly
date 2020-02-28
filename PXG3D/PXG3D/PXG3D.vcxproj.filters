@@ -55,6 +55,7 @@
     <ClCompile Include="AudioSource.cpp" />
     <ClCompile Include="PXGNode.cpp" />
     <ClCompile Include="AbstractEventComponent.cpp" />
+    <ClCompile Include="JumperComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractMaterial.h" />
@@ -141,9 +142,11 @@
     <ClInclude Include="AudioSource.h" />
     <ClInclude Include="NodeToPositionContainer.h" />
     <ClInclude Include="PXGNode.h" />
+    <ClInclude Include="JumperComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PXGColor.vert.glsl" />
+    <None Include="PXGColor.frag.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="assimp-vc141-mtd.lib" />
