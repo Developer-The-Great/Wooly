@@ -93,6 +93,7 @@ namespace PXG
 		void SetWorld(std::shared_ptr<World> world);
 
 		Transform* GetTransform() ;
+		void RemoveChildren(std::shared_ptr<GameObject> obj);
 
 		//TODO make this private, and make a setter for it
 		std::string name = "";

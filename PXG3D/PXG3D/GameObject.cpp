@@ -100,6 +100,15 @@ namespace PXG
 		return &transform;
 	}
 
+	void GameObject::RemoveChildren(std::shared_ptr<GameObject> obj)
+	{
+		for(auto & child : obj->children)
+		{
+			obj->RemoveChildren(child);
+		}
+		children.erase(std::remove(children.begin(), children.end(), obj), children.end());
+	}
+
 	void GameObject::InitializeComponentOwners()
 	{
 		physicsComponent->SetOwner(shared_from_this());
