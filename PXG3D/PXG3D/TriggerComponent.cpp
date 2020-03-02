@@ -36,7 +36,7 @@ namespace PXG
 		MapMovementComponent* mapComponent = nullptr;
 		switch (event)
 		{
-		case MapMovementComponent::ON_MOVE:
+		case MapMovementComponent::ON_MOVE_START:
 		{
 			if (mapComponent == subjectBase && mapComponent != nullptr ||
 				(mapComponent == nullptr && (mapComponent = dynamic_cast<MapMovementComponent*>(subjectBase)))

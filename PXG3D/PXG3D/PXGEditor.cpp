@@ -8,6 +8,8 @@
 #include "TextureMaterial.h"
 #include "Canvas.h"
 #include <filesystem>
+#include <fstream>
+
 #include "ColorMaterial.h"
 #include "TextComponent.h"
 #include "ButtonComponent.h"
@@ -15,6 +17,8 @@
 #include "CollisionCubeParams.h"
 #include "PhysicsComponent.h"
 #include <nlohmann/json.hpp>
+
+#include "FreeMovementComponent.h"
 
 namespace PXG {
 
@@ -24,8 +28,9 @@ namespace PXG {
 
 	ImVec2 mousePosAtClick;
 
-    std::string current_model = "";
-	std::string current_texture = "";
+    std::string current_model;
+    std::string current_texture;
+    char file_path[512] = "";
 
 
 	class TileData : public Component
@@ -33,6 +38,9 @@ namespace PXG {
 	public:
         std::string model;
         std::string texture;
+        bool is_static = false;
+        bool is_tile = true;
+		
 	};
 	
 
@@ -57,7 +65,8 @@ namespace PXG {
     void PXGEditor::Initialize()
     {
         Input::AddKeysToTrack(
-            KeyCode::LeftMouse, KeyCode::RightMouse);
+            KeyCode::LeftMouse, KeyCode::RightMouse,
+            KeyCode::W,KeyCode::A,KeyCode::S,KeyCode::D,KeyCode::Q,KeyCode::E);
 
         SetupCamera();
 
@@ -127,10 +136,12 @@ namespace PXG {
     	
         for(auto & child: map->GetChildren())
         {
-            auto o = json::object();
             auto data = child->GetComponent<TileData>();
 
+            if (!data->is_tile && !data->is_static) continue;;
+
             auto pos = json::array();
+            auto o = json::object();
 
         	for(size_t i = 0; i<3;++i)
         	{
@@ -139,9 +150,10 @@ namespace PXG {
             o["position"] = pos;
             o["model"] = data->model;
             o["texture"] = data->texture;
-            o["meta-data"] = json::object({
-                {"node",{}}
-            });
+        	if(!data->is_static)
+				o["meta-data"] = json::object({
+					{"node",{}}
+				});
 
         	
 
@@ -149,11 +161,39 @@ namespace PXG {
         	
         }
 
+        auto others_array = json::array();
+    	
+        for (auto& child : map->GetChildren())
+        {
+            auto data = child->GetComponent<TileData>();
+
+            if (data->is_tile || data->is_static) continue;;
+
+            auto pos = json::array();
+            auto o = json::object();
+
+            for (size_t i = 0; i < 3; ++i)
+            {
+                pos.push_back(std::round(child->GetTransform()->GetPosition()[i] / 100.0f));
+            }
+            o["position"] = pos;
+            o["model"] = data->model;
+            o["texture"] = data->texture;
+			o["meta-data"] = json::object({});
+
+            others_array.push_back(o);
+        }
+
+        j["OtherObjects"] = others_array;
         j["tiles"] = tiles_array;
 
 
         Debug::Log("{}", j.dump());
 
+        std::ofstream of(file_path);
+        of << j.dump(4) << std::endl;
+        of.close();
+    	
     }
 
 
@@ -168,7 +208,7 @@ namespace PXG {
 
 
 
-
+        mainCameraObject->AddComponent(std::make_shared<FreeMovementComponent>());
     	
         mainCameraObject->GetTransform()->SetLocalPosition(Vector3(600, 300, 600));
         mainCameraObject->GetTransform()->rotate(Vector3(1, 0, 0), -20.0f);
@@ -238,14 +278,33 @@ namespace PXG {
             ImGui::SetNextWindowPos(mousePosAtClick);
             ImGui::Begin("New Block",nullptr,ImGuiWindowFlags_NoCollapse|ImGuiWindowFlags_AlwaysAutoResize|ImGuiWindowFlags_NoMove|ImGuiWindowFlags_NoDecoration);
     		{
-    			if(ImGui::Button("Make"))
-    			{
+                if (ImGui::Button("Make"))
+                {
                     Debug::Log("Stuff");
-                    show_newBlockWindow = false;
                     CreateEditorBlock(current_model, current_texture);
+                    show_newBlockWindow = false;
+                }
+                if(ImGui::Button("Delete"))
+                {
+                    map->RemoveChildren(info.GameObjectHit);
+                    info.GameObjectHit = nullptr;
+                    show_newBlockWindow = false;
+                }
+                if(ImGui::Button("Apply Selected Texture"))
+                {
+                    info.GameObjectHit->GetMeshComponent()->ClearTextures(0);
+                	info.GameObjectHit->GetMeshComponent()->AddTextureToMeshAt({ current_texture,TextureType::DIFFUSE }, 0);
+                    show_newBlockWindow = false;
+                }
+                if( info.GameObjectHit && 
+                    info.GameObjectHit->HasComponent<TileData>())
+                {
+                    ImGui::Checkbox("Static", &info.GameObjectHit->GetComponent<TileData>()->is_static);
 
-
-    			}
+                	if(!info.GameObjectHit->GetComponent<TileData>()->is_static)
+						ImGui::Checkbox("Tile", &info.GameObjectHit->GetComponent<TileData>()->is_tile);
+                }
+            	
             	if(ImGui::Button("Abort"))
             	{
                     show_newBlockWindow = false;
@@ -260,6 +319,8 @@ namespace PXG {
                 Debug::Log("Should save");
                 SaveMap();
 			}
+            ImGui::InputText("Location", file_path, 512);
+    	
         ImGui::End();
 
 
@@ -267,7 +328,7 @@ namespace PXG {
 
     void PXGEditor::FixedUpdate(float tick)
     {
-       // frender->add_queue(&persistent_queue);
+       //frender->add_queue(&persistent_queue);
         world->FixedUpdate(tick);
         canvas->FixedUpdate(tick);
     }
