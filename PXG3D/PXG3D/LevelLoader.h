@@ -282,6 +282,7 @@ namespace PXG
 									auto jumpComp = std::make_shared<JumperComponent>();
 									child->AddComponent(jumpComp);
 									mapMovement->attach(jumpComp.get());
+									jumpComp->IsStatic(true);
 								}
 								if (value == "movable")
 								{

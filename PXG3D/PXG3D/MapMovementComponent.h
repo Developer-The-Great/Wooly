@@ -9,6 +9,7 @@
 #include <queue>
 #include "GameObject.h"
 #include "AbstractEventComponent.h"
+#include "JumperComponent.h"
 namespace PXG
 {
 
@@ -83,7 +84,7 @@ namespace PXG
 		void Reset() const;
 		void AddOtherObjectToMove(std::shared_ptr<GameObject> newObject);
 	private:
-		bool move(PXG::Vector3 direction, bool restart, float factor);
+		bool move(PXG::Vector3 direction, bool restart, float factor, float tick);
 		std::shared_ptr<GameObject> map;
 
 		Vector3 offset = { 0,0,0 };

@@ -19,7 +19,7 @@ namespace PXG
 		static float timer = 0;
 		if (!commandQueue.empty())
 		{
-			
+
 			timer += tick * 5;
 
 			const auto back = commandQueue.back();
@@ -34,35 +34,29 @@ namespace PXG
 			bool result = false;
 			switch (back)
 			{
-			case FORWARD:	result = move({ 0, 0, 1 }, restart, timer); break;
-			case BACKWARD:  result = move({ 0 ,0,-1 }, restart, timer); break;
-			case UP:		result = move({ 0, 1, 0 }, restart, timer); break;
-			case DOWN:		result = move({ 0,-1, 0 }, restart, timer); break;
-			case LEFT:		result = move({ 1, 0, 0 }, restart, timer); break;
-			case RIGHT:		result = move({ -1, 0, 0 }, restart, timer); break;
+			case FORWARD:	result = move({ 0, 0, 1 }, restart, timer, tick); break;
+			case BACKWARD:  result = move({ 0 ,0,-1 }, restart, timer, tick); break;
+			case UP:		result = move({ 0, 1, 0 }, restart, timer, tick); break;
+			case DOWN:		result = move({ 0,-1, 0 }, restart, timer, tick); break;
+			case LEFT:		result = move({ 1, 0, 0 }, restart, timer, tick); break;
+			case RIGHT:		result = move({ -1, 0, 0 }, restart, timer, tick); break;
 			default:;
 			}
 			restart = result;
 			if (result) {
 				restart = true;
 				timer = 0;
-				Debug::Log("----------------------------------------");
-				Debug::Log("done moving");
-				Debug::Log("----------------------------------------");
+
 
 				//change offset last after notifying
 
-				/*Debug::Log("offset");
-				Debug::Log(offset.ToString());*/
+
 				tempNodePos = tempNodePos - tempOffset;
-			/*	Debug::Log("temp node pos");
-				Debug::Log(tempNodePos.ToString());*/
+		
 				notify(ON_MOVE_FINISHED);
 
 				oldOffset = offset;
-			/*	Debug::Log("oldoffset");
-				Debug::Log(tempOffset.ToString());*/
-
+		
 				commandQueue.pop_back();
 
 
@@ -86,13 +80,10 @@ namespace PXG
 		otherObjectsToMove.push_back(newObject);
 	}
 
-	bool MapMovementComponent::move(PXG::Vector3 direction, bool restart, float factor)
+	bool MapMovementComponent::move(PXG::Vector3 direction, bool restart, float factor, float tick)
 	{
 		if (factor > 1)
 			factor = 1;
-		Debug::Log("moving");
-		Debug::Log("offset / player pos:");
-		Debug::Log(offset.ToString());
 
 		static Vector3 mapIntialPosition = map->GetTransform()->GetPosition();
 		if (restart)
@@ -104,7 +95,6 @@ namespace PXG
 		Transform* mapTransform = map->GetTransform();
 		direction = direction * 100;
 		mapTransform->SetLocalPosition(Mathf::Lerp(mapIntialPosition, mapIntialPosition + direction, factor));
-		//Vector3 otherDir
 
 		//move other objects than tiles 
 		//iterate over objects if it has eventcomponent check if it should be moving
@@ -122,39 +112,27 @@ namespace PXG
 			}
 			else
 			{
-
-
-				//Debug::Log("dir");
-				//Debug::Log(direction.ToString());
-				//Vector3 otherDir = (direction);
-				//Debug::Log("dir pos");
-				////Debug::Log(otherObj->GetComponent<TriggerComponent>()->getNodePos().ToString());
-				//Debug::Log(initialPositions[otherObj].ToString());
 				Vector3 pos = initialPositions[otherObj];
 				pos = otherObj->GetComponent<TriggerComponent>()->getNodePos();
-			/*	Debug::Log("direction");
-				Debug::Log(direction.ToString());
-				Debug::Log("pos");
-				Debug::Log(pos.ToString());*/
-				/*Vector3 playerPos = oldOffset;
-				playerPos = tempNodePos;*/
 				Vector3 playerPos = tempNodePos;
-				/*Debug::Log("player pos");
-				Debug::Log(playerPos.ToString());
-				Debug::Log("delta");*/
 				Vector3 delta = playerPos - pos;
-				//Debug::Log((playerPos - pos).ToString());
-				//delta.y += 1;
-				/*Debug::Log("old pos");
-				Debug::Log(otherObj->GetTransform()->GetPosition().ToString());*/
-				otherObj->SetLocalPosition(Mathf::Lerp(initialPositions[otherObj], initialPositions[otherObj] + delta * 100 + direction, factor));
-			/*	Debug::Log("new pos");
-				Debug::Log(otherObj->GetTransform()->GetPosition().ToString());*/
+	
+				//Vector3 YOffset = Vector3{ 0,0,0 };
+				//if (otherObj->HasComponent<JumperComponent>())
+				//{
+				//	auto jumper = otherObj->GetComponent<JumperComponent>();
+				//	float speed = jumper->GetCurrentSpeed();
+
+				//	//	GetOwner()->GetTransform()->translate(Vector3(0, currentSpeed * tick * 100, 0));
+				//	YOffset = Vector3(0, speed*tick * 100, 0);
+				//}
+				otherObj->SetLocalPosition(Mathf::Lerp(initialPositions[otherObj], initialPositions[otherObj] + delta * 100 + direction + YOffset, factor));
+
 			}
 
 		}
 		notify(ON_MOVE);
-		tempOffset = direction*0.01f;
+		tempOffset = direction * 0.01f;
 		if (factor == 1) return true;
 		return false;
 
