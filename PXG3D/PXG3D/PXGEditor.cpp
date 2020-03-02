@@ -19,6 +19,7 @@
 #include <nlohmann/json.hpp>
 
 #include "FreeMovementComponent.h"
+#include "LevelLoader.h"
 
 namespace PXG {
 
@@ -52,11 +53,11 @@ namespace PXG {
 			if(show_newBlockWindow == false)
 				if(event == RayCastShooter::ON_RAYCAST_HIT)
                 {
-                    mousePosAtClick = ImVec2(Input::GetMouseX(), Input::GetMouseY());
+                    mousePosAtClick = ImVec2(static_cast<float>(Input::GetMouseX()), static_cast<float>(Input::GetMouseY()));
 					show_newBlockWindow = true;
                     Debug::Log("Entered window_enabler::onNotify");
 
-                    const auto shooter = static_cast<RayCastShooter*>(subject_base);
+                    const auto shooter = dynamic_cast<RayCastShooter*>(subject_base);
                     info = shooter->GetLastHit();
                 }
 		}
@@ -82,6 +83,85 @@ namespace PXG {
         Player->GetMeshComponent()->SetMaterial(std::make_shared<TextureMaterial>());
 
     }
+
+	void PXGEditor::LoadLevel(std::string file_path)
+    {
+        std::ifstream in(file_path);
+		using json = nlohmann::json;
+
+        static int ld = 0;
+
+    	for(auto child: map->GetChildren())
+    	{
+            map->RemoveChildren(child);
+    	}
+    	
+        json j;
+        in >> j;
+
+        for(auto& obj : j["tiles"])
+        {
+            auto block = Instantiate();
+            block->name = fmt::format("Loaded_{}", ++ld);
+            map->AddToChildren(block);
+
+            block->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + obj["model"].get<std::string>());
+            block->GetMeshComponent()->SetMaterial(std::make_shared<TextureMaterial>());
+            block->GetMeshComponent()->AddTextureToMeshAt({ config::PXG_INDEPENDENT_TEXTURES_PATH + obj["texture"].get<std::string>(), TextureType::DIFFUSE }, 0);
+            block->GetTransform()->SetLocalPosition(extractV3(obj["position"]) * 100);
+
+            block->GetTransform()->Scale(glm::vec3{ 100 });
+
+            auto tile_data = std::make_shared<TileData>();
+
+            tile_data->texture = obj["texture"].get<std::string>();
+            tile_data->model = obj["model"].get<std::string>();
+
+            if (!obj["meta-data"].is_object())
+            {
+                tile_data->is_static = true;
+            }
+            block->AddComponent(tile_data);
+
+            CollisionCubeParams cubeParams;
+            cubeParams.heightFromMin = 1;
+            block->GetPhysicsComponent()->ConstructCollisionCube(cubeParams);
+            if (current_texture.empty()) current_texture = config::PXG_INDEPENDENT_TEXTURES_PATH + obj["texture"].get<std::string>();
+            if (current_model.empty()) current_model = config::PXG_MODEL_PATH + obj["model"].get<std::string>();
+        }
+        for (auto& obj : j["OtherObjects"])
+        {
+            auto block = Instantiate();
+            block->name = fmt::format("Loaded_{}", ++ld);
+            map->AddToChildren(block);
+
+            block->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + obj["model"].get<std::string>());
+            block->GetMeshComponent()->SetMaterial(std::make_shared<TextureMaterial>());
+            block->GetMeshComponent()->AddTextureToMeshAt({ config::PXG_INDEPENDENT_TEXTURES_PATH + obj["texture"].get<std::string>(), TextureType::DIFFUSE }, 0);
+            block->GetTransform()->SetLocalPosition(extractV3(obj["position"]) * 100);
+
+            block->GetTransform()->Scale(glm::vec3{ 100 });
+                    	
+        	auto tile_data = std::make_shared<TileData>();
+
+            tile_data->texture = obj["texture"].get<std::string>();
+            tile_data->model = obj["model"].get<std::string>();
+
+      
+            tile_data->is_tile = false;
+            block->AddComponent(tile_data);
+
+            CollisionCubeParams cubeParams;
+            cubeParams.heightFromMin = 1;
+            block->GetPhysicsComponent()->ConstructCollisionCube(cubeParams);
+
+            if (current_texture.empty()) current_texture = config::PXG_INDEPENDENT_TEXTURES_PATH + obj["texture"].get<std::string>();
+            if (current_model.empty()) current_model = config::PXG_MODEL_PATH + obj["model"].get<std::string>();
+        }
+    	
+    	
+    }
+	
 
     void PXGEditor::Start()
     {
@@ -112,17 +192,12 @@ namespace PXG {
         block->GetMeshComponent()->AddTextureToMeshAt({ current_texture,TextureType::DIFFUSE }, 0);
         block->GetTransform()->SetLocalPosition(info.GameObjectHit->GetTransform()->GetPosition() + info.Normal.Normalize() * -100);
 
-        Debug::Log("GetPosition() {}", info.GameObjectHit->GetTransform()->GetPosition().ToString());
-        Debug::Log("Normal {}", info.Normal.ToString());
 
         block->GetTransform()->Scale(glm::vec3{ 100 });
 
         CollisionCubeParams cubeParams;
         cubeParams.heightFromMin = 1;
         block->GetPhysicsComponent()->ConstructCollisionCube(cubeParams);
-
-
-        Debug::Log("hi {}",(info.GameObjectHit->GetTransform()->GetPosition() + info.Normal * 100).ToString());
     }
 
     void PXGEditor::SaveMap()
@@ -320,6 +395,11 @@ namespace PXG {
                 SaveMap();
 			}
             ImGui::InputText("Location", file_path, 512);
+    		if(ImGui::Button("Load"))
+    		{
+                Debug::Log("Loading, Warning Overrides!");
+                LoadLevel(file_path);
+    		}
     	
         ImGui::End();
 
