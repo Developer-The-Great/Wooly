@@ -18,7 +18,7 @@
 #include "FollowPlayerComponent.h"
 #include "TriggerComponent.h"
 #include "RockPushComponent.h"
-
+#include "JumperComponent.h"
 #include <map>
 #include <memory>
 namespace PXG
@@ -118,7 +118,6 @@ namespace PXG
 				if (tile["texture"].is_string())
 				{
 					child->GetMeshComponent()->AddTextureToMeshAt(Texture{ config::PXG_INDEPENDENT_TEXTURES_PATH + tile["texture"].get<std::string>(),TextureType::DIFFUSE }, 0);
-
 				}
 
 				std::shared_ptr<TileMetaData> metaData = std::make_shared<TileMetaData>();
@@ -280,6 +279,9 @@ namespace PXG
 									auto followPlayer = std::make_shared<FollowPlayerComponent>();
 									child->AddComponent(followPlayer);
 									triggerComp->SetComponent(followPlayer);
+									auto jumpComp = std::make_shared<JumperComponent>();
+									child->AddComponent(jumpComp);
+									mapMovement->attach(jumpComp.get());
 								}
 								if (value == "movable")
 								{

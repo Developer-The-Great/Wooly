@@ -68,21 +68,21 @@ namespace PXG
 											{
 												Debug::Log("triggering node");
 												auto trigger = otherObject->GetComponent < TriggerComponent>();
-												trigger->raiseTrigger(startNode, endNode);
+												trigger->onNotify(this, RAY_CAST_INTERACTIVE_HIT);
+												//trigger->raiseTrigger(startNode, endNode);
 												break;
 											}
 										}
 									}
 								}
 								//move 
-								else
+								else if (LastPathWeight <= 1024)
 								{
 									Debug::Log("end node wheight:");
 									Debug::Log(std::to_string(endNode->GetNodeWheight()));
-									if (!(endNode->GetNodeWheight() >= 2000))
-									{
-										mapMovement->Move(translatePath(result.second.get()));
-									}
+
+									mapMovement->Move(translatePath(result.second.get()));
+
 									break;
 								}
 							}
