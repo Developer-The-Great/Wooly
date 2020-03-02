@@ -86,33 +86,12 @@ namespace PXG
 		hitInfo.RayHit = false;
 		hitInfo.T = FLT_MAX;
 
-		//[Will remove this when I am absolutely sure that recursive raycast does not break anything]//
-
-
-		////get all mesh Component af all objects
-		//std::vector<std::shared_ptr<MeshComponent>> meshComponents;
-		//RecursiveGetMeshComponents(meshComponents,world);
-
-		//for (auto const& meshComponent : meshComponents)
-		//{
-		//	auto meshes = meshComponent->GetMeshes();
-		//	auto gameObject = meshComponent->GetOwner();
-
-		//	Mat4 worldTransform = gameObject->GetTransform()->GetWorldTransform();
-
-		//	for (auto const& mesh : meshes)
-		//	{
-		//		RayToMeshIntersection(position, direction, hitInfo,mesh, worldTransform,gameObject);
-		//	}
-		//	
-		//}
-
-		RecursiveGameObjectRaytrace(position, direction, hitInfo, world, Mat4(),usePhysicsComponent);
+		recursiveGameObjectRaytrace(position, direction, hitInfo, world, Mat4(),usePhysicsComponent);
 
 		return hitInfo.RayHit;
 	}
 
-	void PhysicsEngine::RecursiveGameObjectRaytrace(const Vector3& position, const Vector3& direction, HitInfo & hitInfo, std::shared_ptr<GameObject> gameObject, Mat4 parentTransform, bool isUsingPhysicsComponent)
+	void PhysicsEngine::recursiveGameObjectRaytrace(const Vector3& position, const Vector3& direction, HitInfo & hitInfo, std::shared_ptr<GameObject> gameObject, Mat4 parentTransform, bool isUsingPhysicsComponent)
 	{
 		//raycast mesh component of current object
 		auto meshes = isUsingPhysicsComponent? 
@@ -123,17 +102,17 @@ namespace PXG
 
 		for (const auto& mesh : meshes)
 		{
-			RayToMeshIntersection(position, direction, hitInfo, mesh, Transform, gameObject);
+			rayToMeshIntersection(position, direction, hitInfo, mesh, Transform, gameObject);
 		}
 		
 		//raytrace mesh component of children
 		for (const auto& child : gameObject->GetChildren())
 		{
-			RecursiveGameObjectRaytrace(position, direction, hitInfo, child, Transform, isUsingPhysicsComponent);
+			recursiveGameObjectRaytrace(position, direction, hitInfo, child, Transform, isUsingPhysicsComponent);
 		}
 	}
 
-	void PhysicsEngine::RayToMeshIntersection(const Vector3& position, const Vector3& direction, HitInfo & hitInfo, std::shared_ptr<Mesh> mesh, Mat4 objectTransform, std::shared_ptr<GameObject> owner)
+	void PhysicsEngine::rayToMeshIntersection(const Vector3& position, const Vector3& direction, HitInfo & hitInfo, std::shared_ptr<Mesh> mesh, Mat4 objectTransform, std::shared_ptr<GameObject> owner)
 	{
 
 		for (int index = 0; index < mesh->Indices.size(); index+=3)
@@ -146,7 +125,7 @@ namespace PXG
 			HitInfo triangleHitInfo;
 			triangleHitInfo.RayHit = false;
 
-			RayTriangleIntersection(
+			rayTriangleIntersection(
 				mesh->Vertices.at(v0Index).position,
 				mesh->Vertices.at(v1Index).position,
 				mesh->Vertices.at(v2Index).position,
@@ -166,7 +145,7 @@ namespace PXG
 
 	}
 
-	void PhysicsEngine::RayTriangleIntersection(Vector3 vec1, Vector3 vec2, Vector3 vec3, const Vector3& rayPosition, const Vector3& rayDirection, Mat4 objectTransform, HitInfo& hitInfo, std::shared_ptr<GameObject> owner)
+	void PhysicsEngine::rayTriangleIntersection(Vector3 vec1, Vector3 vec2, Vector3 vec3, const Vector3& rayPosition, const Vector3& rayDirection, Mat4 objectTransform, HitInfo& hitInfo, std::shared_ptr<GameObject> owner)
 	{
 		//-----find a point where the ray intersects the plane where the triangle lies-------//
 		HitInfo Result;
@@ -268,13 +247,13 @@ namespace PXG
 
 	}
 
-	void PhysicsEngine::RecursiveGetMeshComponents(std::vector<std::shared_ptr<MeshComponent>>& MeshComponentList, std::shared_ptr<GameObject> gameObject)
+	void PhysicsEngine::recursiveGetMeshComponents(std::vector<std::shared_ptr<MeshComponent>>& MeshComponentList, std::shared_ptr<GameObject> gameObject)
 	{
 		MeshComponentList.push_back(gameObject->GetMeshComponent());
 
 		for (auto const& child : gameObject->GetChildren())
 		{
-			RecursiveGetMeshComponents(MeshComponentList, child);
+			recursiveGetMeshComponents(MeshComponentList, child);
 		}
 	}
 

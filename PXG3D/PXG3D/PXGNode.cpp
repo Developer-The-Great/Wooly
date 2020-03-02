@@ -93,11 +93,12 @@ namespace PXG
 
 	bool Node::flatTileNodeCheck(int nodeX, int nodeY, int nodeZ, int otherNodeX, int otherNodeY, int otherNodeZ)
 	{
+		//if the nodes are exactly one step left or right and have the same z direction
 		if (Mathf::Abs(otherNodeX - nodeX) == 1 && otherNodeZ == nodeZ)
 		{
 			return true;
 		}
-
+		//if the nodes are exactly one step forward or backward and have the same x direction
 		if (Mathf::Abs(otherNodeZ - nodeZ) == 1 && otherNodeX == nodeX)
 		{
 			return true;

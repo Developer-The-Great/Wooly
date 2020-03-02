@@ -104,7 +104,7 @@ namespace PXG
 				//load the model
 				child->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + tile["model"].get<std::string>());
 				child->GetMeshComponent()->SetMaterial(material);
-				//Debug::Log("mesh count {0}",child->GetMeshComponent()->)
+
 				//create physics representation 
 
 				CollisionCubeParams cubeParams;

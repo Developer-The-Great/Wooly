@@ -15,6 +15,7 @@ namespace PXG
 		void Clear();
 		std::vector<Node*>& GetNodes();
 		std::vector<std::shared_ptr<GameObject>>& GetObjects();
+		//iterates through nodes and connects them to each other
 		void generateConnections(std::vector<NodeToPositionContainer>& nodeToPositionContainers);
 	private:
 
