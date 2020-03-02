@@ -16,7 +16,8 @@ namespace PXG
 	void RayCastShooter::FixedUpdate(float tick)
 	{
 
-		if (!Input::GetKeyDown(KeyCode::LeftMouse)) return;
+		if (!Input::GetKeyUp(KeyCode::LeftMouse)) return;
+		
 		auto transform = GetOwnerTransform();
 
 

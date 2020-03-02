@@ -33,7 +33,7 @@ namespace PXG
 			{
 				switch(event)
 				{
-				case MapMovementComponent::ON_MOVE:
+				case MapMovementComponent::ON_MOVE_START:
 				{
 					energy--;
 					if (energy <= 0)

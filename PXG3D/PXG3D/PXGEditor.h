@@ -20,8 +20,9 @@ namespace PXG {
         void FixedUpdate(float tick) override;
 
         void Initialize() override;
+	    void LoadLevel(std::string file_path);
 
-        GameObj MakeChildObj(const std::string& name);
+	    GameObj MakeChildObj(const std::string& name);
 	    GameObj MakeCanvasObj(const std::string& name);
 
 
