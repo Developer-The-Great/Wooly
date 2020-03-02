@@ -149,20 +149,35 @@ namespace PXG
 							container.y = offset.y;
 							container.z = offset.z;
 
-							nodeToPositionContainer.push_back(container);
+							
 
 							for (auto[key, value] : value.items())
 							{
-								if (key == "ramp" && value.is_boolean())
+								if (key == "ramp" && value.is_object())
 								{
-									bool isKey = value.get<bool>();
-									if(isKey) 
-									{  
-									
+
+								}
+
+								if (key == "ladder" && value.is_object())
+								{
+									child->name = "ladder";
+
+									for (auto[key, value] : value.items())
+									{
+										if (key == "direction")
+										{
+											Vector3 dir = extractV3(value);
+											
+											newNode->SetNodeTypeTo(NodeType::Ladder);
+										}
+
+
 									}
 								}
-							}
 
+
+							}
+							nodeToPositionContainer.push_back(container);
 							child->AddComponent(newNode);
 							continue;
 						}

@@ -22,7 +22,7 @@ namespace PXG
 	void FollowPlayerComponent::Execute(Node * currentNode, Node * targetNode)
 	{
 		ChangeMove();
-		Debug::Log("Execute");
+		Debug::Log("Follow Player Component Executed!");
 
 
 	}

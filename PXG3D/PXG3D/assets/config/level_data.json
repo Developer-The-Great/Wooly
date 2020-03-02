@@ -88,7 +88,72 @@
                 { 
                 }
             }
+        },
+        
+        {
+            "position": [-1,1,1],
+            "model" : "SmallLadder.obj",
+            "texture": "ladder.png",
+            "meta-data":
+            {
+                "node":
+                { 
+                    "ladder":
+                    {
+                        "direction"  : [-1,0,0]
+                    }
+                }
+            }
+        },
+        
+        {
+            "position": [-1,2,1],
+            "model" : "SmallLadder.obj",
+            "texture": "ladder.png",
+            "meta-data":
+            {
+                "node":
+                { 
+                    "ladder":
+                    {
+                        "direction"  : [-1,0,0]
+                    }
+                }
+            }
+        },
+        
+        {
+            "position": [-2,1,1],
+            "model" : "grass.obj",
+            "texture": "dirt_and_grass.png",
+            "meta-data":
+            {
+
+            }
+        },
+        {
+            "position": [-2,2,1],
+            "model" : "grass.obj",
+            "texture": "dirt_and_grass.png",
+            "meta-data":
+            {
+                "node":
+                { 
+                }
+            }
+        },
+        {
+            "position": [-3,2,1],
+            "model" : "grass.obj",
+            "texture": "dirt_and_grass.png",
+            "meta-data":
+            {
+                "node":
+                { 
+                }
+            }
         }
+
 
     ],
     "OtherObjects":
@@ -103,5 +168,7 @@
             }
         }
     ]
+    
+    
 
 }

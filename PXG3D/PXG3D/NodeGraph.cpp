@@ -24,6 +24,11 @@ namespace PXG
 		{
 			NodeToPositionContainer firstContainer = nodeToPositionContainers.at(i);
 
+			//if (firstContainer.node->GetOwner()->name == "ladder")
+			//{
+			//	Debug::Log("ladder");
+			//}
+
 			for (int j=i+1; j < nodes.size();j++)
 			{
 				
@@ -34,7 +39,12 @@ namespace PXG
 					secondContainer.x, secondContainer.y, secondContainer.z
 				);
 
-				if (secondContainerValidConnection)
+				bool firstContainerValidConnection = secondContainer.node->IsPositionValidConnection(
+					secondContainer.x, secondContainer.y, secondContainer.z,
+					firstContainer.x, firstContainer.y, firstContainer.z
+				);
+
+				if (secondContainerValidConnection || firstContainerValidConnection)
 				{
 					firstContainer.node->AddNewConnection(secondContainer.node.get());
 					secondContainer.node->AddNewConnection(firstContainer.node.get());
