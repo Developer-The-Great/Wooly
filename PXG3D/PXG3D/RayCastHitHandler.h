@@ -9,9 +9,13 @@
 #include "TriggerComponent.h"
 namespace PXG
 {
-	class RayCastHitHandler : public Component, public subscriber_base
+	class RayCastHitHandler : public Component, public subscriber_base, public subject_base
 	{
 	public:
+		enum event : event_t
+		{
+			RAY_CAST_INTERACTIVE_HIT
+		};
 		RayCastHitHandler();
 		~RayCastHitHandler();
 

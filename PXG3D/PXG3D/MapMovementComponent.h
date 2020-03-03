@@ -9,6 +9,7 @@
 #include <queue>
 #include "GameObject.h"
 #include "AbstractEventComponent.h"
+#include "JumperComponent.h"
 namespace PXG
 {
 
@@ -32,7 +33,6 @@ namespace PXG
 		};
 		void interpretDelta(int delta, MovementCommands a, MovementCommands b)
 		{
-
 			auto pusher = [&](int dp, MovementCommands pos, MovementCommands neg)
 			{
 				if (dp > 0)
@@ -51,8 +51,6 @@ namespace PXG
 				}
 			};
 			pusher(delta, a, b);
-
-
 		}
 		void Move(std::vector<Node*>* path)
 		{
@@ -78,21 +76,24 @@ namespace PXG
 
 		Vector3 getOffset() const { return offset; };
 		Vector3 getOldOffset() const { return oldOffset; };
+		Vector3 getTempNodePos() const { return tempNodePos; }
+
 		void Start() override;
 		void FixedUpdate(float tick) override;
 		void SetMap(std::shared_ptr<GameObject> newMap);
 		void Reset() const;
 		void AddOtherObjectToMove(std::shared_ptr<GameObject> newObject);
 	private:
-		bool move(PXG::Vector3 direction, bool restart, float factor);
+		bool move(PXG::Vector3 direction, bool restart, float factor, float tick);
 		std::shared_ptr<GameObject> map;
 
 		Vector3 offset = { 0,0,0 };
 		Vector3 oldOffset = { 0,0,0 };
-
+		Vector3 tempPlayerPos = { 0,0,0 };
+		Vector3 tempOffset = { 0,0,0 };
+		Vector3 tempNodePos = { 0,0,0 };
 
 		std::vector<std::shared_ptr<GameObject>> otherObjectsToMove;
-
 		std::deque<MovementCommands> commandQueue;
 		virtual void onNotify(subject_base * subject_base, subject_base::event_t event) override;
 	};

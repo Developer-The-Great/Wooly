@@ -22,22 +22,14 @@ namespace PXG
 		{
 			
 			timePassed += tick;
-			Debug::Log("timePassed {0}",timePassed);
-			Debug::Log("speed {0} ", currentSpeed);
 
-
-			GetOwner()->GetTransform()->translate(Vector3(0, currentSpeed * tick * 10, 0));
-
-			currentSpeed += PhysicsEngine::GetGravity() * tick * 10;
-
-
-			if (currentSpeed < 0)
+			if(!isStatic)
 			{
-				Debug::Log("time {0}", Time::GetTime());
-				Debug::Log("height max reached {0}", GetOwner()->GetTransform()->GetLocalPosition().ToString());
-				Debug::Log("");
+				GetOwner()->GetTransform()->translate(Vector3(0, currentSpeed * tick * 100, 0));
 
 			}
+
+			currentSpeed += PhysicsEngine::GetGravity() * tick * 10;
 
 			if (GetOwner()->GetTransform()->GetLocalPosition().y <  initialheight)
 			{
