@@ -155,6 +155,11 @@
     <ClInclude Include="JumperComponent.h" />
     <ClInclude Include="AbstractCommand.h" />
     <ClInclude Include="AbstractEventComponent.h" />
+    <ClInclude Include="BridgeComponent.hpp" />
+    <ClInclude Include="Trigger.h" />
+    <ClInclude Include="NodeGraphDistTrigger.h" />
+    <ClInclude Include="OnClickTrigger.hpp" />
+    <ClInclude Include="CompoundDistanceOnClickTrigger.hpp" />
     <ClInclude Include="GrandpaComponent.h" />
   </ItemGroup>
   <ItemGroup>
