@@ -144,12 +144,14 @@
     <ClInclude Include="AudioEngine.hpp" />
     <ClInclude Include="AudioSource.h" />
     <ClInclude Include="AxisAngle.h" />
+    <ClInclude Include="BridgeComponent.hpp" />
     <ClInclude Include="ButtonComponent.h" />
     <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="Canvas.h" />
     <ClInclude Include="CollisionCubeParams.h" />
     <ClInclude Include="ColorMaterial.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="CompoundDistanceOnClickTrigger.hpp" />
     <ClInclude Include="EnergyCounterComponent.h" />
     <ClInclude Include="FileConfig.h" />
     <ClInclude Include="Debug.h" />
@@ -178,7 +180,9 @@
     <ClInclude Include="LevelLoader.h" />
     <ClInclude Include="AbstractMovementCommand.h" />
     <ClInclude Include="NodeGraph.h" />
+    <ClInclude Include="NodeGraphDistTrigger.h" />
     <ClInclude Include="NodeToPositionContainer.h" />
+    <ClInclude Include="OnClickTrigger.hpp" />
     <ClInclude Include="PathFinder.hpp" />
     <ClInclude Include="pfinder\AStar.h" />
     <ClInclude Include="pfinder\Dijkstra.h" />
@@ -218,6 +222,7 @@
     <ClInclude Include="Tile.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="Transform.h" />
+    <ClInclude Include="Trigger.h" />
     <ClInclude Include="TriggerComponent.h" />
     <ClInclude Include="UIObject.h" />
     <ClInclude Include="Utils.h" />

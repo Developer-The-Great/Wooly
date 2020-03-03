@@ -87,7 +87,7 @@ namespace PXG
 
 		//void SetWorld
 
-		std::vector<std::shared_ptr<GameObject>> GetChildren() const;
+		std::vector<std::shared_ptr<GameObject>>& GetChildren();
 
 		std::weak_ptr<World> GetWorld() const;
 		void SetWorld(std::shared_ptr<World> world);

@@ -122,6 +122,13 @@ namespace PXG
 	{
 		mapMovement = newMap;
 	}
+
+	auto RayCastHitHandler::NodeGraphAccessor::GetTranslatedGraph(
+		RayCastHitHandler& hh) ->  std::vector<PathFindingNode>&
+	{
+		return hh.translatedGraph;
+	}
+
 	std::vector<Node*>* RayCastHitHandler::translatePath(std::vector<PathFindingNode*>* oldPath)
 	{
 		Debug::Log("path:");

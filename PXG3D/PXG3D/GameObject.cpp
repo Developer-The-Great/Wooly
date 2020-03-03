@@ -26,6 +26,11 @@ namespace PXG
 		{
 			child->Start();
 		}
+		for(auto const & component : components)
+		{
+			component->Start();
+		}
+		
 	}
 	void GameObject::Update()
 	{
@@ -80,7 +85,7 @@ namespace PXG
 		return physicsComponent;
 	}
 
-	std::vector<std::shared_ptr<GameObject>> GameObject::GetChildren() const
+	std::vector<std::shared_ptr<GameObject>>& GameObject::GetChildren()
 	{
 		return children;
 	}

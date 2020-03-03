@@ -7,6 +7,7 @@
 #include "Input.h"
 #include "CameraComponent.h"
 #include "KeyCode.h"
+#include "PXGNode.h"
 
 namespace PXG
 {
@@ -39,7 +40,14 @@ namespace PXG
 			Debug::Log("normal found ", info.Normal.ToString());
 			lastHit = info;
 			notify(ON_RAYCAST_HIT);
-		}	else {
+
+			if(info.GameObjectHit->HasComponent(typeid(Node)))
+			{
+				Debug::Log("Found Node at raycast!");
+				Debug::Log("pos {}",info.GameObjectHit->GetComponent<Node>()->getPos().ToString());
+			}
+			
+		} else {
 			Debug::Log("oof ");
 		}
 	}

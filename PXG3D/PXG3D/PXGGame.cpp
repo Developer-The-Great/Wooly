@@ -29,8 +29,14 @@
 #include "AudioClip.hpp"
 #include "AudioEngine.hpp"
 #include "AudioSource.h"
+#include "BridgeComponent.hpp"
+#include "CompoundDistanceOnClickTrigger.hpp"
 
 #include "JumperComponent.h"
+#include "NodeGraphDistTrigger.h"
+#include "OnClickTrigger.hpp"
+#include "RotatorComponent.h"
+
 namespace PXG
 {
 
@@ -67,7 +73,7 @@ namespace PXG
 		auto movementComponent = std::make_shared<FreeMovementComponent>();
 		auto energyCounter = std::make_shared<EnergyCounterComponent>(frender, font);
 		auto raycaster = std::make_shared<RayCastShooter>();
-		auto rayCasthandler = std::make_shared<RayCastHitHandler>();
+		auto rayCastHandler = std::make_shared<RayCastHitHandler>();
 
 		//--------------------------Initialize UI and their Components--------------------------------//
 		//std::shared_ptr<TextComponent> textComp = std::make_shared<TextComponent>();
@@ -109,7 +115,7 @@ namespace PXG
 		cameraObj->AddComponent(camera);
 		cameraObj->AddComponent(movementComponent);
 		cameraObj->AddComponent(raycaster);
-		cameraObj->AddComponent(rayCasthandler);
+		cameraObj->AddComponent(rayCastHandler);
 		cameraObj->AddComponent(energyCounter);
 
 		world->AddToChildren(cameraObj);
@@ -133,6 +139,7 @@ namespace PXG
 		Player->AddComponent(asource);
 		Player->GetMeshComponent()->SetMaterial(textureMaterial);
 
+		
 		//--------------------------- Map movement -----------------------------------//
 
 		//--------------------------- Map movement -----------------------------------//
@@ -141,10 +148,31 @@ namespace PXG
 		std::shared_ptr<MapMovementComponent> mapMovement = std::make_shared<MapMovementComponent>();
 		auto jumper = std::make_shared<JumperComponent>();
 		mapMovement->attach(jumper.get());
+
+
+
+		GameObj Bridge = Instantiate();
+
+		Bridge->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + "bridge-rot.obj");
+		Bridge->GetMeshComponent()->AddTextureToMeshAt({ config::PXG_INDEPENDENT_TEXTURES_PATH + "bridge.png",TextureType::DIFFUSE }, 0);
+		Bridge->GetTransform()->SetLocalPosition({ 0,100,0 });
+
+
+		auto bcomp = std::make_shared<BridgeComponent>();
+
+		Bridge->AddComponent(bcomp);
+
+
+
+		Bridge->GetTransform()->Scale(glm::vec3{ 100 });
+		Bridge->GetMeshComponent()->SetMaterial(std::make_shared<TextureMaterial>());
+		TileMap->AddToChildren(Bridge);
+		
+		
 		Player->AddComponent(jumper);
 
-		//mapMovement->subscribe(*raycaster);
-		rayCasthandler->subscribe(*raycaster);
+		mapMovement->subscribe(*raycaster);
+		rayCastHandler->subscribe(*raycaster);
 		mapMovement->SetMap(TileMap);
 
 		GameObj movementHandler = Instantiate();
@@ -163,22 +191,66 @@ namespace PXG
 		GameObj NodesObj = MakeChild("NodesObj");
 		GameObj TriggerHandler = MakeChild("TriggerHand");
 		auto triggerComp = std::make_shared<TriggerComponent>();
-		auto level_loader = std::make_shared<LevelLoader>();
-		TileMap->AddComponent(level_loader);
+		auto levelLoader = std::make_shared<LevelLoader>();
+		TileMap->AddComponent(levelLoader);
 
-		auto node_graph = std::make_shared<NodeGraph>();
-		NodesObj->AddComponent(node_graph);
+		auto nodeGraph = std::make_shared<NodeGraph>();
+		NodesObj->AddComponent(nodeGraph);
 
 
 		std::vector<NodeToPositionContainer> nodeToPositionContainer;
 
 		std::ifstream level_config(config::PXG_CONFIGS_PATH + "level_data.json");
-		level_loader->LoadLevel(level_config, this, node_graph, nodeToPositionContainer, mapMovement);
-		rayCasthandler->setMapMovement(mapMovement);
-		node_graph->generateConnections(nodeToPositionContainer);
+		levelLoader->LoadLevel(level_config, this, nodeGraph, nodeToPositionContainer, mapMovement);
+		rayCastHandler->setMapMovement(mapMovement);
+		nodeGraph->generateConnections(nodeToPositionContainer);
 
-		rayCasthandler->setNodeGraph(node_graph);
+		rayCastHandler->setNodeGraph(nodeGraph);
 
+		
+		auto onClickTrigger = std::make_shared<OnClickTrigger>();
+		auto nodeGraphDistTrigger = std::make_shared<NodeGraphDistTrigger>(*rayCastHandler);
+
+		auto compoundTrigger = std::make_shared<CompoundDistanceOnClickTrigger>(onClickTrigger, nodeGraphDistTrigger);
+
+		auto nodeGraphMovementRayCastCon = std::make_shared<NodeGraphMMC_RCS_Con>();
+
+		nodeGraphMovementRayCastCon->subscribe(*raycaster);
+		nodeGraphMovementRayCastCon->subscribe(*mapMovement);
+
+		Player->AddComponent(onClickTrigger);
+		Player->AddComponent(nodeGraphDistTrigger);
+		Player->AddComponent(compoundTrigger);
+		Player->AddComponent(nodeGraphMovementRayCastCon);
+
+
+		auto dbgnode = std::find_if(TileMap->GetChildren().begin(), TileMap->GetChildren().end(), [](GameObj go)
+		{
+			if (go->HasComponent<Node>())
+				if (go->GetComponent<Node>()->getPos() == Vector3{ 1,0,2 })
+					return true;
+
+
+			return false;
+		});
+
+		if(dbgnode != TileMap->GetChildren().end())
+		{
+			Debug::Log("Found a things");
+		}
+		
+		onClickTrigger->SetSubject(*dbgnode,raycaster);
+		class DebugLogger : public subscriber_base,public Component
+		{
+		public:
+			void onNotify(subject_base* subject_base, subject_base::event_t event) override { Debug::Log(Verbosity::Warning, "HI!"); }
+		};
+		auto logger = std::make_shared<DebugLogger>();
+		logger->subscribe(*compoundTrigger);
+		bcomp->subscribe(*compoundTrigger);
+		bcomp->AddListener(compoundTrigger->ON_TRIGGER_RAISED);
+		
+		Player->AddComponent(logger);
 
 	}
 

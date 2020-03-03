@@ -46,6 +46,8 @@ namespace PXG
 
 		Vector3 GetUp() const;
 
+		void SetRotation(const Quaternion& quat) { rotation = quat; }
+
 
 	private:
 
