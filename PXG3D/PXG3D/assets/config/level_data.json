@@ -101,7 +101,17 @@
             {
                 "behaviour": "followPlayer"
             }
+        },
+        {
+            "position":[1,1,0],
+            "model" :  "Grandpa.obj",
+            "texture": "GrandpaTexture.png",
+            "meta-data":
+            {
+                "behaviour": "grandpa"
+            }
         }
+
     ]
 
 }

@@ -52,11 +52,11 @@ namespace PXG
 
 
 				tempNodePos = tempNodePos - tempOffset;
-		
+
 				notify(ON_MOVE_FINISHED);
 
 				oldOffset = offset;
-		
+
 				commandQueue.pop_back();
 
 
@@ -116,18 +116,21 @@ namespace PXG
 				pos = otherObj->GetComponent<TriggerComponent>()->getNodePos();
 				Vector3 playerPos = tempNodePos;
 				Vector3 delta = playerPos - pos;
-	
-				//Vector3 YOffset = Vector3{ 0,0,0 };
-				//if (otherObj->HasComponent<JumperComponent>())
-				//{
-				//	auto jumper = otherObj->GetComponent<JumperComponent>();
-				//	float speed = jumper->GetCurrentSpeed();
 
-				//	//	GetOwner()->GetTransform()->translate(Vector3(0, currentSpeed * tick * 100, 0));
-				//	YOffset = Vector3(0, speed*tick * 100, 0);
-				//}
-				otherObj->SetLocalPosition(Mathf::Lerp(initialPositions[otherObj], initialPositions[otherObj] + delta * 100 + direction + YOffset, factor));
-
+				float Ydelta = 0;
+				if (otherObj->HasComponent<JumperComponent>())
+				{
+					auto jumper = otherObj->GetComponent<JumperComponent>();
+					float speed = jumper->GetCurrentSpeed();
+					Ydelta = speed * tick * 2 * 100;
+					jumper->height += Ydelta;
+					jumper->height = Mathf::Lerp(jumper->height, 0, factor);
+					Ydelta = jumper->height;
+				}
+				float Xdelta = Mathf::Lerp(initialPositions[otherObj].x, initialPositions[otherObj].x + delta.x * 100 + direction.x, factor);
+				float Zdelta = Mathf::Lerp(initialPositions[otherObj].z, initialPositions[otherObj].z + delta.z * 100 + direction.z, factor);
+				//otherObj->SetLocalPosition(Mathf::Lerp(initialPositions[otherObj], initialPositions[otherObj] + delta * 100 + direction, factor));
+				otherObj->SetLocalPosition(Vector3(Xdelta, initialPositions[otherObj].y + Ydelta, Zdelta));
 			}
 
 		}
