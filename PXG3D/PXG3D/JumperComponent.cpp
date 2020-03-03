@@ -17,6 +17,15 @@ namespace PXG
 			timePassed += tick;
 			GetOwner()->GetTransform()->translate(Vector3(0, currentSpeed * tick * 10, 0));
 			currentSpeed += PhysicsEngine::GetGravity() * tick * 10;
+
+			if(!isStatic)
+			{
+				GetOwner()->GetTransform()->translate(Vector3(0, currentSpeed * tick * 100, 0));
+
+			}
+
+			currentSpeed += PhysicsEngine::GetGravity() * tick * 10;
+
 			if (GetOwner()->GetTransform()->GetLocalPosition().y <  initialheight)
 			{
 				Vector3 position = GetOwner()->GetTransform()->GetLocalPosition();

@@ -15,8 +15,9 @@ namespace PXG
 		void SetJumpSpeed(float newSpeed);
 
 		void Jump();
-
-
+		float GetCurrentSpeed() { return currentSpeed; }
+		void IsStatic(bool is) { isStatic = is; }
+		float height = 0;
 	private:
 
 		double timePassed;
@@ -32,9 +33,9 @@ namespace PXG
 		float airTime;
 
 		bool isJumping = false;;
-
+		bool isStatic = false;
 		virtual void onNotify(subject_base * subject_base, subject_base::event_t event) override;
-
+		//float height = 0;
 	};
 }
 

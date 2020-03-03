@@ -4,7 +4,10 @@ namespace PXG
 {
 	void TriggerComponent::raiseTrigger(Node* currentNode, Node* targetNode)
 	{
-		component->Execute(currentNode, targetNode);
+		if(component)
+		{
+			component->Execute(currentNode, targetNode);
+		}
 	}
 
 	void TriggerComponent::SetComponent(std::shared_ptr<AbstractEventComponent> newComponent)
@@ -31,40 +34,76 @@ namespace PXG
 		nodePos = nodePos + dir;
 	}
 
+	void TriggerComponent::setNodePos(Vector3 pos)
+	{
+		nodePos = pos;
+	}
+
 	void TriggerComponent::onNotify(subject_base * subjectBase, subject_base::event_t event)
 	{
-		MapMovementComponent* mapComponent = nullptr;
-		switch (event)
+		static MapMovementComponent* mapComponent = nullptr;
+		static RayCastHitHandler* rayCast = nullptr;
+		//movement notification
+		if (mapComponent == subjectBase && mapComponent != nullptr ||
+			(mapComponent == nullptr && (mapComponent = dynamic_cast<MapMovementComponent*>(subjectBase))))
 		{
-		case MapMovementComponent::ON_MOVE_START:
-		{
-			if (mapComponent == subjectBase && mapComponent != nullptr ||
-				(mapComponent == nullptr && (mapComponent = dynamic_cast<MapMovementComponent*>(subjectBase)))
-				&& GetComponent()->isMoving())
+			switch (event)
 			{
-				Debug::Log("trigger on move notification");
-				Vector3 oldNodePos = nodePos;
-				Vector3 deltaOffset = mapComponent->getOffset() - mapComponent->getOldOffset();
-				nodePos = nodePos + deltaOffset;
+			case MapMovementComponent::ON_MOVE_FINISHED:
+			{
 
-				for (auto node : nodeGraph->GetNodes())
+				if (GetComponent()->isMoving())
 				{
-					
-					if(node->getPos() == nodePos)
+					Vector3 oldNodePos = nodePos;
+					Vector3 deltaOffset =mapComponent->getTempNodePos()- mapComponent->getOffset();
+				
+					Vector3 pos = GetOwner()->GetTransform()->GetPosition();
+					pos = pos * 0.01f;
+					pos.y = 0;
+					pos = pos + mapComponent->getTempNodePos();		
+				
+					for (auto node : nodeGraph->GetNodes())
 					{
-						Debug::Log("chaning node");
-						node->SetNodeWeight(2000);
-					}
-					if(node->getPos()==oldNodePos)
-					{
-						Debug::Log("chaning node");
-						node->SetNodeWeight(1);
+
+						if (node->getPos() == pos)
+						{
+							Debug::Log("chaning new node, pos:");
+							Debug::Log(node->getPos().ToString());
+							SetNodePos(pos);
+							node->SetNodeWeight(2000);
+						}
+						if (node->getPos() == oldNodePos)
+						{
+							Debug::Log("chaning old node");
+							node->SetNodeWeight(1);
+						}
 					}
 				}
+				break;
+			}
+
+			default:
+				break;
 			}
 		}
-		default:
-			break;
+
+
+		//ray cast activation
+		if (rayCast == subjectBase && rayCast != nullptr ||
+			(rayCast == nullptr && (rayCast = dynamic_cast<RayCastHitHandler*>(subjectBase))))
+		{
+			switch (event)
+			{
+			case RayCastHitHandler::RAY_CAST_INTERACTIVE_HIT:
+			{
+				Node* node = nullptr;
+				raiseTrigger(NULL, NULL);
+
+				break;
+			}
+			default:
+				break;
+			}
 		}
 	}
 

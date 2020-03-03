@@ -7,6 +7,7 @@
 #include "Subscriber.h"
 #include "MapMovementComponent.h"
 #include "NodeGraph.h"
+#include "RayCastHitHandler.h"
 namespace PXG
 {
 	class TriggerComponent :public Component, public subscriber_base
@@ -20,6 +21,7 @@ namespace PXG
 		void SetNodePos(Vector3 newPos);
 		Vector3 getNodePos();
 		void moveNodePos(Vector3 dir);
+		void setNodePos(Vector3 pos);
 		virtual void onNotify(subject_base * subject_base, subject_base::event_t event) override;
 		void SetNodeGraph(std::shared_ptr<NodeGraph> newNodeGraph);
 

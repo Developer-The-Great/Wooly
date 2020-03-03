@@ -18,9 +18,12 @@
 #include "FollowPlayerComponent.h"
 #include "TriggerComponent.h"
 #include "RockPushComponent.h"
+#include "RotatorComponent.h"
+#include "JumperComponent.h"
 
 #include <map>
 #include <memory>
+#include "GrandpaComponent.h"
 namespace PXG
 {
 
@@ -118,7 +121,6 @@ namespace PXG
 				if (tile["texture"].is_string())
 				{
 					child->GetMeshComponent()->AddTextureToMeshAt(Texture{ config::PXG_INDEPENDENT_TEXTURES_PATH + tile["texture"].get<std::string>(),TextureType::DIFFUSE }, 0);
-
 				}
 
 				std::shared_ptr<TileMetaData> metaData = std::make_shared<TileMetaData>();
@@ -149,20 +151,45 @@ namespace PXG
 							container.y = offset.y;
 							container.z = offset.z;
 
-							nodeToPositionContainer.push_back(container);
+							
 
 							for (auto[key, value] : value.items())
 							{
-								if (key == "ramp" && value.is_boolean())
+								if (key == "ramp" && value.is_object())
 								{
-									bool isKey = value.get<bool>();
-									if(isKey) 
-									{  
-									
+
+								}
+
+								if (key == "ladder" && value.is_object())
+								{
+									child->name = "ladder";
+									newNode->SetNodeTypeTo(NodeType::Ladder);
+
+									for (auto[key, value] : value.items())
+									{
+										if (key == "direction")
+										{
+											Vector3 dir = extractV3(value);
+											dir.Normalize();
+											newNode->SetLadderConnectionDirection(dir);
+											
+										}
+
+										if (key == "rotateWorldY")
+										{
+											float yRotateAmount = value.get<float>();
+
+											child->GetTransform()->rotate(Vector3(0, 1, 0), yRotateAmount);
+
+										}
+
+
 									}
 								}
-							}
 
+
+							}
+							nodeToPositionContainer.push_back(container);
 							child->AddComponent(newNode);
 							continue;
 						}
@@ -189,6 +216,8 @@ namespace PXG
 			Debug::Log("finished loading tiles");
 			Debug::Log("-----------------------------------------------------------");
 			Debug::Log("loading other objects");
+			//storing sheeps for the grandpa to reference
+			std::vector<GameObj> sheepVector;
 
 			for (auto& otherObjects : config["OtherObjects"])
 			{
@@ -275,13 +304,33 @@ namespace PXG
 								triggerComp->SetNodePos(nodePos);
 								triggerComp->SetNodeGraph(nodeGraph);
 								triggerComp->subscribe(*mapMovement);
+								
 								if (value == "followPlayer")
 								{
 									auto followPlayer = std::make_shared<FollowPlayerComponent>();
+									followPlayer->setMove(false);
 									child->AddComponent(followPlayer);
 									triggerComp->SetComponent(followPlayer);
+									auto jumpComp = std::make_shared<JumperComponent>();
+									child->AddComponent(jumpComp);
+									mapMovement->attach(jumpComp.get());
+									jumpComp->IsStatic(true);
+									sheepVector.push_back(child);
 								}
-								if (value == "movable")
+								if (value == "grandpa")
+								{
+									auto grandpaComp = std::make_shared<GrandpaComponent>();
+									grandpaComp->setMove(false);
+									child->AddComponent(grandpaComp);
+									triggerComp->SetComponent(grandpaComp);
+									mapMovement->attach(grandpaComp.get());
+									for (auto sheep : sheepVector )
+									{
+										grandpaComp->AddGameObject(sheep);
+									}
+									//grandpaComp->AddGameObject()
+								}
+						/*		if (value == "movable")
 								{
 									auto rockPush = std::make_shared < RockPushComponent>();
 									child->AddComponent(rockPush);
@@ -294,7 +343,8 @@ namespace PXG
 								if (value == "trigger")
 								{
 
-								}
+								}*/
+							
 							}
 						}
 						metaData->metaData[key] = value.get<std::string>();

@@ -91,6 +91,7 @@
     <ClCompile Include="font.cpp" />
     <ClCompile Include="FreeMovementComponent.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="GrandpaComponent.cpp" />
     <ClCompile Include="imgui\examples\imgui_impl_glfw.cpp" />
     <ClCompile Include="imgui\examples\imgui_impl_opengl3.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="FreeMovementComponent.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GLMHeaders.h" />
+    <ClInclude Include="GrandpaComponent.h" />
     <ClInclude Include="HitInfo.h" />
     <ClInclude Include="imgui\examples\imgui_impl_glfw.h" />
     <ClInclude Include="imgui\examples\imgui_impl_opengl3.h" />

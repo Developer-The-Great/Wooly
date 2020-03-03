@@ -61,6 +61,7 @@
     <ClCompile Include="AbstractEventComponent.cpp" />
     <ClCompile Include="JumperComponent.cpp" />
     <ClCompile Include="AbstractCommand.cpp" />
+    <ClCompile Include="GrandpaComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractMaterial.h" />
@@ -159,6 +160,7 @@
     <ClInclude Include="NodeGraphDistTrigger.h" />
     <ClInclude Include="OnClickTrigger.hpp" />
     <ClInclude Include="CompoundDistanceOnClickTrigger.hpp" />
+    <ClInclude Include="GrandpaComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PXGColor.vert.glsl" />
