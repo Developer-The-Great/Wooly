@@ -78,11 +78,17 @@ namespace PXG
 		return gridPos;
 	}
 
-	bool Node::IsPositionValidConnection(int nodeX, int nodeY, int nodeZ, int otherNodeX, int otherNodeY, int otherNodeZ)
+	NodeType Node::GetNodeType() const
 	{
+		return nodeType;
+	}
+
+	bool Node::IsPositionValidConnection(int nodeX, int nodeY, int nodeZ, int otherNodeX, int otherNodeY, int otherNodeZ, NodeType  otherNodeType)
+	{
+
 		if (positionCheckFuncPtr)
 		{
-			return (this->*positionCheckFuncPtr)(nodeX,nodeY,nodeZ,otherNodeX,otherNodeY,otherNodeZ);
+			return (this->*positionCheckFuncPtr)(nodeX,nodeY,nodeZ,otherNodeX,otherNodeY,otherNodeZ,otherNodeType);
 		}
 		return false;
 	}
@@ -90,6 +96,7 @@ namespace PXG
 	void Node::SetNodeTypeTo(NodeType newType)
 	{
 		nodeType = newType;
+
 		switch (newType)
 		{
 			case NodeType::FlatTile:
@@ -111,7 +118,7 @@ namespace PXG
 		
 	}
 
-	bool Node::flatTileNodeCheck(int nodeX, int nodeY, int nodeZ, int otherNodeX, int otherNodeY, int otherNodeZ)
+	bool Node::flatTileNodeCheck(int nodeX, int nodeY, int nodeZ, int otherNodeX, int otherNodeY, int otherNodeZ, NodeType  otherNodeType)
 	{
 		bool hasSameVerticalHeight = nodeY == otherNodeY;
 
@@ -126,18 +133,24 @@ namespace PXG
 			return true;
 		}
 
+		//if node is below otherNode and otherNode is of type ladder
+		if ((nodeY - otherNodeY == -1) && (otherNodeType == NodeType::Ladder))
+		{
+			
+			return true;
+		}
+
 		return false;
 	}
 
-	bool Node::rampNodeCheck(int nodeX, int nodeY, int nodeZ, int otherNodeX, int otherNodeY, int otherNodeZ)
+	bool Node::rampNodeCheck(int nodeX, int nodeY, int nodeZ, int otherNodeX, int otherNodeY, int otherNodeZ, NodeType  otherNodeType)
 	{
 		Debug::Log(Verbosity::Error, "rampNodeCheck Not implemented!");
 		return false;
 	}
 
-	bool Node::ladderNodeCheck(int nodeX, int nodeY, int nodeZ, int otherNodeX, int otherNodeY, int otherNodeZ)
+	bool Node::ladderNodeCheck(int nodeX, int nodeY, int nodeZ, int otherNodeX, int otherNodeY, int otherNodeZ, NodeType  otherNodeType)
 	{
-		Debug::Log("node Position {0}{1}{2} , other node position {3}{4}{5}", nodeX, nodeY, nodeZ, otherNodeX, otherNodeY, otherNodeZ);
 		bool isInSameXZPosition = (nodeX == otherNodeX) && (nodeZ == otherNodeZ);
 
 		//if it is directly bellow the ladder
@@ -153,15 +166,19 @@ namespace PXG
 		}
 
 		//if its one step 
-		//int targetLadderNodeX = nodeX;
-		//int targetLadderNodeY = nodeY;
-		//int targetLadderNodeZ = nodeZ;
+		int targetLadderNodeX = nodeX;
+		int targetLadderNodeY = nodeY;
+		int targetLadderNodeZ = nodeZ;
 
-		//addNodeToDirection(targetLadderNodeX, targetLadderNodeY, targetLadderNodeZ, connectionDirection);
+		addNodeToDirection(targetLadderNodeX, targetLadderNodeY, targetLadderNodeZ, connectionDirection);
 
-		////if one step away 
+		if ((otherNodeX == targetLadderNodeX) && (otherNodeY == targetLadderNodeY) && (otherNodeZ == targetLadderNodeZ))
+		{
+			return true;
+		}
 
 		return false;
+
 	}
 
 	void Node::addNodeToDirection(int & x, int & y, int & z, NodeConnectionDirection direction)
@@ -198,13 +215,8 @@ namespace PXG
 
 	}
 
-
-
-
 	void Node::AddConnection(Node * newNode)
 	{
-		Debug::Log("{0} is adding {1} to Connection ",GetOwner()->name,newNode->GetOwner()->name);
-
 		connectedNodes.push_back(newNode);
 	}
 

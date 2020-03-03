@@ -19,6 +19,8 @@
 #include "TriggerComponent.h"
 #include "RockPushComponent.h"
 
+#include "RotatorComponent.h"
+
 #include <map>
 #include <memory>
 namespace PXG
@@ -161,14 +163,23 @@ namespace PXG
 								if (key == "ladder" && value.is_object())
 								{
 									child->name = "ladder";
+									newNode->SetNodeTypeTo(NodeType::Ladder);
 
 									for (auto[key, value] : value.items())
 									{
 										if (key == "direction")
 										{
 											Vector3 dir = extractV3(value);
+											dir.Normalize();
 											
-											newNode->SetNodeTypeTo(NodeType::Ladder);
+										}
+
+										if (key == "rotateWorldY")
+										{
+											float yRotateAmount = value.get<float>();
+
+											child->GetTransform()->rotate(Vector3(0, 1, 0), yRotateAmount);
+
 										}
 
 

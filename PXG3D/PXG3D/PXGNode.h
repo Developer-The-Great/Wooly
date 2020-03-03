@@ -46,20 +46,22 @@ namespace PXG
 			return GetOwner();
 		}
 
+		NodeType GetNodeType() const;
+
 		bool Processed = false;
 		//returns true if the nodeX and otherNodeX are valid connections 
-		bool IsPositionValidConnection(int nodeX,int nodeY,int nodeZ,int otherNodeX,int otherNodeY,int otherNodeZ);
+		bool IsPositionValidConnection(int nodeX,int nodeY,int nodeZ,int otherNodeX,int otherNodeY,int otherNodeZ, NodeType  otherNodeType);
 		
 		void SetNodeTypeTo(NodeType newType);
 
 	private:
 		//returns true if the a given nodeX and otherNode are next to each other in either the X direction of the Y Direction
-		bool flatTileNodeCheck(int nodeX, int nodeY, int nodeZ, int otherNodeX, int otherNodeY, int otherNodeZ);
+		bool flatTileNodeCheck(int nodeX, int nodeY, int nodeZ, int otherNodeX, int otherNodeY, int otherNodeZ, NodeType  otherNodeType);
 		//returns true if the given nodeX and otherNode are either 1 step above or below each other and their positions create a vector that is equal 
 		//to rampForward
-		bool rampNodeCheck(int nodeX, int nodeY, int nodeZ, int otherNodeX, int otherNodeY, int otherNodeZ);
+		bool rampNodeCheck(int nodeX, int nodeY, int nodeZ, int otherNodeX, int otherNodeY, int otherNodeZ, NodeType otherNodeType);
 
-		bool ladderNodeCheck(int nodeX, int nodeY, int nodeZ, int otherNodeX, int otherNodeY, int otherNodeZ);
+		bool ladderNodeCheck(int nodeX, int nodeY, int nodeZ, int otherNodeX, int otherNodeY, int otherNodeZ, NodeType  otherNodeType);
 
 		void addNodeToDirection(int& x, int& y, int& z, NodeConnectionDirection direction);
 
@@ -74,7 +76,7 @@ namespace PXG
 		NodeType nodeType = NodeType::FlatTile;
 		NodeConnectionDirection connectionDirection = NodeConnectionDirection::XNeg;
 
-		bool (Node::*positionCheckFuncPtr)(int, int, int, int, int,int);
+		bool (Node::*positionCheckFuncPtr)(int, int, int, int, int,int, NodeType otherNodeType);
 
 
 	};
