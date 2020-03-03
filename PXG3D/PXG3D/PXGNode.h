@@ -46,6 +46,8 @@ namespace PXG
 			return GetOwner();
 		}
 
+		void SetLadderConnectionDirection(Vector3 direction);
+
 		NodeType GetNodeType() const;
 
 		bool Processed = false;

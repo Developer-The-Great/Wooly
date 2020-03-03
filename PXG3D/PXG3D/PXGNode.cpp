@@ -78,6 +78,50 @@ namespace PXG
 		return gridPos;
 	}
 
+	void Node::SetLadderConnectionDirection(Vector3 direction)
+	{
+		//if x is not zero
+		if (!Mathf::FloatCompare(0, direction.x))
+		{
+			if (direction.x < 0)
+			{
+				connectionDirection = NodeConnectionDirection::XNeg;
+			}
+			else
+			{
+				connectionDirection = NodeConnectionDirection::XPos;
+			}
+			
+
+		}
+
+		//if y is not zero
+		if (!Mathf::FloatCompare(0, direction.y))
+		{
+			if (direction.y < 0)
+			{
+				connectionDirection = NodeConnectionDirection::YNeg;
+			}
+			else
+			{
+				connectionDirection = NodeConnectionDirection::YPos;
+			}
+		}
+
+		//if z is not zero
+		if (!Mathf::FloatCompare(0, direction.z))
+		{
+			if (direction.z < 0)
+			{
+				connectionDirection = NodeConnectionDirection::ZNeg;
+			}
+			else
+			{
+				connectionDirection = NodeConnectionDirection::ZPos;
+			}
+		}
+	}
+
 	NodeType Node::GetNodeType() const
 	{
 		return nodeType;

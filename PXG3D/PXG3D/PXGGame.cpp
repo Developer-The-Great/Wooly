@@ -118,8 +118,6 @@ namespace PXG
 		cameraObj->GetTransform()->rotate(Vector3(1, 0, 0), -20.0f);
 		cameraObj->GetTransform()->rotate(Vector3(0, 1, 0), 45);
 
-
-
 		//------------------------------ Player --------------------------------------//
 
 		auto asource = std::make_shared<PXG::AudioSourceComponent>(clip);

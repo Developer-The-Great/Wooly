@@ -170,6 +170,7 @@ namespace PXG
 										{
 											Vector3 dir = extractV3(value);
 											dir.Normalize();
+											newNode->SetLadderConnectionDirection(dir);
 											
 										}
 
