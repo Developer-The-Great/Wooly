@@ -4,7 +4,10 @@ namespace PXG
 {
 	void TriggerComponent::raiseTrigger(Node* currentNode, Node* targetNode)
 	{
-		component->Execute(currentNode, targetNode);
+		if(component)
+		{
+			component->Execute(currentNode, targetNode);
+		}
 	}
 
 	void TriggerComponent::SetComponent(std::shared_ptr<AbstractEventComponent> newComponent)

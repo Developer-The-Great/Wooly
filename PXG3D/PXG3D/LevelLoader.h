@@ -23,6 +23,7 @@
 
 #include <map>
 #include <memory>
+#include "GrandpaComponent.h"
 namespace PXG
 {
 
@@ -215,6 +216,8 @@ namespace PXG
 			Debug::Log("finished loading tiles");
 			Debug::Log("-----------------------------------------------------------");
 			Debug::Log("loading other objects");
+			//storing sheeps for the grandpa to reference
+			std::vector<GameObj> sheepVector;
 
 			for (auto& otherObjects : config["OtherObjects"])
 			{
@@ -301,17 +304,33 @@ namespace PXG
 								triggerComp->SetNodePos(nodePos);
 								triggerComp->SetNodeGraph(nodeGraph);
 								triggerComp->subscribe(*mapMovement);
+								
 								if (value == "followPlayer")
 								{
 									auto followPlayer = std::make_shared<FollowPlayerComponent>();
+									followPlayer->setMove(false);
 									child->AddComponent(followPlayer);
 									triggerComp->SetComponent(followPlayer);
 									auto jumpComp = std::make_shared<JumperComponent>();
 									child->AddComponent(jumpComp);
 									mapMovement->attach(jumpComp.get());
 									jumpComp->IsStatic(true);
+									sheepVector.push_back(child);
 								}
-								if (value == "movable")
+								if (value == "grandpa")
+								{
+									auto grandpaComp = std::make_shared<GrandpaComponent>();
+									grandpaComp->setMove(false);
+									child->AddComponent(grandpaComp);
+									triggerComp->SetComponent(grandpaComp);
+									mapMovement->attach(grandpaComp.get());
+									for (auto sheep : sheepVector )
+									{
+										grandpaComp->AddGameObject(sheep);
+									}
+									//grandpaComp->AddGameObject()
+								}
+						/*		if (value == "movable")
 								{
 									auto rockPush = std::make_shared < RockPushComponent>();
 									child->AddComponent(rockPush);
@@ -324,7 +343,8 @@ namespace PXG
 								if (value == "trigger")
 								{
 
-								}
+								}*/
+							
 							}
 						}
 						metaData->metaData[key] = value.get<std::string>();

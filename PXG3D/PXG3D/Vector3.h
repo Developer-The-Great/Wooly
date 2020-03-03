@@ -3,6 +3,7 @@
 #include "Debug.h"
 #include <string>
 #include "Vector2.h"
+#include "Mathf.h"
 namespace PXG
 {
 	struct Vector3
@@ -34,7 +35,7 @@ namespace PXG
 
 		Vector3 Normalized() const
 		{
-			return Vector3(glm::normalize(glm::vec3(x,y,z)));
+			return Vector3(glm::normalize(glm::vec3(x, y, z)));
 		}
 
 		Vector3& Normalize()
@@ -81,7 +82,7 @@ namespace PXG
 			return Vector3(newX, newY, newZ);
 		}
 
-		Vector3 operator/ ( float scalar) const
+		Vector3 operator/ (float scalar) const
 		{
 			float newX = x / scalar;
 			float newY = y / scalar;
@@ -111,7 +112,7 @@ namespace PXG
 
 		float& operator[](std::size_t location)
 		{
-			switch(location)
+			switch (location)
 			{
 			case 0: return x;
 			case 1: return y;
@@ -133,7 +134,7 @@ namespace PXG
 
 		friend bool operator==(const Vector3& lhs, const Vector3& rhs)
 		{
-			return 
+			return
 				lhs.x == rhs.x &&
 				lhs.y == rhs.y &&
 				lhs.z == rhs.z;
@@ -144,7 +145,12 @@ namespace PXG
 			return !(lhs == rhs);
 		}
 
-
+		float Distance(Vector3 a, Vector3 b)
+		{
+			float length = 0;
+			length = Mathf::Sqrt((a.x - b.x)*(a.x*b.x) + (a.y - b.y)*(a.y - b.y) + (a.z - b.z)*(a.z - b.z));
+			return length;
+		}
 		float Length() const
 		{
 			return glm::length(glm::vec3(x, y, z));
