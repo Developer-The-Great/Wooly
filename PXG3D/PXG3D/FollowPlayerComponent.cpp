@@ -23,6 +23,7 @@ namespace PXG
 	{
 
 		ChangeMove();
-		Debug::Log("Execute");
+		Debug::Log("Follow Player Component Executed!");
+
 	}
 }

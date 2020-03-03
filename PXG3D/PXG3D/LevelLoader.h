@@ -18,7 +18,9 @@
 #include "FollowPlayerComponent.h"
 #include "TriggerComponent.h"
 #include "RockPushComponent.h"
+#include "RotatorComponent.h"
 #include "JumperComponent.h"
+
 #include <map>
 #include <memory>
 namespace PXG
@@ -148,20 +150,44 @@ namespace PXG
 							container.y = offset.y;
 							container.z = offset.z;
 
-							nodeToPositionContainer.push_back(container);
+							
 
 							for (auto[key, value] : value.items())
 							{
-								if (key == "ramp" && value.is_boolean())
+								if (key == "ramp" && value.is_object())
 								{
-									bool isKey = value.get<bool>();
-									if(isKey) 
-									{  
-									
+
+								}
+
+								if (key == "ladder" && value.is_object())
+								{
+									child->name = "ladder";
+									newNode->SetNodeTypeTo(NodeType::Ladder);
+
+									for (auto[key, value] : value.items())
+									{
+										if (key == "direction")
+										{
+											Vector3 dir = extractV3(value);
+											dir.Normalize();
+											
+										}
+
+										if (key == "rotateWorldY")
+										{
+											float yRotateAmount = value.get<float>();
+
+											child->GetTransform()->rotate(Vector3(0, 1, 0), yRotateAmount);
+
+										}
+
+
 									}
 								}
-							}
 
+
+							}
+							nodeToPositionContainer.push_back(container);
 							child->AddComponent(newNode);
 							continue;
 						}

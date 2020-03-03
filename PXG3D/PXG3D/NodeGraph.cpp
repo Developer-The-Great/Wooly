@@ -19,22 +19,31 @@ namespace PXG
 	}
 	void NodeGraph::generateConnections(std::vector<NodeToPositionContainer>& nodeToPositionContainers)
 	{
-		//for each node 
+
 		for (int i = 0; i < nodes.size()-1; i++)
 		{
 			NodeToPositionContainer firstContainer = nodeToPositionContainers.at(i);
 
 			for (int j=i+1; j < nodes.size();j++)
 			{
-				
 				NodeToPositionContainer secondContainer = nodeToPositionContainers.at(j);
 
-				bool secondContainerValidConnection = firstContainer.node->IsPositionValidConnection(
+				NodeType secondNodeType = secondContainer.node->GetNodeType();
+				NodeType firstNodeType = firstContainer.node->GetNodeType();
+
+				bool  firstContainerValidConnection = firstContainer.node->IsPositionValidConnection(
 					firstContainer.x, firstContainer.y, firstContainer.z,
-					secondContainer.x, secondContainer.y, secondContainer.z
+					secondContainer.x, secondContainer.y, secondContainer.z, 
+					secondNodeType
 				);
 
-				if (secondContainerValidConnection)
+				bool  secondContainerValidConnection = secondContainer.node->IsPositionValidConnection(
+					secondContainer.x, secondContainer.y, secondContainer.z,
+					firstContainer.x, firstContainer.y, firstContainer.z, 
+					firstNodeType
+				);
+
+				if (secondContainerValidConnection && firstContainerValidConnection)
 				{
 					firstContainer.node->AddNewConnection(secondContainer.node.get());
 					secondContainer.node->AddNewConnection(firstContainer.node.get());

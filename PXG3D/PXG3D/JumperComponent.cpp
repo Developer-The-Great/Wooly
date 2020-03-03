@@ -62,7 +62,7 @@ namespace PXG
 
 
 			//speed = (jumpHeight/2.0f - (0.5f * PhysicsEngine::GetGravity() * Mathf::Pow(airTimeGiven, 2.0f))) /airTimeGiven;
-
+			//currentSpeed = speed;
 			airTime = 2* airTimeGiven;
 		}
 
