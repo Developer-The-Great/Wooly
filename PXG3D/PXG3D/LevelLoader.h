@@ -339,11 +339,11 @@ namespace PXG
 								}
 								if (value == "wolf")
 								{
-									auto wolfBehaviourComponent = std::make_shared<WolfBehaviourComponent>(nodeGraph,offset);
+									auto wolfBehaviourComponent = std::make_shared<WolfBehaviourComponent>(offset,mapMovement);
 									child->AddComponent(wolfBehaviourComponent);
 									triggerComp->SetComponent(wolfBehaviourComponent);
 									mapMovement->attach(wolfBehaviourComponent.get());
-
+									
 									child->GetTransform()->translate(Vector3(50, 0, 50));
 									//child->AddComponent(std::make_shared<RotatorComponent>(Vector3(0, 1, 0), 3.0f));
 
