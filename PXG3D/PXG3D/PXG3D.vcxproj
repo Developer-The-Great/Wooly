@@ -145,7 +145,6 @@
     <ClInclude Include="AudioEngine.hpp" />
     <ClInclude Include="AudioSource.h" />
     <ClInclude Include="AxisAngle.h" />
-    <ClInclude Include="BridgeBuildingManifest.h" />
     <ClInclude Include="BridgeComponent.hpp" />
     <ClInclude Include="ButtonComponent.h" />
     <ClInclude Include="CameraComponent.h" />
