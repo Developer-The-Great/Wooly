@@ -62,6 +62,7 @@
     <ClCompile Include="JumperComponent.cpp" />
     <ClCompile Include="AbstractCommand.cpp" />
     <ClCompile Include="GrandpaComponent.cpp" />
+    <ClCompile Include="WolfBehaviourComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractMaterial.h" />
@@ -156,6 +157,7 @@
     <ClInclude Include="AbstractCommand.h" />
     <ClInclude Include="AbstractEventComponent.h" />
     <ClInclude Include="GrandpaComponent.h" />
+    <ClInclude Include="WolfBehaviourComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PXGColor.vert.glsl" />
