@@ -34,6 +34,7 @@ namespace PXG
 
 		bool isJumping = false;;
 		bool isStatic = false;
+		bool isPlayer = false;
 		virtual void onNotify(subject_base * subject_base, subject_base::event_t event) override;
 		//float height = 0;
 	};

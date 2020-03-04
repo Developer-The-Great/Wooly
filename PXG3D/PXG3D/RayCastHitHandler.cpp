@@ -27,6 +27,7 @@ namespace PXG
 					//gen path
 					auto result = FindPath(translatedGraph, startNode, endNode);
 					//check if path is found
+					lastTargetNode = startNode;
 					handleResult(result, endNode);
 				}
 			}
@@ -86,11 +87,14 @@ namespace PXG
 			}
 		}
 	}
-	Node * RayCastHitHandler::getStartNode(Vector3 playerPos)
+	Node * RayCastHitHandler::getStartNode(Vector3 position)
 	{
 		for (auto startNode : nodeGraph->GetNodes())
 		{
-			if (startNode->getPos() == playerPos)
+			Debug::Log("getPos {0} ", startNode->getPos().ToString());
+			Debug::Log("position {0} ", position.ToString());
+
+			if (Mathf::FloatVectorCompare(startNode->getPos() ,position))
 			{
 				return startNode;
 			}

@@ -17,6 +17,11 @@ namespace PXG
 		return glm::abs(a - b) < Epsilon;
 	}
 
+	bool Mathf::FloatVectorCompare(Vector3 a, Vector3 b)
+	{
+		return FloatCompare(a.x, b.x) && FloatCompare(a.y, b.y) && FloatCompare(a.z, b.z);
+	}
+
 	float Mathf::Abs(float x)
 	{
 		return glm::abs(x);
