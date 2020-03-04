@@ -29,7 +29,8 @@ namespace PXG
 		{
 			ON_MOVE,
 			ON_MOVE_START,
-			ON_MOVE_FINISHED
+			ON_MOVE_FINISHED,
+			LATE_ON_MOVE_FINISHED
 		};
 		void interpretDelta(int delta, MovementCommands a, MovementCommands b)
 		{

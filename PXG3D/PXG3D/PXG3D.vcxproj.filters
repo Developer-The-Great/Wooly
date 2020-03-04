@@ -170,6 +170,7 @@
     <ClInclude Include="PlayerRotatorComponent.h" />
     <ClInclude Include="TriggerFactoryComponent.h" />
     <ClInclude Include="CameraRotator.h" />
+    <ClInclude Include="brokenCube.h" />
     <ClInclude Include="AudioLibrary.h" />
   </ItemGroup>
   <ItemGroup>

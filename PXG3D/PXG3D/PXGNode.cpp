@@ -28,12 +28,12 @@ namespace PXG
 
 	void Node::AddNewConnection(Node * newNode)
 	{
-		Debug::Log("NEW CONNECTION");
+		//Debug::Log("NEW CONNECTION");
 		if(!connectedNodes.empty())
 		{
 			if(std::find(connectedNodes.begin(), connectedNodes.end(), newNode) !=connectedNodes.end())
 			{
-				Debug::Log("Node already contains Node trying to add");
+				//Debug::Log("Node already contains Node trying to add");
 			}
 			else
 			{

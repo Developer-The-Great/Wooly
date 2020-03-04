@@ -24,6 +24,8 @@ namespace PXG
 					if (Mathf::Abs(thisPos.x - sheepPos.x) ==0 || Mathf::Abs(thisPos.z - sheepPos.z) ==0)
 					{
 						Debug::Log("WON");
+						sheep->GetMeshComponent()->SetActive(false);
+					//	sheep->GetComponent<TriggerComponent>()->getNodePos();
 					}
 				}
 			}

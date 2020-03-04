@@ -10,6 +10,7 @@
 #include "RayCastHitHandler.h"
 #include "GLMHeaders.h"
 #include "Mathf.h"
+#include "brokenCube.h"
 namespace PXG
 {
 	class TriggerComponent :public Component, public subscriber_base
@@ -31,12 +32,15 @@ namespace PXG
 		Vector3 getForward() { return tempForward; };
 		float oldAngle = 0;
 		Quaternion oldRot = Quaternion(0, 0, 0, 0);
+		virtual void FixedUpdate(float tick) override;
+
 	private:
 
 		Vector3 tempForward;
 		std::shared_ptr<AbstractEventComponent> component;
 		std::shared_ptr<NodeGraph> nodeGraph;
 		Vector3 nodePos;
+		bool isfalling = false;
 	};
 }
 

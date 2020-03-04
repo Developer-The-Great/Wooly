@@ -19,7 +19,7 @@ namespace PXG
 
 		virtual void FixedUpdate(float tick) override;
 
-
+		void SetActive(bool condition) { isActive = condition; };
 		virtual const HitInfo& GetLastHit() const
 		{
 			return lastHit;
@@ -27,6 +27,7 @@ namespace PXG
 
 	private:
 		HitInfo lastHit;
+		bool isActive = false;
 	};
 }
 
