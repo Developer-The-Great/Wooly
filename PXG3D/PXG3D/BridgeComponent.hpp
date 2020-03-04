@@ -43,12 +43,15 @@ namespace PXG
 			time -= tick * 2;
 			time = Mathf::Clamp(time, -glm::pi<float>() /2,0);
 
+
+			const Quaternion __hack_do_not_look_at_it{ glm::angleAxis(glm::pi<float>(),glm::vec3{0,1,0}) };
+
 			auto tau = 1;
 			
 			if (transform)
 			{
-				auto q = glm::angleAxis(Mathf::Lerp(0, tau, time), glm::vec3{ 1,0,0 });
-				transform->SetRotation(Quaternion{ q }.Normalized());
+				auto q = glm::angleAxis(-Mathf::Lerp(0, tau, time), glm::vec3{ 1,0,0 });
+				transform->SetRotation(Quaternion{ q }.Normalized() * __hack_do_not_look_at_it);
 				notify(ON_BRIDGE_DOWN);
 			}
 			if(time == 1)

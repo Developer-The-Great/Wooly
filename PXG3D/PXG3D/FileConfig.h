@@ -20,7 +20,7 @@ namespace PXG
 
 		const std::string PXG_FONT_PATH("assets/fonts/");
 
-		const std::string PXG_SOUND_FILE("assets/sound/");
+		const std::string PXG_SOUND_PATH("assets/sound/");
 
 	}
 }
