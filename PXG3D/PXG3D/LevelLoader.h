@@ -18,7 +18,8 @@
 #include "FollowPlayerComponent.h"
 #include "TriggerComponent.h"
 #include "JumperComponent.h"
-
+#include "RotatorComponent.h"
+#include <map>
 #include <memory>
 
 #include "BridgeComponent.hpp"
@@ -37,7 +38,7 @@ namespace PXG
 			Debug::Log(Verbosity::Error, "encountered an object with invalid position, not enough elements");
 			throw std::runtime_error("Invalid conversion from array to V3");
 		}
-		
+
 		Vector3 result;
 		for (int i = 0; i < 3; ++i)
 		{
@@ -53,7 +54,7 @@ namespace PXG
 	}
 
 
-	
+
 	class LevelLoader : public Component
 	{
 
@@ -203,7 +204,7 @@ namespace PXG
 		}
 		
 
-		void LoadLevel(std::ifstream& file, Game* game, std::shared_ptr<NodeGraph> nodeGraph,std::vector<NodeToPositionContainer>& nodeToPositionContainer,
+		void LoadLevel(std::ifstream& file, Game* game, std::shared_ptr<NodeGraph> nodeGraph, std::vector<NodeToPositionContainer>& nodeToPositionContainer,
 			std::shared_ptr<MapMovementComponent> mapMovement)
 		{
 			using json = nlohmann::json;
@@ -263,7 +264,7 @@ namespace PXG
 
 				std::shared_ptr<TileMetaData> metaData = std::make_shared<TileMetaData>();
 
-				
+
 
 				//check if there is meta-data to add
 				if (tile["meta-data"].is_object())
@@ -282,11 +283,16 @@ namespace PXG
 							newNode->initNode(offset);
 							nodeGraph->AddNewNode(newNode.get());
 
+							NodeToPositionContainer container;
+							container.node = newNode;
+							container.x = offset.x;
+							container.y = offset.y;
+							container.z = offset.z;
+
 							NodeToPositionContainer container{offset,newNode};
 							nodeToPositionContainer.push_back(container);
 							child->AddComponent(newNode);
 							
-
 							for (auto[key, value] : value.items())
 							{
 								if (key == "ramp" && value.is_object())
@@ -306,7 +312,7 @@ namespace PXG
 											Vector3 dir = extractV3(value);
 											dir.Normalize();
 											newNode->SetLadderConnectionDirection(dir);
-											
+
 										}
 
 										if (key == "rotateWorldY")
@@ -414,7 +420,7 @@ namespace PXG
 							for (auto node : nodeGraph->GetNodes())
 							{
 								Vector3 pos = Vector3(offset.x, offset.y - 1, offset.z);
-								if(pos==node->getPos())
+								if (pos == node->getPos())
 								{
 									Debug::Log("found node below object with behaviour");
 									node->SetNodeWeight(2000);
@@ -429,7 +435,8 @@ namespace PXG
 								triggerComp->SetNodePos(nodePos);
 								triggerComp->SetNodeGraph(nodeGraph);
 								triggerComp->subscribe(*mapMovement);
-								
+
+
 								if (value == "followPlayer")
 								{
 									auto followPlayer = std::make_shared<FollowPlayerComponent>();
@@ -441,6 +448,10 @@ namespace PXG
 									mapMovement->attach(jumpComp.get());
 									jumpComp->IsStatic(true);
 									sheepVector.push_back(child);
+									auto rotator = std::make_shared<RotatorComponent>(Vector3(0, 1, 0), 0.5f);
+									//child->AddComponent(rotator);
+									child->GetTransform()->translate(Vector3(50, 0, 50));
+									triggerComp->onNotify(mapMovement.get(), MapMovementComponent::ON_MOVE_FINISHED);
 								}
 								if (value == "grandpa")
 								{
@@ -449,27 +460,27 @@ namespace PXG
 									child->AddComponent(grandpaComp);
 									triggerComp->SetComponent(grandpaComp);
 									mapMovement->attach(grandpaComp.get());
-									for (auto sheep : sheepVector )
+									for (auto sheep : sheepVector)
 									{
 										grandpaComp->AddGameObject(sheep);
 									}
 									//grandpaComp->AddGameObject()
 								}
-						/*		if (value == "movable")
-								{
-									auto rockPush = std::make_shared < RockPushComponent>();
-									child->AddComponent(rockPush);
-									triggerComp->SetComponent(rockPush);
-								}
-								if (value == "attackSheep")
-								{
+								/*		if (value == "movable")
+										{
+											auto rockPush = std::make_shared < RockPushComponent>();
+											child->AddComponent(rockPush);
+											triggerComp->SetComponent(rockPush);
+										}
+										if (value == "attackSheep")
+										{
 
-								}
-								if (value == "trigger")
-								{
+										}
+										if (value == "trigger")
+										{
 
-								}*/
-							
+										}*/
+
 							}
 						}
 						metaData->metaData[key] = value.get<std::string>();

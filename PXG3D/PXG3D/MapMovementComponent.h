@@ -83,8 +83,10 @@ namespace PXG
 		void SetMap(std::shared_ptr<GameObject> newMap);
 		void Reset() const;
 		void AddOtherObjectToMove(std::shared_ptr<GameObject> newObject);
+		void AddSheep(std::shared_ptr<GameObject> newObject);
+		Vector3 currentDir = Vector3{ 0,0,0 };
 	private:
-		bool move(PXG::Vector3 direction, bool restart, float factor, float tick);
+		bool move(PXG::Vector3 direction, bool restart, float factor, float tick, MovementCommands command);
 		std::shared_ptr<GameObject> map;
 
 		Vector3 offset = { 0,0,0 };
@@ -92,7 +94,9 @@ namespace PXG
 		Vector3 tempPlayerPos = { 0,0,0 };
 		Vector3 tempOffset = { 0,0,0 };
 		Vector3 tempNodePos = { 0,0,0 };
-
+		Vector3 lastSheepPos = { 0,0,0 };
+		Vector3 previousDir = { 0,0,0 };
+		std::vector<std::shared_ptr<GameObject>> sheeps;
 		std::vector<std::shared_ptr<GameObject>> otherObjectsToMove;
 		std::deque<MovementCommands> commandQueue;
 		virtual void onNotify(subject_base * subject_base, subject_base::event_t event) override;
