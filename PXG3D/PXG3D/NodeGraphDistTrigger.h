@@ -77,6 +77,11 @@ namespace PXG
 	public:
 
 
+		void SetImpl(std::shared_ptr<NodeGraphDistTrigger> impl)
+		{
+			m_impl = impl;
+		}
+		
 		void Start() override
 		{
 			auto [ manifestResult,manifestMessage] = Manifest(*owner.lock());
@@ -86,6 +91,10 @@ namespace PXG
 		
 		std::pair<bool,std::string> Manifest(GameObject& receiver)
 		{
+			if(m_impl)
+			{
+				return { true,"already Satisfied" };
+			}
 			if (receiver.HasComponent<NodeGraphDistTrigger>())
 			{
 				m_impl = receiver.GetComponent<NodeGraphDistTrigger>();
@@ -108,7 +117,10 @@ namespace PXG
 				for(auto& node : m_impl->GetNodeGraph())
 				{
 					if (node.GetRealNode()->getPos() == mmc->getOffset())
+					{
 						start = node.GetRealNode();
+						break;
+					}
 				}
 				if (start == nullptr)
 					Debug::Log(Verbosity::Error, "Player position was not part of node graph!");

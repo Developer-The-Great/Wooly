@@ -29,6 +29,11 @@ namespace PXG
 		}
 
 		void ClearTextures(int i);
+		void DisableRender(bool cond)
+		{
+			cease_rendering = cond;
+		}
+		
 		MeshComponent();
 
 		void Draw(Mat4 parentTransform, Mat4 view, Mat4 projection);
@@ -59,6 +64,8 @@ namespace PXG
 		std::vector<Texture> texturesLoaded;
 
 		std::shared_ptr<AbstractMaterial> material;
+
+		bool cease_rendering = false;
 
 
 	};

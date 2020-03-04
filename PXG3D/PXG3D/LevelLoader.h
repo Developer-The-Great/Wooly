@@ -17,13 +17,15 @@
 #include "NodeGraph.h"
 #include "FollowPlayerComponent.h"
 #include "TriggerComponent.h"
-#include "RockPushComponent.h"
-#include "RotatorComponent.h"
 #include "JumperComponent.h"
 
-#include <map>
 #include <memory>
+
+#include "BridgeComponent.hpp"
 #include "GrandpaComponent.h"
+#include "NodeClearComponent.h"
+#include "TriggerFactoryComponent.h"
+
 namespace PXG
 {
 
@@ -59,6 +61,147 @@ namespace PXG
 		void Start() override {}
 		void FixedUpdate(float tick) override {}
 
+		void HandleBridge(GameObj child,const nlohmann::json& value,Vector3 offset,Game* game,
+			std::shared_ptr<NodeGraph> nodeGraph, std::vector<NodeToPositionContainer>& nodeToPositionContainer)
+		{
+			child->name = "bridge";
+
+			//iterate over the keys in the bridge object
+			for (auto [bridge_key, bridge_values] : value.items())
+			{
+				std::shared_ptr<BridgeComponent> comp;
+
+				std::shared_ptr<NodeClearComponent> listener1, listener2;
+
+				
+
+				
+				if(bridge_key == "trigger")
+				{
+
+					comp = std::make_shared<BridgeComponent>();
+					
+					child->AddComponent(comp);
+					comp->AddListener(Trigger::ON_TRIGGER_RAISED);
+					TriggerFactoryComponent::ConnectTrigger(bridge_values.get<std::string>(), comp);
+				}
+				
+				//check if the orientation key is present
+				if (bridge_key == "orientation")
+				{
+
+					//extract the rotation
+					float rotation = bridge_values.get<float>();
+
+					//rotate according to the rotation
+					child->GetTransform()->rotate(Vector3(0, 1, 0), rotation);
+					
+
+
+					//normalize the rotation
+					while (rotation < 0)
+						rotation += 360;
+					while (rotation >= 360)
+						rotation -= 360;
+
+
+					//delcare directions based on rotation
+					const Vector3 fwd = Vector3{ 0,0,-1 };
+					const Vector3 bwd = -fwd;
+					const Vector3 lft = Vector3{ 1,0,0 };
+					const Vector3 rgt = -lft;
+
+					const Vector3 dwn = Vector3{ 0,-1,0 };
+
+
+					//create the two new ghost nodes
+					std::array<GameObj, 2> cot;
+
+					auto& hidden1 = cot[0];
+					auto& hidden2 = cot[1];
+
+					//do initial setup on them
+					for (auto& h : cot)
+					{
+						h = game->Instantiate();
+						h->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + "cube_empty.obj");
+						h->GetMeshComponent()->SetMaterial(std::make_shared<TextureMaterial>());
+						h->GetMeshComponent()->AddTextureToMeshAt({ config::PXG_INDEPENDENT_TEXTURES_PATH + "alpha256x256.png", TextureType::DIFFUSE }, 0);
+						h->GetMeshComponent()->DisableRender(true);
+						
+						
+						h->GetPhysicsComponent()->ConstructCollisionCube(CollisionCubeParams{ {0,0,0},0,0,1 });
+						h->GetTransform()->Scale(glm::vec3{ Tile::WORLD_SCALE });
+
+						GetOwner()->AddToChildren(h);
+
+					}
+
+					auto helper = [&](const Vector3 direction)
+					{
+						//create meta-data for the new ghost tile
+						auto mdata1 = std::make_shared<TileMetaData>();
+
+						//set the position
+						mdata1->offset = offset + direction + dwn;
+						hidden1->SetLocalPosition((offset * Tile::SIZE) + (direction + dwn) * Tile::SIZE- Tile::CENTER_OFFSET);
+
+						//add the metadata to the node
+						hidden1->AddComponent(mdata1);
+						listener1 = std::make_shared<NodeClearComponent>();
+						hidden1->AddComponent(listener1);
+
+
+						//repeat for tile 2
+						auto mdata2 = std::make_shared<TileMetaData>();
+						mdata2->offset = offset + direction * 2 + dwn;
+						hidden2->SetLocalPosition((offset * Tile::SIZE) + (direction * 2 + dwn) * Tile::SIZE - Tile::CENTER_OFFSET);
+						hidden2->AddComponent(mdata2);
+
+						listener2 = std::make_shared<NodeClearComponent>();
+						hidden2->AddComponent(listener2);
+
+					};
+
+
+					//check all possible rotations steps
+					if (rotation >= 0 && rotation < 90)
+						helper(fwd);
+					else if (rotation >= 90 && rotation < 180)
+						helper(lft);
+					else if (rotation >= 180 && rotation < 270)
+						helper(bwd);
+					else if (rotation >= 270 && rotation < 360)
+						helper(rgt);
+
+
+					for (auto& h : cot)
+					{
+
+						//make a new node for the hidden object
+						auto node = std::make_shared<Node>();
+						TileMetaData& mdat = *h->GetComponent<TileMetaData>();
+						//initialize it with the offset
+						node->initNode(mdat.offset);
+						node->SetNodeWeight(BLOCKED_REALM(1));
+
+						nodeGraph->AddNewNode(node.get());
+						h->AddComponent(node);
+						nodeToPositionContainer.emplace_back(mdat.offset, node);
+					}
+
+					if(listener1 && listener2 && comp)
+					{
+						listener1->AddListener(comp->ON_BRIDGE_DOWN);
+						listener2->AddListener(comp->ON_BRIDGE_DOWN);
+
+						listener1->subscribe(*comp);
+						listener2->subscribe(*comp);
+					}
+				}
+			}
+		}
+		
 
 		void LoadLevel(std::ifstream& file, Game* game, std::shared_ptr<NodeGraph> nodeGraph,std::vector<NodeToPositionContainer>& nodeToPositionContainer,
 			std::shared_ptr<MapMovementComponent> mapMovement)
@@ -67,10 +210,6 @@ namespace PXG
 
 			json config;
 			file >> config;
-
-
-
-			auto material = std::make_shared<TextureMaterial>();
 
 			//--------------------------------------------- Iterate through tiles ------------------------------------//
 
@@ -106,10 +245,9 @@ namespace PXG
 
 				//load the model
 				child->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + tile["model"].get<std::string>());
-				child->GetMeshComponent()->SetMaterial(material);
+				child->GetMeshComponent()->SetMaterial(std::make_shared<TextureMaterial>());
 
 				//create physics representation 
-
 				CollisionCubeParams cubeParams;
 				cubeParams.heightFromMin = 1;
 
@@ -141,16 +279,12 @@ namespace PXG
 							Debug::Log("found Node");
 							//create Node 
 							auto newNode = std::make_shared<Node>();
-							int weight = 1;
 							newNode->initNode(offset);
 							nodeGraph->AddNewNode(newNode.get());
 
-							NodeToPositionContainer container;
-							container.node = newNode;
-							container.x = offset.x;
-							container.y = offset.y;
-							container.z = offset.z;
-
+							NodeToPositionContainer container{offset,newNode};
+							nodeToPositionContainer.push_back(container);
+							child->AddComponent(newNode);
 							
 
 							for (auto[key, value] : value.items())
@@ -177,28 +311,35 @@ namespace PXG
 
 										if (key == "rotateWorldY")
 										{
-											float yRotateAmount = value.get<float>();
+											const float yRotateAmount = value.get<float>();
 
 											child->GetTransform()->rotate(Vector3(0, 1, 0), yRotateAmount);
-
 										}
-
-
 									}
 								}
 
-
+							
 							}
-							nodeToPositionContainer.push_back(container);
-							child->AddComponent(newNode);
+						
 							continue;
 						}
-
+						//check if we are dealing with a bridge
+						if (key == "bridge" && value.is_object())
+						{
+							HandleBridge(child, value, offset, game, nodeGraph, nodeToPositionContainer);
+							continue;
+						}
 						if (!value.is_string())
 						{
 							Debug::Log(Verbosity::Error, "invalid meta-data in object , value was not string");
 							continue;
 						}
+
+						if(key == "is_trigger")
+						{
+							child->AddComponent(TriggerFactoryComponent::CreateTrigger(value.get<std::string>()));
+						}
+						
 						metaData->metaData[key] = value.get<std::string>();
 					}
 				}
@@ -233,24 +374,8 @@ namespace PXG
 					Debug::Log(Verbosity::Error, "encountered object with invalid data!, abort loading");
 					continue;
 				}
-				Vector3 offset;
-				//check if the position field has enough entries
-				if (otherObjects["position"].size() < 3)
-				{
-					Debug::Log(Verbosity::Error, "encountered an object with invalid position, not enough elements");
-					continue;
-				}
-				//load the position field and make sure they are numbers 
-				for (int i = 0; i < 3; ++i)
-				{
-					if (!otherObjects["position"][i].is_number())
-					{
-						Debug::Log(Verbosity::Error, "encountered an object with invalid position, element was not a number!");
-						continue;
-					}
-					const auto dp = otherObjects["position"][i].get<float>();
-					offset[i] = dp;
-				}
+				Vector3 offset = extractV3(otherObjects["position"]);
+				
 				Debug::Log("{}", offset.ToString());
 
 
@@ -263,7 +388,7 @@ namespace PXG
 
 				//load the model
 				child->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + otherObjects["model"].get<std::string>());
-				child->GetMeshComponent()->SetMaterial(material);
+				child->GetMeshComponent()->SetMaterial(std::make_shared<TextureMaterial>());
 
 				//create physics representation 
 				//child->GetPhysicsComponent()->ConstructPhysicsRepresentationFromMeshComponent();

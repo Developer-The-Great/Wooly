@@ -147,24 +147,15 @@ namespace PXG
 		auto jumper = std::make_shared<JumperComponent>();
 		mapMovement->attach(jumper.get());
 
+		auto Background = MakeChild("bg");
+		Background->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + "plane.obj");
+		Background->GetMeshComponent()->AddTextureToMeshAt({ config::PXG_INDEPENDENT_TEXTURES_PATH + "bg-image.png", TextureType::DIFFUSE }, 0);
+		Background->GetMeshComponent()->SetMaterial(std::make_shared<TextureMaterial>());
+		Background->GetTransform()->Scale(glm::vec3{ 800,0,600 });
+		Background->GetTransform()->rotate(Vector3(1, 0, 0), 70.0f);
+		Background->GetTransform()->rotate(Vector3(0, 1, 0), 45);
+		Background->GetTransform()->SetLocalPosition({ -600,0,-600 });
 
-
-		GameObj Bridge = Instantiate();
-
-		Bridge->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + "bridge-rot.obj");
-		Bridge->GetMeshComponent()->AddTextureToMeshAt({ config::PXG_INDEPENDENT_TEXTURES_PATH + "bridge.png",TextureType::DIFFUSE }, 0);
-		Bridge->GetTransform()->SetLocalPosition({ 0,100,0 });
-
-
-		auto bcomp = std::make_shared<BridgeComponent>();
-
-		Bridge->AddComponent(bcomp);
-
-
-
-		Bridge->GetTransform()->Scale(glm::vec3{ 100 });
-		Bridge->GetMeshComponent()->SetMaterial(std::make_shared<TextureMaterial>());
-		TileMap->AddToChildren(Bridge);
 		
 		
 		Player->AddComponent(jumper);
@@ -205,8 +196,7 @@ namespace PXG
 
 		rayCastHandler->setNodeGraph(nodeGraph);
 
-		
-		auto onClickTrigger = std::make_shared<OnClickTrigger>();
+		/*		auto onClickTrigger = std::make_shared<OnClickTrigger>();
 		auto nodeGraphDistTrigger = std::make_shared<NodeGraphDistTrigger>(*rayCastHandler);
 
 		auto compoundTrigger = std::make_shared<CompoundDistanceOnClickTrigger>(onClickTrigger, nodeGraphDistTrigger);
@@ -249,6 +239,10 @@ namespace PXG
 		bcomp->AddListener(compoundTrigger->ON_TRIGGER_RAISED);
 		
 		Player->AddComponent(logger);
+		*/
+
+		TriggerFactoryComponent::Build(Player, raycaster, rayCastHandler, mapMovement);
+		
 
 	}
 

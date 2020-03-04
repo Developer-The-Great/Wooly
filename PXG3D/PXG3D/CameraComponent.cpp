@@ -1,6 +1,8 @@
 #include "CameraComponent.h"
 #include "GameObject.h"
 #include <memory>
+
+#include "ScreenSize.h"
 #include "World.h"
 
 namespace PXG
@@ -11,8 +13,8 @@ namespace PXG
 		bool hasOwner = !owner.expired();
 		Debug::Log("owner use {0}", owner.use_count());
 		//glm::ortho(-400.0f, 400.0f, -300.0f, 300.0f, 0.000f, 100000000.0f);
-		//glm::perspective(glm::radians(60.0f), 4.0f / 3.0f, 0.1f, 1000.0f);
-		projection = glm::ortho(-400.0f, 400.0f, -300.0f, 300.0f, 0.000f, 100000000.0f);
+		//projection = glm::perspective(glm::radians(60.0f), 4.0f / 3.0f, 0.1f, 100000.0f);
+		projection = glm::ortho(-ScreenSize::WIDTH/2, ScreenSize::WIDTH / 2, -ScreenSize::HEIGHT / 2, ScreenSize::HEIGHT / 2, 0.000f, 100000000.0f);
 	}
 	CameraComponent::~CameraComponent()
 	{

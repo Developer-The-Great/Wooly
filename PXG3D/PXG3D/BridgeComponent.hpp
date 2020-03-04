@@ -5,7 +5,6 @@
 #include "Subscriber.h"
 #include "Transform.h"
 #include "glm/gtc/quaternion.hpp"
-#include "glm/gtx/quaternion.hpp"
 
 
 namespace PXG
@@ -41,8 +40,6 @@ namespace PXG
 			
 			auto transform = GetOwnerTransform();
 
-			static float time = 0;
-
 			time -= tick * 2;
 			time = Mathf::Clamp(time, -glm::pi<float>() /2,0);
 
@@ -55,13 +52,10 @@ namespace PXG
 				notify(ON_BRIDGE_DOWN);
 			}
 			if(time == 1)
-				m_isDown = true;
-
-
-			
+				m_isDown = true;	
 		}
 	private:
-
+		float time = 0;
 		bool m_goDown = false;
 		bool m_isDown = false;
 
