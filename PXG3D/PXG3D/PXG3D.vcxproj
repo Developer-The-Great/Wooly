@@ -146,6 +146,7 @@
     <ClInclude Include="AudioEngine.hpp" />
     <ClInclude Include="AudioSource.h" />
     <ClInclude Include="AxisAngle.h" />
+    <ClInclude Include="BridgeBuildingManifest.h" />
     <ClInclude Include="BridgeComponent.hpp" />
     <ClInclude Include="ButtonComponent.h" />
     <ClInclude Include="CameraComponent.h" />
@@ -183,6 +184,7 @@
     <ClInclude Include="LerpMovementCommand.h" />
     <ClInclude Include="LevelLoader.h" />
     <ClInclude Include="AbstractMovementCommand.h" />
+    <ClInclude Include="NodeClearComponent.h" />
     <ClInclude Include="NodeGraph.h" />
     <ClInclude Include="NodeGraphDistTrigger.h" />
     <ClInclude Include="NodeToPositionContainer.h" />
@@ -228,6 +230,7 @@
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Trigger.h" />
     <ClInclude Include="TriggerComponent.h" />
+    <ClInclude Include="TriggerFactoryComponent.h" />
     <ClInclude Include="UIObject.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Vector2.h" />

@@ -8,6 +8,7 @@
 #include "CameraComponent.h"
 #include "KeyCode.h"
 #include "PXGNode.h"
+#include "ScreenSize.h"
 
 namespace PXG
 {
@@ -30,7 +31,7 @@ namespace PXG
 		float x = Input::GetMouseX();
 		float y = Input::GetMouseY();
 
-		Vector3 position = PhysicsEngine::GetOrthographicCameraWorldPosition(x, y, 800.0f, 600.0f, GetOwner());
+		Vector3 position = PhysicsEngine::GetOrthographicCameraWorldPosition(x, y, ScreenSize::WIDTH, ScreenSize::HEIGHT, GetOwner());
 
 		PhysicsEngine::Raycast(position, forward, info, GetOwner()->GetWorld().lock());
 

@@ -370,6 +370,8 @@ namespace PXG {
                 {
                     info.GameObjectHit->GetMeshComponent()->ClearTextures(0);
                 	info.GameObjectHit->GetMeshComponent()->AddTextureToMeshAt({ current_texture,TextureType::DIFFUSE }, 0);
+                    info.GameObjectHit->GetComponent<TileData>()->texture = std::filesystem::path(current_texture).filename().string();
+                	
                     show_newBlockWindow = false;
                 }
                 if( info.GameObjectHit && 

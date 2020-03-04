@@ -7,7 +7,7 @@
             "meta-data":
             {
                 "node":
-                { 
+                {
                 }
             }
         },
@@ -18,7 +18,7 @@
             "meta-data":
             {
                 "node":
-                { 
+                {
                 }
             }
         },
@@ -29,7 +29,7 @@
             "meta-data":
             {
                 "node":
-                { 
+                {
                 }
             }
         },
@@ -40,8 +40,10 @@
             "meta-data":
             {
                 "node":
-                { 
-                }
+                {
+                },
+                "is_trigger": "bridge_trigger_01"
+
             }
         },
         {
@@ -51,8 +53,9 @@
             "meta-data":
             {
                 "node":
-                { 
-                }
+                {
+                },
+                "is_trigger": "bridge_trigger_02"
             }
         },
         {
@@ -62,7 +65,7 @@
             "meta-data":
             {
                 "node":
-                { 
+                {
                 }
             }
         },
@@ -73,7 +76,7 @@
             "meta-data":
             {
                 "node":
-                { 
+                {
                 }
             }
         }
@@ -85,11 +88,11 @@
             "meta-data":
             {
                 "node":
-                { 
+                {
                 }
             }
         },
-        
+
         {
             "position": [-1,1,1],
             "model" : "SmallLadder.obj",
@@ -97,7 +100,7 @@
             "meta-data":
             {
                 "node":
-                { 
+                {
                     "ladder":
                     {
                         "direction"  : [-1,0,0]
@@ -105,7 +108,7 @@
                 }
             }
         },
-        
+
         {
             "position": [-1,2,1],
             "model" : "SmallLadder.obj",
@@ -113,7 +116,7 @@
             "meta-data":
             {
                 "node":
-                { 
+                {
                     "ladder":
                     {
                         "direction"  : [-1,0,0]
@@ -121,14 +124,13 @@
                 }
             }
         },
-        
+
         {
             "position": [-2,1,1],
             "model" : "grass.obj",
             "texture": "dirt_and_grass.png",
             "meta-data":
             {
-
             }
         },
         {
@@ -138,7 +140,7 @@
             "meta-data":
             {
                 "node":
-                { 
+                {
                 }
             }
         },
@@ -149,12 +151,32 @@
             "meta-data":
             {
                 "node":
-                { 
+                {
+                }
+            }
+        },
+        {
+            "position":[0,1,0],
+            "model" : "bridge-rot.obj",
+            "texture" : "bridge.png",
+            "meta-data" :{
+                "bridge" : {
+                    "trigger": "bridge_trigger_01",
+                    "orientation" : 0.0
+                }
+            }
+        },
+        {
+            "position":[1,1,0],
+            "model" : "bridge-rot.obj",
+            "texture" : "bridge.png",
+            "meta-data" :{
+                "bridge" : {
+                    "trigger": "bridge_trigger_02",
+                    "orientation" : 0.0
                 }
             }
         }
-
-
     ],
     "OtherObjects":
     [
@@ -178,7 +200,4 @@
         }
 
     ]
-    
-    
-
 }
