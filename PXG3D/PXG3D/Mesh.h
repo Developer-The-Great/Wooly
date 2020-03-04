@@ -23,7 +23,7 @@ namespace PXG
 		{
 			std::copy(other.Indices.begin(), other.Indices.end(), std::back_inserter(Indices));
 			std::copy(other.Vertices.begin(), other.Vertices.end(), std::back_inserter(Vertices));
-			std::copy(other.Textures.begin(), other.Textures.end(), std::back_inserter(Textures));
+		//	std::copy(other.Textures.begin(), other.Textures.end(), std::back_inserter(Textures));
 
 			SetupMesh();
 		}

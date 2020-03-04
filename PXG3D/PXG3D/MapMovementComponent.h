@@ -15,7 +15,7 @@ namespace PXG
 {
 	class NodeGraph;
 
-	class MapMovementComponent : public Component, public subscriber_base, public subject_base
+	class MapMovementComponent : public Component, public subject_base
 	{
 		
 	public:
@@ -28,11 +28,12 @@ namespace PXG
 			LEFT,
 			RIGHT
 		};
-		enum event : event_t
+		enum event : subject_base::event_t
 		{
 			ON_MOVE,
 			ON_MOVE_START,
-			ON_MOVE_FINISHED
+			ON_MOVE_FINISHED,
+			LATE_ON_MOVE_FINISHED
 		};
 		void interpretDelta(int delta, MovementCommands a, MovementCommands b)
 		{
@@ -106,6 +107,17 @@ namespace PXG
 		Vector3 getOldOffset() const { return oldOffset; };
 		Vector3 getTempNodePos() const { return tempNodePos; }
 
+
+		void overrideOffset(Vector3 off)
+		{
+			offset = off;
+		}
+		
+		void pushCommand(MovementCommands command)
+		{
+			commandQueue.push_back(command);
+		}
+
 		void Start() override;
 		void FixedUpdate(float tick) override;
 		void SetMap(std::shared_ptr<GameObject> newMap);
@@ -124,7 +136,7 @@ namespace PXG
 		bool move(PXG::Vector3 direction, bool restart, float factor, float tick, MovementCommands command);
 		std::shared_ptr<GameObject> map;
 
-		Vector3 offset = { 0,0,0 };
+		Vector3 offset = { 0,0,-2 };
 		Vector3 oldOffset = { 0,0,0 };
 		Vector3 tempPlayerPos = { 0,0,0 };
 		Vector3 tempOffset = { 0,0,0 };
@@ -134,6 +146,7 @@ namespace PXG
 		std::vector<std::shared_ptr<GameObject>> sheeps;
 		std::vector<std::shared_ptr<GameObject>> otherObjectsToMove;
 		std::deque<MovementCommands> commandQueue;
+
 		virtual void onNotify(subject_base * subject_base, subject_base::event_t event) override;
 
 		std::shared_ptr<NodeGraph> nodeGraph = nullptr;

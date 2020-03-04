@@ -25,7 +25,7 @@
 
 #include <map>
 #include <memory>
-
+#include "brokenCube.h"
 #include "BridgeComponent.hpp"
 #include "GrandpaComponent.h"
 #include "NodeClearComponent.h"
@@ -77,8 +77,6 @@ namespace PXG
 				std::shared_ptr<BridgeComponent> comp;
 
 				std::shared_ptr<NodeClearComponent> listener1, listener2;
-
-				
 
 				
 				if(bridge_key == "trigger")
@@ -168,6 +166,32 @@ namespace PXG
 
 					};
 
+					auto helper2 = [&](const Vector3 direction)
+					{
+						//create meta-data for the new ghost tile
+						auto mdata1 = std::make_shared<TileMetaData>();
+
+						//set the position
+						mdata1->offset = offset + (dwn + Vector3{ -direction.z,0,direction.x });
+						hidden1->SetLocalPosition((offset * Tile::SIZE) + (dwn + Vector3{ -direction.z,0,direction.x }) *Tile::SIZE - Tile::CENTER_OFFSET);
+
+						//add the metadata to the node
+						hidden1->AddComponent(mdata1);
+						listener1 = std::make_shared<NodeClearComponent>();
+						hidden1->AddComponent(listener1);
+
+
+						//repeat for tile 2
+						auto mdata2 = std::make_shared<TileMetaData>();
+						mdata2->offset = offset + (direction + dwn + Vector3{ -direction.z,0,direction.x });
+						hidden2->SetLocalPosition((offset * Tile::SIZE) + (direction + dwn + Vector3{ -direction.z,0,direction.x })* Tile::SIZE - Tile::CENTER_OFFSET);
+						hidden2->AddComponent(mdata2);
+
+						listener2 = std::make_shared<NodeClearComponent>();
+						hidden2->AddComponent(listener2);
+
+					};
+					
 
 					//check all possible rotations steps
 					if (rotation >= 0 && rotation < 90)
@@ -175,9 +199,9 @@ namespace PXG
 					else if (rotation >= 90 && rotation < 180)
 						helper(lft);
 					else if (rotation >= 180 && rotation < 270)
-						helper(bwd);
+						helper2(bwd);
 					else if (rotation >= 270 && rotation < 360)
-						helper(rgt);
+						helper2(rgt);
 
 
 					for (auto& h : cot)
@@ -209,7 +233,7 @@ namespace PXG
 		
 
 		void LoadLevel(std::ifstream& file, Game* game, std::shared_ptr<NodeGraph> nodeGraph, std::vector<NodeToPositionContainer>& nodeToPositionContainer,
-			std::shared_ptr<MapMovementComponent> mapMovement)
+			std::shared_ptr<MapMovementComponent> mapMovement, std::shared_ptr<RayCastHitHandler> rayCaster)
 		{
 
 			mapMovement->SetNodeGraph(nodeGraph);
@@ -221,6 +245,8 @@ namespace PXG
 
 			json config;
 			file >> config;
+			auto cube = std::shared_ptr<brokenCube>();
+
 
 			//--------------------------------------------- Iterate through tiles ------------------------------------//
 
@@ -244,7 +270,7 @@ namespace PXG
 
 				Vector3 offset = extractV3(tile["position"]);
 
-				Debug::Log("{}", offset.ToString());
+				//Debug::Log("{}", offset.ToString());
 
 
 				//create a game-object
@@ -279,7 +305,7 @@ namespace PXG
 				//check if there is meta-data to add
 				if (tile["meta-data"].is_object())
 				{
-					Debug::Log(Verbosity::Info, "encountered object with attached meta-data!");
+					//Debug::Log(Verbosity::Info, "encountered object with attached meta-data!");
 
 					for (auto[key, value] : tile["meta-data"].items())
 					{
@@ -287,16 +313,14 @@ namespace PXG
 						//check if the meta-data is a node
 						if (key == "node" && value.is_object())
 						{
-							Debug::Log("found Node");
+						//	Debug::Log("found Node");
 							//create Node 
 							auto newNode = std::make_shared<Node>();
 							newNode->initNode(offset);
 							nodeGraph->AddNewNode(newNode.get());
 
 							NodeToPositionContainer container{ offset,newNode };
-					
 
-							
 							nodeToPositionContainer.push_back(container);
 							child->AddComponent(newNode);
 							
@@ -352,6 +376,18 @@ namespace PXG
 						{
 							child->AddComponent(TriggerFactoryComponent::CreateTrigger(value.get<std::string>()));
 						}
+						if(key =="is_broken")
+						{
+							cube= std::make_shared<brokenCube>();
+
+							cube->map = mapMovement;
+						//	cube->ray = rayCaster;
+							cube->graph = nodeGraph;
+							child->AddComponent(cube);
+							mapMovement->attach(cube.get());
+
+
+						}
 						
 						metaData->metaData[key] = value.get<std::string>();
 					}
@@ -366,10 +402,10 @@ namespace PXG
 				//add the child to the map
 				GetOwner()->AddToChildren(child);
 			}
-			Debug::Log("-----------------------------------------------------------");
+	/*		Debug::Log("-----------------------------------------------------------");
 			Debug::Log("finished loading tiles");
 			Debug::Log("-----------------------------------------------------------");
-			Debug::Log("loading other objects");
+			Debug::Log("loading other objects");*/
 			//storing sheeps for the grandpa to reference
 			std::vector<GameObj> sheepVector;
 
@@ -394,7 +430,7 @@ namespace PXG
 				}
 				Vector3 offset = extractV3(otherObjects["position"]);
 				
-				Debug::Log("{}", offset.ToString());
+		//		Debug::Log("{}", offset.ToString());
 
 
 				//create a game-object
@@ -424,7 +460,7 @@ namespace PXG
 				//check if there is meta-data to add
 				if (otherObjects["meta-data"].is_object())
 				{
-					Debug::Log(Verbosity::Info, "encountered object with attached meta-data!");
+					//Debug::Log(Verbosity::Info, "encountered object with attached meta-data!");
 					for (auto[key, value] : otherObjects["meta-data"].items())
 					{
 						//check if other objects have behaviour 
@@ -436,7 +472,7 @@ namespace PXG
 								Vector3 pos = Vector3(offset.x, offset.y - 1, offset.z);
 								if (pos == node->getPos())
 								{
-									Debug::Log("found node below object with behaviour");
+									//Debug::Log("found node below object with behaviour");
 									node->SetNodeWeight(2000);
 								}
 							}
@@ -466,6 +502,8 @@ namespace PXG
 									//child->AddComponent(rotator);
 									child->GetTransform()->translate(Vector3(50, 0, 50));
 									triggerComp->onNotify(mapMovement.get(), MapMovementComponent::ON_MOVE_FINISHED);
+									cube->attach(triggerComp.get());
+
 								}
 								if (value == "grandpa")
 								{
@@ -477,6 +515,7 @@ namespace PXG
 									for (auto sheep : sheepVector)
 									{
 										grandpaComp->AddGameObject(sheep);
+
 									}
 									//grandpaComp->AddGameObject()
 								}

@@ -80,6 +80,7 @@
     <ClCompile Include="..\deps\include\src\glad.c" />
     <ClCompile Include="AbstractCommand.cpp" />
     <ClCompile Include="AbstractEventComponent.cpp" />
+    <ClCompile Include="AudioLibrary.cpp" />
     <ClCompile Include="AudioSource.cpp" />
     <ClCompile Include="ButtonComponent.cpp" />
     <ClCompile Include="CameraComponent.cpp" />
@@ -146,9 +147,11 @@
     <ClInclude Include="AbstractOnClick.h" />
     <ClInclude Include="AudioClip.hpp" />
     <ClInclude Include="AudioEngine.hpp" />
+    <ClInclude Include="AudioLibrary.h" />
     <ClInclude Include="AudioSource.h" />
     <ClInclude Include="AxisAngle.h" />
     <ClInclude Include="BridgeComponent.hpp" />
+    <ClInclude Include="brokenCube.h" />
     <ClInclude Include="ButtonComponent.h" />
     <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="CameraRotator.h" />

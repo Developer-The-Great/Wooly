@@ -36,7 +36,7 @@ namespace PXG
 
 		template <class T,
 			typename = std::enable_if_t<std::is_base_of_v<Component, T>>>
-		void AddComponent(std::shared_ptr<T> component)
+			void AddComponent(std::shared_ptr<T> component)
 		{
 			components.push_back(component);
 			componentTable.insert(componentTable.begin(),
@@ -46,8 +46,8 @@ namespace PXG
 		}
 
 		template<class T,
-				typename = std::enable_if_t<std::is_base_of_v<Component,T>>>
-		bool HasComponent()
+			typename = std::enable_if_t<std::is_base_of_v<Component, T>>>
+			bool HasComponent()
 		{
 			return HasComponent(typeid(T));
 		}
@@ -58,12 +58,12 @@ namespace PXG
 		}
 
 		template <class T,
-				 typename = std::enable_if_t<std::is_base_of_v<Component,T>>>
-		std::shared_ptr<T> GetComponent(std::size_t offs = 0)
+			typename = std::enable_if_t<std::is_base_of_v<Component, T>>>
+			std::shared_ptr<T> GetComponent(std::size_t offs = 0)
 		{
-			if(componentTable.find(typeid(T)) != componentTable.end())
+			if (componentTable.find(typeid(T)) != componentTable.end())
 			{
-				auto [start, end] = componentTable.equal_range(typeid(T));
+				auto[start, end] = componentTable.equal_range(typeid(T));
 
 				if (offs > std::distance(start, end))
 				{
@@ -78,7 +78,7 @@ namespace PXG
 
 		template <class T,
 			typename = std::enable_if_t<std::is_base_of_v<Component, T>>>
-		size_t RangeSize()
+			size_t RangeSize()
 		{
 			return RangeSize(typeid(T));
 		}
@@ -107,8 +107,8 @@ namespace PXG
 
 		std::weak_ptr<World> GetWorld() const;
 		void SetWorld(std::shared_ptr<World> world);
-
-		Transform* GetTransform() ;
+		std::vector< std::shared_ptr<Component>> GetComponents() { return components; };
+		Transform* GetTransform();
 		void RemoveChildren(std::shared_ptr<GameObject> obj);
 
 		//TODO make this private, and make a setter for it

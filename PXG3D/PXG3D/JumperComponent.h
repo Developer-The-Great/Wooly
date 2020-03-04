@@ -24,7 +24,7 @@ namespace PXG
 
 		float initialheight = 100.0f;
 
-		double speed = 18.0f;
+		double speed = 12;
 		float currentSpeed;
 
 		float jumpHeight = 10.0f;

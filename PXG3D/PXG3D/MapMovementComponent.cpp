@@ -64,6 +64,7 @@ namespace PXG
 				tempNodePos = tempNodePos - tempOffset;
 
 				notify(ON_MOVE_FINISHED);
+				notify(LATE_ON_MOVE_FINISHED);
 
 				
 
@@ -259,9 +260,6 @@ namespace PXG
 
 	}
 
-	void MapMovementComponent::onNotify(subject_base* subject_base, subject_base::event_t event)
-	{
-	}
 
 
 }

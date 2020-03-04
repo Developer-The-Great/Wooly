@@ -17,7 +17,7 @@ namespace PXG
 		Canvas();
 
 		GameObj createCanvasObject(Vector2 position, Vector2 dimensions,
-										std::string name, std::shared_ptr<AbstractMaterial>  material);
+										std::string name, std::string textureName);
 		GameObj createEmptyCanvasObject();
 	};
 }

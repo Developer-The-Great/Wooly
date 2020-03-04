@@ -11,7 +11,7 @@ namespace PXG
 	}
 	void RayCastHitHandler::onNotify(subject_base * subjectBase, subject_base::event_t event)
 	{
-		RayCastShooter* raycaster = nullptr;
+		static RayCastShooter* raycaster = nullptr;
 		if (raycaster == subjectBase && raycaster != nullptr || (raycaster == nullptr && (raycaster = dynamic_cast<RayCastShooter*>(subjectBase))))
 		{
 			//getting ray cast info
