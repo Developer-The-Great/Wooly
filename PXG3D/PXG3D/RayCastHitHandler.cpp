@@ -27,6 +27,7 @@ namespace PXG
 					//gen path
 					auto result = FindPath(translatedGraph, startNode, endNode);
 					//check if path is found
+					lastTargetNode = startNode;
 					handleResult(result, endNode);
 				}
 			}

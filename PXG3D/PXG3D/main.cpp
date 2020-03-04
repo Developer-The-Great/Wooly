@@ -3,7 +3,7 @@
 #include <soloud/soloud.h>
 
 
-#define IS_EDITOR 0
+#define IS_EDITOR 1
 
 #if defined(IS_EDITOR) && IS_EDITOR == 0
 #define GAME_INSTANCE PXGEditor

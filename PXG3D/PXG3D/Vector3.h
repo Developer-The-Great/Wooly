@@ -4,6 +4,7 @@
 #include <string>
 #include "Vector2.h"
 #include "Mathf.h"
+#include <math.h>
 namespace PXG
 {
 	struct Vector3
@@ -155,7 +156,16 @@ namespace PXG
 		{
 			return glm::length(glm::vec3(x, y, z));
 		}
-
+		float getAngle(Vector3 a, Vector3 b)
+		{
+			float angle = 0;
+			float lengthA = a.Length();
+			float lengthB = b.Length();
+			float dot = Mathf::Dot(a, b);
+			angle = atan2(b.z - a.z, b.x - a.x);
+			angle = angle * 180 / glm::pi<float>()*2;
+			return angle;
+		}
 		std::string ToString() const
 		{
 			return glm::to_string(glm::vec3(x, y, z));

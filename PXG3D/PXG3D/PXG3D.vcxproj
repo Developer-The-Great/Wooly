@@ -115,6 +115,7 @@
     <ClCompile Include="pfinder\Node.cpp" />
     <ClCompile Include="PhysicsComponent.cpp" />
     <ClCompile Include="PhysicsEngine.cpp" />
+    <ClCompile Include="PlayerRotatorComponent.cpp" />
     <ClCompile Include="PXGEditor.cpp" />
     <ClCompile Include="PXGGame.cpp" />
     <ClCompile Include="PXGNode.cpp" />
@@ -191,6 +192,7 @@
     <ClInclude Include="pfinder\Node.h" />
     <ClInclude Include="pfinder\PathAlgorithm.h" />
     <ClInclude Include="pfinder\PathFinder.h" />
+    <ClInclude Include="PlayerRotatorComponent.h" />
     <ClInclude Include="PXGEditor.h" />
     <ClInclude Include="PXGNode.h" />
     <ClInclude Include="RasterizationMode.h" />
