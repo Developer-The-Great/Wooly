@@ -62,6 +62,8 @@
     <ClCompile Include="JumperComponent.cpp" />
     <ClCompile Include="AbstractCommand.cpp" />
     <ClCompile Include="GrandpaComponent.cpp" />
+    <ClCompile Include="WolfBehaviourComponent.cpp" />
+    <ClCompile Include="PlayerRotatorComponent.cpp" />
     <ClCompile Include="CameraRotator.cpp" />
     <ClCompile Include="AudioLibrary.cpp" />
   </ItemGroup>
@@ -164,6 +166,8 @@
     <ClInclude Include="CompoundDistanceOnClickTrigger.hpp" />
     <ClInclude Include="NodeClearComponent.h" />
     <ClInclude Include="GrandpaComponent.h" />
+    <ClInclude Include="WolfBehaviourComponent.h" />
+    <ClInclude Include="PlayerRotatorComponent.h" />
     <ClInclude Include="TriggerFactoryComponent.h" />
     <ClInclude Include="CameraRotator.h" />
     <ClInclude Include="AudioLibrary.h" />

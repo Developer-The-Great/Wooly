@@ -31,7 +31,7 @@
 #include "AudioSource.h"
 #include "BridgeComponent.hpp"
 #include "CompoundDistanceOnClickTrigger.hpp"
-
+#include "PlayerRotatorComponent.h"
 #include "JumperComponent.h"
 #include "NodeGraphDistTrigger.h"
 #include "OnClickTrigger.hpp"
@@ -129,15 +129,17 @@ namespace PXG
 		//------------------------------ Player --------------------------------------//
 
 		auto asource = std::make_shared<PXG::AudioSourceComponent>(clip);
-
+		auto pRotator = std::make_shared<PlayerRotatorComponent>();
 		GameObj Player = MakeChild("Player");
 
 		Player->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + "Timmy.obj");
 		Player->GetMeshComponent()->AddTextureToMeshAt({ config::PXG_INDEPENDENT_TEXTURES_PATH + "TimmyTexture.png",TextureType::DIFFUSE }, 0);
-		Player->GetTransform()->SetLocalPosition({ 0,100,0 });
+		Player->GetTransform()->SetLocalPosition({ 50,100,50 });
 		Player->GetTransform()->Scale(glm::vec3{ 100 });
 		Player->AddComponent(asource);
 		Player->GetMeshComponent()->SetMaterial(textureMaterial);
+		Player->AddComponent(pRotator);
+		pRotator->setInitForward();
 		auto aplayer = std::make_shared<OnMoveAudioPlayer>();
 		Player->AddComponent(aplayer);
 
@@ -151,6 +153,8 @@ namespace PXG
 		auto jumper = std::make_shared<JumperComponent>();
 		mapMovement->attach(jumper.get());
 		aplayer->subscribe(*mapMovement);
+		mapMovement->attach(pRotator.get());
+		Player->AddComponent(jumper);
 
 		auto Background = MakeChild("bg");
 		Background->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + "plane.obj");
@@ -163,7 +167,6 @@ namespace PXG
 
 		
 		
-		Player->AddComponent(jumper);
 
 //		mapMovement->subscribe(*raycaster);
 		rayCastHandler->subscribe(*raycaster);

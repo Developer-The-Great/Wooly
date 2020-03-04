@@ -24,8 +24,6 @@ namespace PXG
 	};
 }
 
-
-
 namespace PXG
 {
 	class Node : public Component
