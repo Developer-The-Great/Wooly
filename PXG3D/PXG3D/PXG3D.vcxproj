@@ -83,6 +83,7 @@
     <ClCompile Include="AudioSource.cpp" />
     <ClCompile Include="ButtonComponent.cpp" />
     <ClCompile Include="CameraComponent.cpp" />
+    <ClCompile Include="CameraRotator.cpp" />
     <ClCompile Include="Canvas.cpp" />
     <ClCompile Include="ColorMaterial.cpp" />
     <ClCompile Include="Component.cpp" />
@@ -149,6 +150,7 @@
     <ClInclude Include="BridgeComponent.hpp" />
     <ClInclude Include="ButtonComponent.h" />
     <ClInclude Include="CameraComponent.h" />
+    <ClInclude Include="CameraRotator.h" />
     <ClInclude Include="Canvas.h" />
     <ClInclude Include="CollisionCubeParams.h" />
     <ClInclude Include="ColorMaterial.h" />
