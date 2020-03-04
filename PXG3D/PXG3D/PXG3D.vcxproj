@@ -80,6 +80,7 @@
     <ClCompile Include="..\deps\include\src\glad.c" />
     <ClCompile Include="AbstractCommand.cpp" />
     <ClCompile Include="AbstractEventComponent.cpp" />
+    <ClCompile Include="AudioLibrary.cpp" />
     <ClCompile Include="AudioSource.cpp" />
     <ClCompile Include="ButtonComponent.cpp" />
     <ClCompile Include="CameraComponent.cpp" />
@@ -136,6 +137,7 @@
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="TriggerComponent.cpp" />
+    <ClCompile Include="WolfBehaviourComponent.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -145,6 +147,7 @@
     <ClInclude Include="AbstractOnClick.h" />
     <ClInclude Include="AudioClip.hpp" />
     <ClInclude Include="AudioEngine.hpp" />
+    <ClInclude Include="AudioLibrary.h" />
     <ClInclude Include="AudioSource.h" />
     <ClInclude Include="AxisAngle.h" />
     <ClInclude Include="BridgeComponent.hpp" />
@@ -238,6 +241,7 @@
     <ClInclude Include="Vector2.h" />
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="WolfBehaviourComponent.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>
   <ItemGroup>

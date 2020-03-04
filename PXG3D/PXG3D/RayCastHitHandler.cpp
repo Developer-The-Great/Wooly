@@ -11,7 +11,7 @@ namespace PXG
 	}
 	void RayCastHitHandler::onNotify(subject_base * subjectBase, subject_base::event_t event)
 	{
-		RayCastShooter* raycaster = nullptr;
+		static RayCastShooter* raycaster = nullptr;
 		if (raycaster == subjectBase && raycaster != nullptr || (raycaster == nullptr && (raycaster = dynamic_cast<RayCastShooter*>(subjectBase))))
 		{
 			//getting ray cast info
@@ -87,11 +87,14 @@ namespace PXG
 			}
 		}
 	}
-	Node * RayCastHitHandler::getStartNode(Vector3 playerPos)
+	Node * RayCastHitHandler::getStartNode(Vector3 position)
 	{
 		for (auto startNode : nodeGraph->GetNodes())
 		{
-			if (startNode->getPos() == playerPos)
+			Debug::Log("getPos {0} ", startNode->getPos().ToString());
+			Debug::Log("position {0} ", position.ToString());
+
+			if (Mathf::FloatVectorCompare(startNode->getPos() ,position))
 			{
 				return startNode;
 			}

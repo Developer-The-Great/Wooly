@@ -44,14 +44,10 @@ constexpr int height = PXG::ScreenSize::HEIGHT;
 
 int main()
 {
-	
-
 
 	Debug::SetDebugState(true);
 
 	Debug::Log(Verbosity::Info, "PXG is running");
-
-	Debug::Log(Verbosity::Info, "KeyCount {0}", Input::GetTrackedKeyCount());
 
 	//--------------------------- Initializing GLFW Stuff--------------------//
 

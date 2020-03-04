@@ -38,7 +38,7 @@ namespace PXG
 		
 		AudioClip createClip(const std::string& filename)
 		{
-			static std::regex rgx(R"rgx([A-z][A-z1-9]+(\.streamed|)\.(sfxr|wav))rgx");
+			static std::regex rgx(R"rgx([A-z][A-z1-9\\\/]+(\.streamed|)\.(sfxr|wav))rgx");
 
 			std::smatch matches;
 

@@ -117,6 +117,7 @@ namespace PXG
 			{
 				otherObj->SetLocalPosition(Mathf::Lerp(initialPositions[otherObj], initialPositions[otherObj] + direction, factor));
 			}
+
 			else
 			{
 				Vector3 pos = otherObj->GetComponent<TriggerComponent>()->getNodePos();
@@ -189,9 +190,6 @@ namespace PXG
 
 	}
 
-	void MapMovementComponent::onNotify(subject_base* subject_base, subject_base::event_t event)
-	{
-	}
 
 
 }

@@ -146,12 +146,13 @@ namespace PXG
 			return !(lhs == rhs);
 		}
 
-		float Distance(Vector3 a, Vector3 b)
+		static float Distance(Vector3 a, Vector3 b)
 		{
 			float length = 0;
 			length = Mathf::Sqrt((a.x - b.x)*(a.x*b.x) + (a.y - b.y)*(a.y - b.y) + (a.z - b.z)*(a.z - b.z));
 			return length;
 		}
+
 		float Length() const
 		{
 			return glm::length(glm::vec3(x, y, z));

@@ -23,6 +23,9 @@ namespace PXG
 		void setNodeGraph(std::shared_ptr<NodeGraph> newGraph);
 		void setMapMovement(std::shared_ptr<MapMovementComponent> newMap);
 
+		Node* getStartNode(Vector3 position);
+
+
 		Node* getLastTarget() { return lastTargetNode; };
 
 		class NodeGraphAccessor
@@ -32,11 +35,12 @@ namespace PXG
 		};
 
 
+
 	private:
 		friend class NodeGraphAccessor;
 
 		void handleResult(std::pair < bool, std::shared_ptr<std::vector<PathFindingNode*>>> result, Node* endNode);
-		Node* getStartNode(Vector3 playerPos);
+		
 		std::shared_ptr<NodeGraph> nodeGraph;
 		std::vector<PathFindingNode> translatedGraph;
 		std::shared_ptr<MapMovementComponent> mapMovement;

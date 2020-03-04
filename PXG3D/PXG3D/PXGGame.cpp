@@ -47,16 +47,13 @@ namespace PXG
 
 	void PXGGame::Initialize()
 	{
-		AudioClip clip = AudioEngine::GetInstance().createClip("ImportantSoundFile.wav");
+		AudioClip clip = AudioEngine::GetInstance().createClip(config::PXG_SOUND_PATH + "Music/Level_Music.streamed.wav");
 		AudioEngine::GetInstance().Loop(true, clip);
 		//AudioEngine::GetInstance().Play(clip);
 
 
 
 		font = new Font(config::PXG_FONT_PATH + "Roboto-Regular.ttf", 20);
-		std::ifstream item_config(config::PXG_CONFIGS_PATH + "item_config.json");
-
-		ItemRegistry::LoadConfig(&item_config);
 
 		Input::AddKeysToTrack(
 			KeyCode::A, KeyCode::W, KeyCode::S, KeyCode::D, KeyCode::Q, KeyCode::E, KeyCode::K, KeyCode::J, KeyCode::Z,
@@ -161,6 +158,7 @@ namespace PXG
 		cameraObj->GetTransform()->SetLocalPosition(Vector3(600, 450, 600));
 		cameraObj->GetTransform()->rotate(Vector3(1, 0, 0), -20.0f);
 		cameraObj->GetTransform()->rotate(Vector3(0, 1, 0), 45);
+		cameraObj->AddComponent(std::make_shared<CameraRotator>());
 
 		//------------------------------ Player --------------------------------------//
 
@@ -201,7 +199,7 @@ namespace PXG
 
 
 
-		mapMovement->subscribe(*raycaster);
+//		mapMovement->subscribe(*raycaster);
 		rayCastHandler->subscribe(*raycaster);
 		mapMovement->SetMap(TileMap);
 
@@ -209,10 +207,27 @@ namespace PXG
 		movementHandler->name = "Movement";
 		movementHandler->AddComponent(mapMovement);
 
+		//mapMovement->pushCommand(MapMovementComponent::LEFT);
+		mapMovement->pushCommand(MapMovementComponent::DOWN);
+		mapMovement->pushCommand(MapMovementComponent::DOWN);
+		mapMovement->pushCommand(MapMovementComponent::DOWN);
+		mapMovement->pushCommand(MapMovementComponent::DOWN);
+
+		for(int i = 0; i< 16;++i)
+		{
+			mapMovement->pushCommand(MapMovementComponent::BACKWARD);
+		}
+		mapMovement->pushCommand(MapMovementComponent::RIGHT);
+		mapMovement->pushCommand(MapMovementComponent::RIGHT);
+		mapMovement->pushCommand(MapMovementComponent::RIGHT);
+
+		mapMovement->overrideOffset(Vector3{ 3,4,16 });
+		
 		world->AddToChildren(movementHandler);
 
 
 		//--------------------------- Instantiate Cubes -----------------------------------//
+
 		GameObj NodesObj = MakeChild("NodesObj");
 		GameObj TriggerHandler = MakeChild("TriggerHand");
 		auto triggerComp = std::make_shared<TriggerComponent>();
@@ -227,55 +242,11 @@ namespace PXG
 
 		std::ifstream level_config(config::PXG_CONFIGS_PATH + "level_data.json");
 		levelLoader->LoadLevel(level_config, this, nodeGraph, nodeToPositionContainer, mapMovement, rayCastHandler);
+
 		rayCastHandler->setMapMovement(mapMovement);
 		nodeGraph->generateConnections(nodeToPositionContainer);
 
 		rayCastHandler->setNodeGraph(nodeGraph);
-
-		/*		auto onClickTrigger = std::make_shared<OnClickTrigger>();
-		auto nodeGraphDistTrigger = std::make_shared<NodeGraphDistTrigger>(*rayCastHandler);
-
-		auto compoundTrigger = std::make_shared<CompoundDistanceOnClickTrigger>(onClickTrigger, nodeGraphDistTrigger);
-
-		auto nodeGraphMovementRayCastCon = std::make_shared<NodeGraphMMC_RCS_Con>();
-
-		nodeGraphMovementRayCastCon->subscribe(*raycaster);
-		nodeGraphMovementRayCastCon->subscribe(*mapMovement);
-
-		Player->AddComponent(onClickTrigger);
-		Player->AddComponent(nodeGraphDistTrigger);
-		Player->AddComponent(compoundTrigger);
-		Player->AddComponent(nodeGraphMovementRayCastCon);
-
-
-		auto dbgnode = std::find_if(TileMap->GetChildren().begin(), TileMap->GetChildren().end(), [](GameObj go)
-		{
-			if (go->HasComponent<Node>())
-				if (go->GetComponent<Node>()->getPos() == Vector3{ 1,0,2 })
-					return true;
-
-
-			return false;
-		});
-
-		if(dbgnode != TileMap->GetChildren().end())
-		{
-			Debug::Log("Found a things");
-		}
-
-		onClickTrigger->SetSubject(*dbgnode,raycaster);
-		class DebugLogger : public subscriber_base,public Component
-		{
-		public:
-			void onNotify(subject_base* subject_base, subject_base::event_t event) override { Debug::Log(Verbosity::Warning, "HI!"); }
-		};
-		auto logger = std::make_shared<DebugLogger>();
-		logger->subscribe(*compoundTrigger);
-		bcomp->subscribe(*compoundTrigger);
-		bcomp->AddListener(compoundTrigger->ON_TRIGGER_RAISED);
-
-		Player->AddComponent(logger);
-		*/
 
 		TriggerFactoryComponent::Build(Player, raycaster, rayCastHandler, mapMovement);
 
