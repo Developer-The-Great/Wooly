@@ -5,6 +5,9 @@
 #include "Debug.h"
 #include "Tile.h"
 #include "TriggerComponent.h"
+#include "NodeGraph.h"
+#include <memory>
+
 namespace PXG
 {
 
@@ -16,6 +19,11 @@ namespace PXG
 
 	void MapMovementComponent::FixedUpdate(float tick)
 	{
+		
+
+
+
+
 		static float timer = 0;
 		if (!commandQueue.empty())
 		{
@@ -23,6 +31,7 @@ namespace PXG
 			timer += tick * 5;
 
 			const auto back = commandQueue.back();
+
 			static bool restart = true;
 
 			if (restart)
@@ -43,7 +52,8 @@ namespace PXG
 			default:;
 			}
 			restart = result;
-			if (result) {
+			if (result) 
+			{
 				restart = true;
 				timer = 0;
 
@@ -55,12 +65,61 @@ namespace PXG
 
 				notify(ON_MOVE_FINISHED);
 
-				oldOffset = offset;
+				
 
 				commandQueue.pop_back();
+				
 
+				const auto actualbacknode = nodesStored.front();
+
+				nodesStored.pop_front();
+				const auto backNode = nodesStored.front();
+				
+				
+
+				nodesStored.push_front(actualbacknode);
+
+
+				//const auto secondNode = 
+				Debug::Log("backNode {0}", backNode->getPos().ToString());
+
+				if (followStopperNode && backNode)
+				{
+					if (nodeGraph)
+					{
+						//Mathf::FloatVectorCompare(backNode->getPos(), followStopperNode->getPos())
+						if (Mathf::FloatVectorCompare(backNode->getPos(), followStopperNode->getPos()))
+						{
+
+							followStopperNode = nullptr;
+							Debug::Log("FOUND LADDER at {0}", backNode->getPos().ToString());
+							for (auto otherObj : otherObjectsToMove)
+							{
+								if (otherObj->HasComponent<TriggerComponent>() && otherObj->GetComponent<TriggerComponent>()->GetComponent()->isMoving())
+								{
+									otherObj->GetComponent<TriggerComponent>()->GetComponent()->setMove(false);
+								}
+							}
+						}
+					}
+				}
+
+				if (!nodesStored.empty())
+				{
+					nodesStored.pop_front();
+				}
+				
+
+
+				oldOffset = offset;
 
 			}
+
+
+
+
+
+
 		}
 	}
 
@@ -83,6 +142,11 @@ namespace PXG
 	void MapMovementComponent::AddSheep(std::shared_ptr<GameObject> newObject)
 	{
 		sheeps.push_back(newObject);
+	}
+
+	void MapMovementComponent::SetNodeGraph(std::shared_ptr<NodeGraph> nodeGraph)
+	{
+		this->nodeGraph = nodeGraph;
 	}
 
 	bool MapMovementComponent::move(PXG::Vector3 direction, bool restart, float factor, float tick, MovementCommands command)
@@ -119,6 +183,12 @@ namespace PXG
 
 			else
 			{
+
+				///
+				//----------------------------- FIND NODE ----------------------------------------//
+		
+
+
 				Vector3 pos = otherObj->GetComponent<TriggerComponent>()->getNodePos();
 				Vector3 playerPos = Vector3{ 0,0,0 };
 				if (sheepIndex == 0)

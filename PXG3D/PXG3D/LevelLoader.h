@@ -211,6 +211,12 @@ namespace PXG
 		void LoadLevel(std::ifstream& file, Game* game, std::shared_ptr<NodeGraph> nodeGraph, std::vector<NodeToPositionContainer>& nodeToPositionContainer,
 			std::shared_ptr<MapMovementComponent> mapMovement)
 		{
+
+			mapMovement->SetNodeGraph(nodeGraph);
+			//SetNodeGraph(std::shared_ptr<NodeGraph> nodeGraph)
+
+
+
 			using json = nlohmann::json;
 
 			json config;
@@ -287,13 +293,10 @@ namespace PXG
 							newNode->initNode(offset);
 							nodeGraph->AddNewNode(newNode.get());
 
-							NodeToPositionContainer container;
-							container.node = newNode;
-							container.x = offset.x;
-							container.y = offset.y;
-							container.z = offset.z;
+							NodeToPositionContainer container{ offset,newNode };
+					
 
-							NodeToPositionContainer container{offset,newNode};
+							
 							nodeToPositionContainer.push_back(container);
 							child->AddComponent(newNode);
 							

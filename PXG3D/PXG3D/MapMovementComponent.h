@@ -10,11 +10,14 @@
 #include "GameObject.h"
 #include "AbstractEventComponent.h"
 #include "JumperComponent.h"
+#include <list>
 namespace PXG
 {
+	class NodeGraph;
 
 	class MapMovementComponent : public Component, public subscriber_base, public subject_base
 	{
+		
 	public:
 		enum MovementCommands
 		{
@@ -39,6 +42,7 @@ namespace PXG
 				{
 					for (; dp != 0; --dp)
 					{
+						
 						commandQueue.push_front(pos);
 					}
 				}
@@ -58,9 +62,17 @@ namespace PXG
 			Node* oldNode = *path->begin();
 			Vector3 startPos = oldNode->getPos();
 			Vector3 endPos;
+
+			nodesStored.clear();
+
+			Node*previousNode = nullptr;
+			
 			for (auto Node : *path)
 			{
-				Debug::Log("iterating nodes");
+				nodesStored.push_back(Node);
+				
+				Debug::Log("iterating nodes {0} ", Node->getPos().ToString());
+
 				endPos = Node->getPos();
 				Vector3 delta = startPos - endPos;
 				offset = offset - delta;
@@ -69,8 +81,24 @@ namespace PXG
 				interpretDelta(delta.z, FORWARD, BACKWARD);
 				startPos = endPos;
 
+				if (!followStopperNode && Node->GetNodeType() == NodeType::Ladder)
+				{
+					followStopperNode = previousNode;
+					if (followStopperNode)
+					{
+						Debug::Log("POS {0} ", followStopperNode->getPos().ToString());
+						Debug::Log("POS {0} ", followStopperNode->getPos().ToString());
+					}
+					
+				}
+
+				previousNode = Node;
+
+
 			}
-			Debug::Log("new offset:");
+
+
+			Debug::Log("new offset:{0} ", path->size());
 			Debug::Log(offset.ToString());
 		}
 
@@ -87,7 +115,12 @@ namespace PXG
 		void AddSheep(std::shared_ptr<GameObject> newObject);
 		Vector3 currentDir = Vector3{ 0,0,0 };
 
+		void SetNodeGraph(std::shared_ptr<NodeGraph> nodeGraph);
+
 	private:
+
+		Node* followStopperNode = nullptr;
+
 		bool move(PXG::Vector3 direction, bool restart, float factor, float tick, MovementCommands command);
 		std::shared_ptr<GameObject> map;
 
@@ -102,5 +135,12 @@ namespace PXG
 		std::vector<std::shared_ptr<GameObject>> otherObjectsToMove;
 		std::deque<MovementCommands> commandQueue;
 		virtual void onNotify(subject_base * subject_base, subject_base::event_t event) override;
+
+		std::shared_ptr<NodeGraph> nodeGraph = nullptr;
+
+		std::list<Node*> nodesStored;
+
+
+
 	};
 }
