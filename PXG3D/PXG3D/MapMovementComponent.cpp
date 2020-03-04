@@ -70,6 +70,7 @@ namespace PXG
 
 				commandQueue.pop_back();
 				
+				if (nodesStored.size() < 2) { return; }
 
 				const auto actualbacknode = nodesStored.front();
 
@@ -77,7 +78,7 @@ namespace PXG
 				const auto backNode = nodesStored.front();
 				
 				
-
+				
 				nodesStored.push_front(actualbacknode);
 
 
@@ -89,7 +90,8 @@ namespace PXG
 					if (nodeGraph)
 					{
 						//Mathf::FloatVectorCompare(backNode->getPos(), followStopperNode->getPos())
-						if (Mathf::FloatVectorCompare(backNode->getPos(), followStopperNode->getPos()))
+						if (Mathf::FloatVectorCompare(backNode->getPos(), followStopperNode->getPos()) || 
+							((Mathf::Abs(backNode->getPos().x - followStopperNode->getPos().x) <= 1) && (Mathf::Abs(backNode->getPos().z - followStopperNode->getPos().z) <= 1)) )
 						{
 
 							followStopperNode = nullptr;
