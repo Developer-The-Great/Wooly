@@ -69,7 +69,8 @@ namespace PXG
 				
 
 				commandQueue.pop_back();
-				
+				oldOffset = offset;
+
 				if (nodesStored.size() < 2) { return; }
 
 				const auto actualbacknode = nodesStored.front();
@@ -114,8 +115,7 @@ namespace PXG
 				
 
 
-				oldOffset = offset;
-
+				
 			}
 
 
