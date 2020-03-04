@@ -83,8 +83,10 @@ namespace PXG
 		void SetMap(std::shared_ptr<GameObject> newMap);
 		void Reset() const;
 		void AddOtherObjectToMove(std::shared_ptr<GameObject> newObject);
+
 		void AddSheep(std::shared_ptr<GameObject> newObject);
 		Vector3 currentDir = Vector3{ 0,0,0 };
+
 	private:
 		bool move(PXG::Vector3 direction, bool restart, float factor, float tick, MovementCommands command);
 		std::shared_ptr<GameObject> map;
