@@ -22,10 +22,11 @@ namespace PXG
 		void onNotify(subject_base* subjectBase, subject_base::event_t event) override;
 		void setNodeGraph(std::shared_ptr<NodeGraph> newGraph);
 		void setMapMovement(std::shared_ptr<MapMovementComponent> newMap);
-		
+		Node* getStartNode(Vector3 position);
+
 	private:
 		void handleResult(std::pair < bool, std::shared_ptr<std::vector<PathFindingNode*>>> result, Node* endNode);
-		Node* getStartNode(Vector3 playerPos);
+		
 		std::shared_ptr<NodeGraph> nodeGraph;
 		std::vector<PathFindingNode> translatedGraph;
 		std::shared_ptr<MapMovementComponent> mapMovement;

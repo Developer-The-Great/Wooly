@@ -26,6 +26,11 @@ namespace PXG
 		{
 			child->Start();
 		}
+
+		for (auto const& component : components)
+		{
+			component->Start();
+		}
 	}
 	void GameObject::Update()
 	{

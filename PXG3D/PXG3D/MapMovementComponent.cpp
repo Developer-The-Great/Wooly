@@ -110,6 +110,7 @@ namespace PXG
 			{
 				otherObj->SetLocalPosition(Mathf::Lerp(initialPositions[otherObj], initialPositions[otherObj] + direction, factor));
 			}
+
 			else
 			{
 				Vector3 pos = initialPositions[otherObj];

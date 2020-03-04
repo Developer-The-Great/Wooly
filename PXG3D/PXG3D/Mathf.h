@@ -34,6 +34,8 @@ namespace PXG
 		//compares 2 floats
 		static bool FloatCompare(float a, float b);
 
+		static bool FloatVectorCompare(Vector3 a, Vector3 b);
+
 		static float GetQuaternionAngleDifference(Quaternion a, Quaternion b);
 
 		static float Lerp(float a, float b, float t);
@@ -60,6 +62,8 @@ namespace PXG
 		static float Sqrt(float x);
 
 		static Quaternion ToQuaternion(AxisAngle axisAngle);
+
+
 	};
 
 }

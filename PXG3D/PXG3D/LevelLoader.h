@@ -20,7 +20,7 @@
 #include "RockPushComponent.h"
 #include "RotatorComponent.h"
 #include "JumperComponent.h"
-
+#include "WolfBehaviourComponent.h"
 #include <map>
 #include <memory>
 #include "GrandpaComponent.h"
@@ -219,6 +219,11 @@ namespace PXG
 			//storing sheeps for the grandpa to reference
 			std::vector<GameObj> sheepVector;
 
+
+
+
+			//-------------------------------------------------- Adding other Objects------------------------------------------//
+
 			for (auto& otherObjects : config["OtherObjects"])
 			{
 				//check if we are dealing with an object
@@ -276,6 +281,8 @@ namespace PXG
 
 				}
 				std::shared_ptr<TileMetaData> metaData = std::make_shared<TileMetaData>();
+
+
 				//check if there is meta-data to add
 				if (otherObjects["meta-data"].is_object())
 				{
@@ -330,6 +337,18 @@ namespace PXG
 									}
 									//grandpaComp->AddGameObject()
 								}
+								if (value == "wolf")
+								{
+									auto wolfBehaviourComponent = std::make_shared<WolfBehaviourComponent>(nodeGraph,offset);
+									child->AddComponent(wolfBehaviourComponent);
+									triggerComp->SetComponent(wolfBehaviourComponent);
+									mapMovement->attach(wolfBehaviourComponent.get());
+
+									child->GetTransform()->translate(Vector3(50, 0, 50));
+									//child->AddComponent(std::make_shared<RotatorComponent>(Vector3(0, 1, 0), 3.0f));
+
+								}
+
 						/*		if (value == "movable")
 								{
 									auto rockPush = std::make_shared < RockPushComponent>();
@@ -347,6 +366,15 @@ namespace PXG
 							
 							}
 						}
+
+						if (key == "wolfData" && value.is_object())
+						{
+
+
+
+						}
+
+
 						metaData->metaData[key] = value.get<std::string>();
 					}
 				}
@@ -360,6 +388,10 @@ namespace PXG
 
 			}
 		}
+
+	private:
+
+
 
 	};
 }
