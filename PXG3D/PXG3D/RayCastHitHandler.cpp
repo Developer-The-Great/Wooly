@@ -27,6 +27,7 @@ namespace PXG
 					//gen path
 					auto result = FindPath(translatedGraph, startNode, endNode);
 					//check if path is found
+					lastTargetNode = startNode;
 					handleResult(result, endNode);
 				}
 			}
@@ -47,6 +48,14 @@ namespace PXG
 	{
 		mapMovement = newMap;
 	}
+
+	auto RayCastHitHandler::NodeGraphAccessor::GetTranslatedGraph(
+		RayCastHitHandler& hh) ->  std::vector<PathFindingNode>&
+	{
+		return hh.translatedGraph;
+	}
+
+
 	void RayCastHitHandler::handleResult(std::pair<bool, std::shared_ptr<std::vector<PathFindingNode*>>> result, Node* endNode)
 	{
 		//check for path found
@@ -92,6 +101,7 @@ namespace PXG
 		}
 		return nullptr;
 	}
+
 	std::vector<Node*>* RayCastHitHandler::translatePath(std::vector<PathFindingNode*>* oldPath)
 	{
 		Debug::Log("path:");

@@ -76,6 +76,22 @@ namespace PXG
 			return nullptr;
 		}
 
+		template <class T,
+			typename = std::enable_if_t<std::is_base_of_v<Component, T>>>
+		size_t RangeSize()
+		{
+			return RangeSize(typeid(T));
+		}
+
+		size_t RangeSize(std::type_index idx)
+		{
+			if (componentTable.find(idx) != componentTable.end())
+			{
+				return componentTable.count(idx);
+			}
+			return 0;
+		}
+
 		void SetParent(GOSharedPtr gameObj);
 
 		void SetLocalPosition(Vector3 newPosition);
@@ -87,7 +103,7 @@ namespace PXG
 
 		//void SetWorld
 
-		std::vector<std::shared_ptr<GameObject>> GetChildren() const;
+		std::vector<std::shared_ptr<GameObject>>& GetChildren();
 
 		std::weak_ptr<World> GetWorld() const;
 		void SetWorld(std::shared_ptr<World> world);

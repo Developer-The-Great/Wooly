@@ -7,6 +7,8 @@
 #include "Input.h"
 #include "CameraComponent.h"
 #include "KeyCode.h"
+#include "PXGNode.h"
+#include "ScreenSize.h"
 
 namespace PXG
 {
@@ -29,7 +31,7 @@ namespace PXG
 		float x = Input::GetMouseX();
 		float y = Input::GetMouseY();
 
-		Vector3 position = PhysicsEngine::GetOrthographicCameraWorldPosition(x, y, 800.0f, 600.0f, GetOwner());
+		Vector3 position = PhysicsEngine::GetOrthographicCameraWorldPosition(x, y, ScreenSize::WIDTH, ScreenSize::HEIGHT, GetOwner());
 
 		PhysicsEngine::Raycast(position, forward, info, GetOwner()->GetWorld().lock());
 
@@ -39,7 +41,14 @@ namespace PXG
 			Debug::Log("normal found ", info.Normal.ToString());
 			lastHit = info;
 			notify(ON_RAYCAST_HIT);
-		}	else {
+
+			if(info.GameObjectHit->HasComponent(typeid(Node)))
+			{
+				Debug::Log("Found Node at raycast!");
+				Debug::Log("pos {}",info.GameObjectHit->GetComponent<Node>()->getPos().ToString());
+			}
+			
+		} else {
 			Debug::Log("oof ");
 		}
 	}

@@ -63,6 +63,8 @@
     <ClCompile Include="AbstractCommand.cpp" />
     <ClCompile Include="GrandpaComponent.cpp" />
     <ClCompile Include="WolfBehaviourComponent.cpp" />
+    <ClCompile Include="PlayerRotatorComponent.cpp" />
+    <ClCompile Include="CameraRotator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractMaterial.h" />
@@ -156,8 +158,20 @@
     <ClInclude Include="JumperComponent.h" />
     <ClInclude Include="AbstractCommand.h" />
     <ClInclude Include="AbstractEventComponent.h" />
+    <ClInclude Include="BridgeComponent.hpp" />
+    <ClInclude Include="Trigger.h" />
+    <ClInclude Include="NodeGraphDistTrigger.h" />
+    <ClInclude Include="OnClickTrigger.hpp" />
+    <ClInclude Include="CompoundDistanceOnClickTrigger.hpp" />
+    <ClInclude Include="NodeClearComponent.h" />
     <ClInclude Include="GrandpaComponent.h" />
+
     <ClInclude Include="WolfBehaviourComponent.h" />
+
+    <ClInclude Include="PlayerRotatorComponent.h" />
+    <ClInclude Include="TriggerFactoryComponent.h" />
+    <ClInclude Include="CameraRotator.h" />
+
   </ItemGroup>
   <ItemGroup>
     <None Include="PXGColor.vert.glsl" />

@@ -20,6 +20,7 @@
 
 #include "FreeMovementComponent.h"
 #include "LevelLoader.h"
+#include "CameraRotator.h"
 
 namespace PXG {
 
@@ -66,7 +67,7 @@ namespace PXG {
     void PXGEditor::Initialize()
     {
         Input::AddKeysToTrack(
-            KeyCode::LeftMouse, KeyCode::RightMouse,
+            KeyCode::LeftMouse, KeyCode::RightMouse,KeyCode::MiddleMouse,
             KeyCode::W,KeyCode::A,KeyCode::S,KeyCode::D,KeyCode::Q,KeyCode::E);
 
         SetupCamera();
@@ -282,7 +283,7 @@ namespace PXG {
         shooter->attach(&enabler);
 
 
-
+		mainCameraObject->AddComponent(std::make_shared<CameraRotator>());
         mainCameraObject->AddComponent(std::make_shared<FreeMovementComponent>());
     	
         mainCameraObject->GetTransform()->SetLocalPosition(Vector3(600, 300, 600));
@@ -369,6 +370,8 @@ namespace PXG {
                 {
                     info.GameObjectHit->GetMeshComponent()->ClearTextures(0);
                 	info.GameObjectHit->GetMeshComponent()->AddTextureToMeshAt({ current_texture,TextureType::DIFFUSE }, 0);
+                    info.GameObjectHit->GetComponent<TileData>()->texture = std::filesystem::path(current_texture).filename().string();
+                	
                     show_newBlockWindow = false;
                 }
                 if( info.GameObjectHit && 

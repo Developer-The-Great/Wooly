@@ -4,7 +4,7 @@ namespace PXG
 {
 	void TriggerComponent::raiseTrigger(Node* currentNode, Node* targetNode)
 	{
-		if(component)
+		if (component)
 		{
 			component->Execute(currentNode, targetNode);
 		}
@@ -55,13 +55,13 @@ namespace PXG
 				if (GetComponent()->isMoving())
 				{
 					Vector3 oldNodePos = nodePos;
-					Vector3 deltaOffset =mapComponent->getTempNodePos()- mapComponent->getOffset();
-				
-					Vector3 pos = GetOwner()->GetTransform()->GetPosition();
+					Vector3 deltaOffset = mapComponent->getTempNodePos() - mapComponent->getOffset();
+
+					Vector3 pos = GetOwner()->GetTransform()->GetPosition() - Vector3(50, 0, 50);
 					pos = pos * 0.01f;
 					pos.y = 0;
-					pos = pos + mapComponent->getTempNodePos();		
-				
+					pos = pos + mapComponent->getTempNodePos();
+
 					for (auto node : nodeGraph->GetNodes())
 					{
 
@@ -78,10 +78,21 @@ namespace PXG
 							node->SetNodeWeight(1);
 						}
 					}
+					Vector3 thisPos = this->getNodePos();
+					Vector3 targetPos = pos;
+					Vector3 delta = targetPos - oldNodePos;
+					float angle = thisPos.getAngle(delta, this->GetOwnerTransform()->GetForward());
+					oldAngle = angle;
+					
 				}
 				break;
 			}
-
+			case MapMovementComponent::ON_MOVE_START:
+			{
+				Debug::Log("SETTING TEMP FORWARD!!!");
+				//tempForward =this->GetOwner()->GetTransform()->GetForward();
+				break;
+			}
 			default:
 				break;
 			}
@@ -96,9 +107,10 @@ namespace PXG
 			{
 			case RayCastHitHandler::RAY_CAST_INTERACTIVE_HIT:
 			{
+
 				Node* node = nullptr;
 				raiseTrigger(NULL, NULL);
-
+				Rotate(rayCast->getLastTarget()->getPos());
 				break;
 			}
 			default:
@@ -110,6 +122,18 @@ namespace PXG
 	void TriggerComponent::SetNodeGraph(std::shared_ptr<NodeGraph> newNodeGraph)
 	{
 		nodeGraph = newNodeGraph;
+	}
+
+	void TriggerComponent::Rotate(Vector3 otherPos)
+	{
+		Vector3 thisPos = this->getNodePos();
+		Vector3 targetPos = otherPos;
+		Vector3 delta = targetPos - thisPos;
+		float angle = thisPos.getAngle(delta, this->GetOwnerTransform()->GetForward());
+		tempForward = this->GetOwnerTransform()->GetForward();
+		Quaternion quat = glm::angleAxis(glm::radians(angle), glm::vec3(0, 1, 0));
+		this->GetOwnerTransform()->SetRotation(quat);
+		this->oldAngle = angle;
 	}
 
 }

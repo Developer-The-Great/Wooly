@@ -3,9 +3,9 @@
 #include <soloud/soloud.h>
 
 
-#define IS_EDITOR 1
+#define IS_EDITOR 0
 
-#if defined(IS_EDITOR) && IS_EDITOR == 0
+#if defined(IS_EDITOR) && IS_EDITOR == 1
 #define GAME_INSTANCE PXGEditor
 #else
 #define GAME_INSTANCE PXGGame
@@ -37,9 +37,10 @@
 #include "imgui/imgui.h"
 #include "imgui/examples/imgui_impl_glfw.h"
 #include "imgui/examples/imgui_impl_opengl3.h"
+#include "ScreenSize.h"
 
-constexpr int width = 800;
-constexpr int height = 600;
+constexpr int width = PXG::ScreenSize::WIDTH;
+constexpr int height = PXG::ScreenSize::HEIGHT;
 
 int main()
 {
