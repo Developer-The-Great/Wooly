@@ -188,6 +188,7 @@ namespace PXG
 
 	void MeshComponent::Draw(Mat4 parentTransform,Mat4 view,Mat4 projection)
 	{
+		if (cease_rendering) return;
 		Debug::SetDebugState(false);
 		auto ownerPointer = GetOwner();
 

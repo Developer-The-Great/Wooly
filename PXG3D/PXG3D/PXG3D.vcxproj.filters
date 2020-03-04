@@ -63,6 +63,7 @@
     <ClCompile Include="AbstractCommand.cpp" />
     <ClCompile Include="GrandpaComponent.cpp" />
     <ClCompile Include="PlayerRotatorComponent.cpp" />
+    <ClCompile Include="CameraRotator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractMaterial.h" />
@@ -161,8 +162,11 @@
     <ClInclude Include="NodeGraphDistTrigger.h" />
     <ClInclude Include="OnClickTrigger.hpp" />
     <ClInclude Include="CompoundDistanceOnClickTrigger.hpp" />
+    <ClInclude Include="NodeClearComponent.h" />
     <ClInclude Include="GrandpaComponent.h" />
     <ClInclude Include="PlayerRotatorComponent.h" />
+    <ClInclude Include="TriggerFactoryComponent.h" />
+    <ClInclude Include="CameraRotator.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PXGColor.vert.glsl" />
