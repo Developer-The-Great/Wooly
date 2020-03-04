@@ -36,7 +36,7 @@
 #include "NodeGraphDistTrigger.h"
 #include "OnClickTrigger.hpp"
 #include "RotatorComponent.h"
-
+#include "CameraRotator.h"
 namespace PXG
 {
 
@@ -74,6 +74,7 @@ namespace PXG
 		auto energyCounter = std::make_shared<EnergyCounterComponent>(frender, font);
 		auto raycaster = std::make_shared<RayCastShooter>();
 		auto rayCastHandler = std::make_shared<RayCastHitHandler>();
+		auto cameraRotator = std::make_shared<CameraRotator>();
 
 		//--------------------------Initialize UI and their Components--------------------------------//
 		//std::shared_ptr<TextComponent> textComp = std::make_shared<TextComponent>();
@@ -117,6 +118,7 @@ namespace PXG
 		cameraObj->AddComponent(raycaster);
 		cameraObj->AddComponent(rayCastHandler);
 		cameraObj->AddComponent(energyCounter);
+		cameraObj->AddComponent(cameraRotator);
 
 		world->AddToChildren(cameraObj);
 
