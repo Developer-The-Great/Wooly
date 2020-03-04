@@ -167,6 +167,7 @@
     <ClInclude Include="TriggerFactoryComponent.h" />
     <ClInclude Include="CameraRotator.h" />
     <ClInclude Include="AudioLibrary.h" />
+    <ClInclude Include="OnMovePlayer.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PXGColor.vert.glsl" />

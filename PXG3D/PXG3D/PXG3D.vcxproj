@@ -190,6 +190,7 @@
     <ClInclude Include="NodeGraphDistTrigger.h" />
     <ClInclude Include="NodeToPositionContainer.h" />
     <ClInclude Include="OnClickTrigger.hpp" />
+    <ClInclude Include="OnMovePlayer.hpp" />
     <ClInclude Include="PathFinder.hpp" />
     <ClInclude Include="pfinder\AStar.h" />
     <ClInclude Include="pfinder\Dijkstra.h" />
