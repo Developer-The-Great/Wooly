@@ -63,6 +63,7 @@
     <ClCompile Include="AbstractCommand.cpp" />
     <ClCompile Include="GrandpaComponent.cpp" />
     <ClCompile Include="CameraRotator.cpp" />
+    <ClCompile Include="AudioLibrary.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractMaterial.h" />
@@ -165,6 +166,7 @@
     <ClInclude Include="GrandpaComponent.h" />
     <ClInclude Include="TriggerFactoryComponent.h" />
     <ClInclude Include="CameraRotator.h" />
+    <ClInclude Include="AudioLibrary.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PXGColor.vert.glsl" />

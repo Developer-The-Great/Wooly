@@ -141,9 +141,6 @@ namespace PXG
 
 	}
 
-	void MapMovementComponent::onNotify(subject_base* subject_base, subject_base::event_t event)
-	{
-	}
 
 
 }

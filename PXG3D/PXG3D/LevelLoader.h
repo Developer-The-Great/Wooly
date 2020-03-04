@@ -74,8 +74,6 @@ namespace PXG
 				std::shared_ptr<NodeClearComponent> listener1, listener2;
 
 				
-
-				
 				if(bridge_key == "trigger")
 				{
 
@@ -163,6 +161,32 @@ namespace PXG
 
 					};
 
+					auto helper2 = [&](const Vector3 direction)
+					{
+						//create meta-data for the new ghost tile
+						auto mdata1 = std::make_shared<TileMetaData>();
+
+						//set the position
+						mdata1->offset = offset + (dwn + Vector3{ -direction.z,0,direction.x });
+						hidden1->SetLocalPosition((offset * Tile::SIZE) + (dwn + Vector3{ -direction.z,0,direction.x }) *Tile::SIZE - Tile::CENTER_OFFSET);
+
+						//add the metadata to the node
+						hidden1->AddComponent(mdata1);
+						listener1 = std::make_shared<NodeClearComponent>();
+						hidden1->AddComponent(listener1);
+
+
+						//repeat for tile 2
+						auto mdata2 = std::make_shared<TileMetaData>();
+						mdata2->offset = offset + (direction + dwn + Vector3{ -direction.z,0,direction.x });
+						hidden2->SetLocalPosition((offset * Tile::SIZE) + (direction + dwn + Vector3{ -direction.z,0,direction.x })* Tile::SIZE - Tile::CENTER_OFFSET);
+						hidden2->AddComponent(mdata2);
+
+						listener2 = std::make_shared<NodeClearComponent>();
+						hidden2->AddComponent(listener2);
+
+					};
+					
 
 					//check all possible rotations steps
 					if (rotation >= 0 && rotation < 90)
@@ -170,9 +194,9 @@ namespace PXG
 					else if (rotation >= 90 && rotation < 180)
 						helper(lft);
 					else if (rotation >= 180 && rotation < 270)
-						helper(bwd);
+						helper2(bwd);
 					else if (rotation >= 270 && rotation < 360)
-						helper(rgt);
+						helper2(rgt);
 
 
 					for (auto& h : cot)
