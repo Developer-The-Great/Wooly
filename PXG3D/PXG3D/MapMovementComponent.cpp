@@ -54,6 +54,7 @@ namespace PXG
 				tempNodePos = tempNodePos - tempOffset;
 
 				notify(ON_MOVE_FINISHED);
+				notify(LATE_ON_MOVE_FINISHED);
 
 				oldOffset = offset;
 

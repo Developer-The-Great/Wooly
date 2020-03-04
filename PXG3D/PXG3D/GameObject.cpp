@@ -46,7 +46,10 @@ namespace PXG
 
 		for (auto const& component : components)
 		{
-			component->FixedUpdate(tick);
+			if(component->IsActive())
+			{
+				component->FixedUpdate(tick);
+			}
 		}
 	}
 

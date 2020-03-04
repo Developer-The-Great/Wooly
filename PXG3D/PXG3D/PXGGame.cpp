@@ -68,45 +68,82 @@ namespace PXG
 		std::shared_ptr<TextureMaterial> textureMaterial = std::make_shared<TextureMaterial>();
 
 
+
 		//--------------------------Initialize GameObjects and their Components--------------------------------//
 		auto camera = std::make_shared<CameraComponent>();
 		auto movementComponent = std::make_shared<FreeMovementComponent>();
-		auto energyCounter = std::make_shared<EnergyCounterComponent>(frender, font);
 		auto raycaster = std::make_shared<RayCastShooter>();
 		auto rayCastHandler = std::make_shared<RayCastHitHandler>();
 		auto cameraRotator = std::make_shared<CameraRotator>();
 
 		//--------------------------Initialize UI and their Components--------------------------------//
-		//std::shared_ptr<TextComponent> textComp = std::make_shared<TextComponent>();
-		//std::shared_ptr<TextComponent> textComp2 = std::make_shared<TextComponent>();
-
-		//std::shared_ptr<ButtonComponent> buttonComp = std::make_shared<ButtonComponent>();
-		//subscriber_base*  onClick = new SpecificOnClick();
-		////button with onclick component & text
-		//GameObj button = canvas->createCanvasObject(Vector2(200, 100), Vector2(50, 50), "Button1", bluetColorMat);
-		//button->SetWorld(canvas);
-		//button->AddComponent(buttonComp);
-		//buttonComp->attach(onClick);
-		//button->AddComponent(textComp);
-		//button->AddComponent(movementComponent);
-		////empty UI object with text
-		//GameObj emptyUIObject = canvas->createEmptyCanvasObject();
-		//emptyUIObject->SetWorld(canvas);
-		//emptyUIObject->AddComponent(textComp2);
-
 
 
 		//--------------------------SetUpUICanvas--------------------------------//
 		auto UICam = std::make_shared<CameraComponent>();
 		GameObj UICanvasCam = InstantiateUIObject();
-
 		canvas->AddToChildren(UICanvasCam);
-
 		UICanvasCam->name = "UICAM";
 		UICanvasCam->AddComponent(UICam);
 
 		//half of game width and half of game height
-		UICanvasCam->GetTransform()->SetLocalPosition(Vector3(300, 200, 0));
+		UICanvasCam->GetTransform()->SetLocalPosition(Vector3(ScreenSize::WIDTH / 2, ScreenSize::HEIGHT / 2, 0));
+		Vector2 BGPos = Vector2(ScreenSize::WIDTH / 2, ScreenSize::HEIGHT / 2);
+
+
+		//first view
+		GameObj Background1 = canvas->createCanvasObject(BGPos, BGPos, "Background1", "StartScreen.png");
+		GameObj firstBGbutton = canvas->createCanvasObject(Vector2(600, 160), Vector2(250, 100), "button2", "gray.png");
+		firstBGbutton->SetWorld(canvas);
+		firstBGbutton->GetMeshComponent()->DisableRender(true);
+
+		//second view
+		GameObj Background2 = canvas->createCanvasObject(BGPos, BGPos, "background2", "WorldSelection.png");
+		Background2->GetMeshComponent()->DisableRender(true);
+		GameObj bg2buttonObj = canvas->createCanvasObject(Vector2(ScreenSize::WIDTH / 2, ScreenSize::HEIGHT / 2), Vector2(200, 200), "button3", "alpha256x256.png");
+		bg2buttonObj->GetMeshComponent()->DisableRender(false);
+
+
+		//third view 
+		GameObj Background3 = canvas->createCanvasObject(BGPos, BGPos, "background3", "Map.png");
+		Background3->GetMeshComponent()->DisableRender(true);
+		GameObj bg3buttonObj = canvas->createCanvasObject(Vector2(ScreenSize::WIDTH / 5*3-200, ScreenSize::HEIGHT / 5), Vector2(150, 200), "button4", "alpha256x256.png");
+		bg3buttonObj->GetMeshComponent()->DisableRender(true);
+
+
+
+		//start button
+		auto bg1Button = std::make_shared<ButtonComponent>();
+		auto onClick = new SpecificOnClick();
+		firstBGbutton->AddComponent(bg1Button);
+		bg1Button->SetOwner(firstBGbutton);
+		bg1Button->attach(onClick);
+		onClick->setObjectToDisable(Background1);
+		onClick->setObjectToDisable(firstBGbutton);
+		onClick->setObjectToEnable(Background2);
+
+
+
+		//centerd button
+		auto bg2Button1 = std::make_shared<ButtonComponent>();
+		auto bg2Onclick1 = new SpecificOnClick();
+		bg2buttonObj->AddComponent(bg2Button1);
+		bg2Button1->SetOwner(bg2buttonObj);
+		bg2Button1->attach(bg2Onclick1);
+		bg2Onclick1->setObjectToDisable(bg2buttonObj);
+		bg2Onclick1->setObjectToDisable(Background2);
+		bg2Onclick1->setObjectToEnable(Background3);
+		bg2Onclick1->setObjectToEnable(bg3buttonObj);
+
+		auto bg3Button = std::make_shared<ButtonComponent>();
+		auto bg3OnClick = new SpecificOnClick();
+		bg3buttonObj->AddComponent(bg3Button);
+		bg3Button->SetOwner(bg3buttonObj);
+		bg3Button->attach(bg3OnClick);
+		bg3OnClick->setObjectToDisable(Background3);
+		bg3OnClick->setObjectToDisable(bg3buttonObj);
+		bg3OnClick->setRay(raycaster);
+
 
 
 		//--------------------------SetUpCam--------------------------------//
@@ -117,7 +154,6 @@ namespace PXG
 		cameraObj->AddComponent(movementComponent);
 		cameraObj->AddComponent(raycaster);
 		cameraObj->AddComponent(rayCastHandler);
-		cameraObj->AddComponent(energyCounter);
 		cameraObj->AddComponent(cameraRotator);
 
 		world->AddToChildren(cameraObj);
@@ -142,8 +178,7 @@ namespace PXG
 		pRotator->setInitForward();
 
 
-		
-		//--------------------------- Map movement -----------------------------------//
+
 
 		//--------------------------- Map movement -----------------------------------//
 		GameObj TileMap = MakeChild("TileMap");
@@ -154,17 +189,17 @@ namespace PXG
 		mapMovement->attach(pRotator.get());
 		Player->AddComponent(jumper);
 
-		auto Background = MakeChild("bg");
+		/*auto Background = MakeChild("bg");
 		Background->GetMeshComponent()->Load3DModel(config::PXG_MODEL_PATH + "plane.obj");
 		Background->GetMeshComponent()->AddTextureToMeshAt({ config::PXG_INDEPENDENT_TEXTURES_PATH + "bg-image.png", TextureType::DIFFUSE }, 0);
 		Background->GetMeshComponent()->SetMaterial(std::make_shared<TextureMaterial>());
 		Background->GetTransform()->Scale(glm::vec3{ 800,0,600 });
 		Background->GetTransform()->rotate(Vector3(1, 0, 0), 70.0f);
 		Background->GetTransform()->rotate(Vector3(0, 1, 0), 45);
-		Background->GetTransform()->SetLocalPosition({ -600,0,-600 });
+		Background->GetTransform()->SetLocalPosition({ -600,0,-600 });*/
 
-		
-		
+
+
 
 		mapMovement->subscribe(*raycaster);
 		rayCastHandler->subscribe(*raycaster);
@@ -175,11 +210,6 @@ namespace PXG
 		movementHandler->AddComponent(mapMovement);
 
 		world->AddToChildren(movementHandler);
-
-
-		//--------------------------- Instantiate Cubes -----------------------------------//
-		energyCounter->subscribe(*mapMovement);
-		mapMovement->subscribe(*energyCounter);
 
 
 		//--------------------------- Instantiate Cubes -----------------------------------//
@@ -196,7 +226,7 @@ namespace PXG
 		std::vector<NodeToPositionContainer> nodeToPositionContainer;
 
 		std::ifstream level_config(config::PXG_CONFIGS_PATH + "level_data.json");
-		levelLoader->LoadLevel(level_config, this, nodeGraph, nodeToPositionContainer, mapMovement);
+		levelLoader->LoadLevel(level_config, this, nodeGraph, nodeToPositionContainer, mapMovement, rayCastHandler);
 		rayCastHandler->setMapMovement(mapMovement);
 		nodeGraph->generateConnections(nodeToPositionContainer);
 
@@ -232,7 +262,7 @@ namespace PXG
 		{
 			Debug::Log("Found a things");
 		}
-		
+
 		onClickTrigger->SetSubject(*dbgnode,raycaster);
 		class DebugLogger : public subscriber_base,public Component
 		{
@@ -243,12 +273,12 @@ namespace PXG
 		logger->subscribe(*compoundTrigger);
 		bcomp->subscribe(*compoundTrigger);
 		bcomp->AddListener(compoundTrigger->ON_TRIGGER_RAISED);
-		
+
 		Player->AddComponent(logger);
 		*/
 
 		TriggerFactoryComponent::Build(Player, raycaster, rayCastHandler, mapMovement);
-		
+
 
 	}
 
