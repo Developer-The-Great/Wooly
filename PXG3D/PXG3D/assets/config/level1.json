@@ -1378,7 +1378,17 @@
             "position": [1,6,7],
             "texture":"bridge.png"
         },
+        {
+            "meta-data":
+             {
+                "node" :{},
+                "is_broken": "is_broken"
+            },
 
+            "model": "TileBasic.obj",
+            "position": [2,4,7],
+            "texture":"broken.png"
+        },
         {
             "meta-data": {
                 "bridge":{
@@ -1417,7 +1427,7 @@
     [
         {
             "position": [3,5,17],
-            "model" : "sheep.obj",
+            "model" : "newSheep.obj",
             "texture": "SheepTexture.png",
             "meta-data":
             {
@@ -1426,7 +1436,7 @@
         },
         {
             "position": [4,5,16],
-            "model" : "sheep.obj",
+            "model" : "newSheep.obj",
             "texture": "SheepTexture.png",
             "meta-data":
             {
@@ -1435,7 +1445,7 @@
         },
         {
             "position": [2,5,16],
-            "model" : "sheep.obj",
+            "model" : "newSheep.obj",
             "texture": "SheepTexture.png",
             "meta-data":
             {

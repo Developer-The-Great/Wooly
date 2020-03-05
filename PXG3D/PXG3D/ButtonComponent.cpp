@@ -9,7 +9,7 @@ namespace PXG
 	}
 	void ButtonComponent::FixedUpdate(float tick)
 	{
-		if (Input::GetKeyDown(KeyCode::LeftMouse))
+		if (Input::GetKeyUp(KeyCode::LeftMouse))
 		{
 			Debug::Log("checking button");
 			Transform* transform = GetOwnerTransform();

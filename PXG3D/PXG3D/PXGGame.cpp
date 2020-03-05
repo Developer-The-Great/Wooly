@@ -140,7 +140,7 @@ namespace PXG
 		bg3OnClick->setObjectToDisable(Background3);
 		bg3OnClick->setObjectToDisable(bg3buttonObj);
 		bg3OnClick->setRay(raycaster);
-
+		raycaster->SetActive(true);
 
 
 		//--------------------------SetUpCam--------------------------------//
@@ -240,7 +240,7 @@ namespace PXG
 
 		std::vector<NodeToPositionContainer> nodeToPositionContainer;
 
-		std::ifstream level_config(config::PXG_CONFIGS_PATH + "level_data.json");
+		std::ifstream level_config(config::PXG_CONFIGS_PATH + "level1.json");
 		levelLoader->LoadLevel(level_config, this, nodeGraph, nodeToPositionContainer, mapMovement, rayCastHandler);
 
 		rayCastHandler->setMapMovement(mapMovement);
