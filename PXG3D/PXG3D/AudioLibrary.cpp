@@ -14,7 +14,7 @@ namespace PXG
 	{ 
 		auto helper = [](const std::string& str)
 		{
-			return config::PXG_SOUND_PATH + str;
+			return config::PXG_SOUND_PATH + "FX/"+ str;
 		};
 
 		#define MAP(X,Y) clips[#X] = engine.createClip(helper(#X"."#Y))

@@ -37,6 +37,8 @@
 #include "OnClickTrigger.hpp"
 #include "RotatorComponent.h"
 #include "CameraRotator.h"
+#include "OnMovePlayer.hpp"
+
 namespace PXG
 {
 
@@ -49,7 +51,7 @@ namespace PXG
 	{
 		AudioClip clip = AudioEngine::GetInstance().createClip(config::PXG_SOUND_PATH + "Music/Level_Music.streamed.wav");
 		AudioEngine::GetInstance().Loop(true, clip);
-		//AudioEngine::GetInstance().Play(clip);
+		AudioEngine::GetInstance().Play(clip);
 
 
 
@@ -174,7 +176,8 @@ namespace PXG
 		Player->GetMeshComponent()->SetMaterial(textureMaterial);
 		Player->AddComponent(pRotator);
 		pRotator->setInitForward();
-
+		auto aplayer = std::make_shared<OnMoveAudioPlayer>();
+		Player->AddComponent(aplayer);
 
 
 
@@ -184,6 +187,7 @@ namespace PXG
 		std::shared_ptr<MapMovementComponent> mapMovement = std::make_shared<MapMovementComponent>();
 		auto jumper = std::make_shared<JumperComponent>();
 		mapMovement->attach(jumper.get());
+		aplayer->subscribe(*mapMovement);
 		mapMovement->attach(pRotator.get());
 		Player->AddComponent(jumper);
 
